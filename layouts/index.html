@@ -1,0 +1,41 @@
+{{ define "main" }}
+    <main aria-role="main" id="home">
+        <section>
+            {{ if .Site.Params.portrait.path }}
+               <img src="{{ .Site.Params.portrait.path }}" class="circle" alt="{{ .Site.Params.portrait.alt }}" />
+            {{ end }}
+
+            <h1 id="site-title">{{ .Site.Title | markdownify}}</h1>
+            {{- with .Site.Params.homeSubtitle }}
+                <p>{{.}}</p>
+            {{- end }}
+        </section>
+        <section id="description">
+            <div>
+                There is this book...
+                {{- with .Site.Params.social }}
+                    <div>
+                        {{ partial "social-icons.html" . }}
+                    </div>
+                {{- end }}
+            </div>
+            <aside>
+                <a href="https://lukaszadam.com/illustrations">Illustrations here</a>
+            </aside>
+        </section>
+        <section id="benefits">
+            <h2>What are your benefits??</h2>
+            <li>Power</li>
+            <li>Beauty</li>
+            <li>Other</li>
+        </section>
+        <section class="even" id="video">
+            <h2>Here's what you'll have</h2>
+            <p>This is the video!</p>
+        </section>
+        <section class="odd" id="subscription">
+            <h2>Can you subscribe now?</h2>
+            <p>Please?</p>
+        </section>
+    </main>
+{{ end }}
