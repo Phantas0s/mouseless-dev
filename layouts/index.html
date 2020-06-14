@@ -9,10 +9,14 @@
             {{- with .Site.Params.homeSubtitle }}
                 <p>{{.}}</p>
             {{- end }}
+            {{- with .Site.Params.homeSubSubtitle }}
+                <p>{{.}}</p>
+            {{- end }}
         </section>
         <section id="description">
-            <div>
-                There is this book...
+            <div class="block">
+                <p>Here's the problem. You do many useless little things all day long,</p>
+                <p>without even noticing it.</p>
                 {{- with .Site.Params.social }}
                     <div>
                         {{ partial "social-icons.html" . }}

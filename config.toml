@@ -11,7 +11,8 @@ paginate     = 10
   dateformNumTime = "2006-01-02 15:04 -0700"
 
   # Subtitle for home
-  homeSubtitle = "Build your own mouseless development environment!"
+  homeSubtitle = "Switching keyboard / mouse constantly make you..."
+  # homeSubSubtitle = "... and it's less fun, too!"
 
   # Set disableReadOtherPosts to true in order to hide the links to other posts.
   disableReadOtherPosts = false
@@ -31,8 +32,8 @@ paginate     = 10
 
 [languages]
   [languages.en]
-    title = "Build Your Own Mouseless Development Environement"
-    subtitle = "A simple theme for Hugo"
+    title = "Do You Code With Your Mouse?"
+    subtitle = "You should, it will make you more productive!"
     keywords = ""
 
     copyright = 'Matthieu Cneude'
