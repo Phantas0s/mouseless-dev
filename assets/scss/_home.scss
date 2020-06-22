@@ -1,17 +1,36 @@
 #home {
-    section {
-        margin: 3rem 0 3rem 0;
+    margin: 0 10% 0 10%;
+    #book-cover {
+        margin: auto;
     }
 
-    #description {
-        display: flex;
-        flex-direction: row;
+    section {
+        margin: 3rem;
     }
 
     h1, h2, h3 {
         display: inline;
     }
+
+    .block {
+        text-align: left;
+    }
+
+    .col-2 {
+        display: flex;
+        flex-direction: row;
+        div, aside {
+            width: 50%;
+        }
+    }
+
+    #benefits {
+        div {
+            margin: 1rem;
+        }
+    }
+    .col-4 {
+        display: flex;
+        flex-direction: row;
+    }
 }
-
-
-
