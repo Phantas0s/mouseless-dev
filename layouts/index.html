@@ -1,45 +1,88 @@
 {{ define "main" }}
-    <main aria-role="main" id="home">
-        <section>
-            {{ if .Site.Params.portrait.path }}
-               <img src="{{ .Site.Params.portrait.path }}" class="circle" alt="{{ .Site.Params.portrait.alt }}" />
-            {{ end }}
+<main aria-role="main" id="home">
+    <section>
+        {{ if .Site.Params.portrait.path }}
+        <img src="{{ .Site.Params.portrait.path }}" class="circle" alt="{{ .Site.Params.portrait.alt }}" />
+        {{ end }}
 
-            <h1 id="site-title">{{ .Site.Title | markdownify}}</h1>
-            {{- with .Site.Params.homeSubtitle }}
-                <p>{{.}}</p>
-            {{- end }}
-            {{- with .Site.Params.homeSubSubtitle }}
-                <p>{{.}}</p>
-            {{- end }}
-        </section>
-        <section id="description">
-            <div class="block">
-                <p>Here's the problem. You do many useless little things all day long,</p>
-                <p>without even noticing it.</p>
+        <h1 id="site-title">{{ .Site.Title | markdownify}}<br /></h1>
+        <p>A Book To Build <br />
+        Your Own Mouseless Development Environment</p>
+    </section>
+    <section id="description" class="col-2">
+        <div class="block">
+            <p>Because you type so much as a developer, <br />
+            building <strong>your own efficient development environment</strong>, <br />
+            focused around the keyboard and the terminal, <br />
+            will allow you:
+            </p>
+            <ul>
+                <li>To make your coding experience more fun!</li>
+                <li>To boost your productivity.</li>
+                <li>To use very powerful tools.</li>
+                <li>To learn a ton!</li>
                 {{- with .Site.Params.social }}
-                    <div>
-                        {{ partial "social-icons.html" . }}
-                    </div>
+                <div>
+                    {{ partial "social-icons.html" . }}
+                </div>
                 {{- end }}
-            </div>
-            <aside>
-                <a href="https://lukaszadam.com/illustrations">Illustrations here</a>
-            </aside>
-        </section>
-        <section id="benefits">
-            <h2>What are your benefits??</h2>
-            <li>Power</li>
-            <li>Beauty</li>
-            <li>Other</li>
-        </section>
-        <section class="even" id="video">
-            <h2>Here's what you'll have</h2>
-            <p>This is the video!</p>
-        </section>
-        <section class="odd" id="subscription">
-            <h2>Can you subscribe now?</h2>
-            <p>Please?</p>
-        </section>
-    </main>
+            </ul>
+            <p>You'll be able to finally shape your developement environment <br />
+            to <strong>your own personal needs!</strong></p>
+        </div>
+        <aside>
+            <img id="book-cover" src="images/book_cover_mouseless_300.jpg" />
+        </aside>
+    </section>
+    <h2>What Does This Book Will Bring You?</h2>
+    <section id="benefits" class="col-4">
+        <div>
+            <i class="far fa-hdd fa-2x"></i>
+            <p>We will build a personalized installer to bring your mousesless development environement with all your tools easily on any computer!</p>
+        </div>
+        <div>
+            <i class="far fa-hdd fa-2x"></i>
+            <p>We will build a personalized installer to bring your mousesless development environement with all your tools easily on any computer!</p>
+        </div>
+        <div>
+            <i class="far fa-hdd fa-2x"></i>
+            <p>We will build a personalized installer to bring your mousesless development environement with all your tools easily on any computer!</p>
+        </div>
+        <div>
+            <i class="far fa-hdd fa-2x"></i>
+            <p>We will build a personalized installer to bring your mousesless development environement with all your tools easily on any computer!</p>
+        </div>
+    </section>
+    <h2>Mouseless Powerful Tools</h2>
+    <section id="tools" class="col-2">
+        <aside>
+            <a href="https://lukaszadam.com/illustrations">Illustrations here</a>
+        </aside>
+        <div class="block">
+            <p>Your Mouseless Development Environment will be made of these tools:</p>
+            <ul>
+                <li>The Mighty <strong>Arch Linux</strong></li>
+                <li>The Powerful <strong>zsh</strong></li>
+                <li>The Brave <strong>i3 Windows Manager</strong></li>
+                <li>The Skilled <strong>tmux</strong></li>
+                <li>The Uncomparable <strong>Vim</strong></li>
+            </ul>
+            <p>You don't like some of them? No problem! You can replace Vim by your IDE, or Arch Linux by Ubuntu. <strong>I show you how, for you to decide what you want to use!</strong></p>
+            <div>
+    </section>
+    <section class="even" id="video">
+        <h2>I Can Show You!</h2>
+        <p>This is the video!</p>
+    </section>
+    <section id="tools">
+    </section>
+    <section class="odd" id="subscription">
+        <h2>You Want to Know More?</h2>
+        <p>You can subscribe!</p>
+    </section>
+    <section class="odd" id="subscription">
+        <h2>Any Question?</h2>
+        <p>I would love to answer every questions you have! You can simply answer the email after subscribing.</p>
+    </section>
+</main>
 {{ end }}
