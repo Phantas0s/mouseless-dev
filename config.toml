@@ -11,7 +11,7 @@ paginate     = 10
   dateformNumTime = "2006-01-02 15:04 -0700"
 
   # Subtitle for home
-  homeSubtitle = "Switching keyboard / mouse constantly make you..."
+  # homeSubtitle = "Switching keyboard / mouse constantly make you..."
   # homeSubSubtitle = "... and it's less fun, too!"
 
   # Set disableReadOtherPosts to true in order to hide the links to other posts.
@@ -32,8 +32,8 @@ paginate     = 10
 
 [languages]
   [languages.en]
-    title = "Do You Code With Your Mouse?"
-    subtitle = "You should, it will make you more productive!"
+    title = "Do You Write Code With Your Mouse?"
+    subtitle = ""
     keywords = ""
 
     copyright = 'Matthieu Cneude'
@@ -43,6 +43,7 @@ paginate     = 10
     [languages.en.params.logo]
       logoText = "The Mouseless Dev"
       logoHomeLink = "/"
+      logoCursorColor= "#ffc754"
     # or
     #
     # path = "/img/your-example-logo.svg"
