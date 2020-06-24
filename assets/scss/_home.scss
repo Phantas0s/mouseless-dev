@@ -1,8 +1,5 @@
 #home {
     margin: 0 10% 0 10%;
-    #book-cover {
-        margin: auto;
-    }
 
     section {
         margin: 3rem;
@@ -10,6 +7,26 @@
 
     h1, h2, h3 {
         display: inline;
+    }
+
+    .size-xl {
+        font-size: 3em;
+    }
+
+    .size-l {
+        font-size: 2em;
+    }
+
+    .size-m {
+        font-size: 1em;
+    }
+
+    .size-s {
+        font-size: 0.5em;
+    }
+
+    .size-xs {
+        font-size: 0.25em;
     }
 
     .block {
@@ -24,13 +41,19 @@
         }
     }
 
+    .col-4 {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #book-cover {
+        margin: auto;
+    }
+
     #benefits {
         div {
             margin: 1rem;
         }
     }
-    .col-4 {
-        display: flex;
-        flex-direction: row;
-    }
+
 }

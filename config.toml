@@ -54,3 +54,6 @@ paginate     = 10
     identifier = "blog"
     name       = "Blog"
     url        = "/posts"
+
+[homepage]
+description ="hello this is **a** try"
