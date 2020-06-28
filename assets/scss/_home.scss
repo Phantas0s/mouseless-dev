@@ -1,16 +1,6 @@
 #home {
     margin: 0 10% 0 10%;
 
-    #book-cover {
-        margin: auto;
-    }
-
-    #benefits {
-        div {
-            margin: 1rem;
-        }
-    }
-
     .block {
         padding: 2em;
     }
@@ -58,5 +48,43 @@
     .col-4 {
         display: flex;
         flex-direction: row;
+    }
+
+    form {
+        margin: 2em;
+        input {
+            padding: 0.75em;
+        }
+        #bd-email {
+            border-radius: 0;
+            border: 3px solid $light-border-color;
+        }
+        #subscribe {
+            border: 3px solid $yellow;
+            color: $black;
+            background-color: $yellow;
+            cursor: pointer;
+        }
+    }
+
+
+    #book-cover {
+        margin: auto;
+    }
+
+    #benefits {
+        div {
+            margin: 1rem;
+        }
+    }
+
+    #about {
+        align-items: center;
+        > .img {
+            direction: rtl;
+        }
+        .description {
+            margin-right: 20%;
+        }
     }
 }
