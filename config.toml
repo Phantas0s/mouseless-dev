@@ -35,6 +35,7 @@ paginate     = 10
     title = "Do You Write Code With Your Mouse?"
     subtitle = ""
     keywords = ""
+    disableKind= ["RSS"]
 
     copyright = 'Matthieu Cneude'
     # copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
@@ -50,10 +51,10 @@ paginate     = 10
     # alt = "Your example logo alt text"
 
   # And you can even create generic menu
-  [[menu.main]]
-    identifier = "blog"
-    name       = "Blog"
-    url        = "/posts"
+  # [[menu.main]]
+  #   identifier = "blog"
+  #   name       = "Blog"
+  #   url        = "/posts"
 
 [homepage]
 description ="hello this is **a** try"

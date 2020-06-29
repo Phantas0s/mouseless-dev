@@ -1,5 +1,13 @@
 #home {
-    margin: 0 10% 0 10%;
+    margin: 0 15% 0 15%;
+
+    @media #{$media-size-1600} {
+        margin: 0 10% 0 10%;
+    }
+
+    @media #{$media-size-1400} {
+        margin: 0;
+    }
 
     .block {
         padding: 2em;
@@ -40,14 +48,30 @@
     .col-2 {
         display: flex;
         flex-direction: row;
+        align-items: center;
         div, aside {
             width: 50%;
+        }
+
+        @media #{$media-size-phone} {
+            flex-direction: column;
+            div, aside {
+                width: 100%;
+            }
         }
     }
 
     .col-4 {
         display: flex;
         flex-direction: row;
+
+        @media #{$media-size-phone} {
+            flex-direction: column;
+            justify-items: center;
+            div {
+                align-self: center;
+            }
+        }
     }
 
     form {
@@ -68,6 +92,12 @@
     }
 
 
+    #description {
+        div {
+            margin-left: 6%;
+        }
+    }
+
     #book-cover {
         margin: auto;
     }
@@ -78,13 +108,37 @@
         }
     }
 
+    #tools {
+        @media #{$media-size-tablet} {
+            flex-direction: column;
+            .block {
+                width: 100%;
+            }
+        }
+    }
+
     #about {
-        align-items: center;
+
+        width: 65%;
+        margin: auto;
+        justify-content: center;
+
         > .img {
             direction: rtl;
+            width: 40%;
         }
-        .description {
-            margin-right: 20%;
+
+        @media #{$media-size-tablet} {
+            width: 100%;
+        }
+        @media #{$media-size-phone} {
+            > .img {
+                width: 100%;
+                img {
+                    margin: auto;
+                }
+            }
+            width: 65%;
         }
     }
 }

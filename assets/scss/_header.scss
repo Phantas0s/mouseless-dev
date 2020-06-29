@@ -1,10 +1,9 @@
 .header {
     background: #fafafa;
     display: flex;
-    align-items: center;
     justify-content: center;
     position: relative;
-    padding: 20px;
+    padding: 1em 4em 1em 4em;
 
     a {
         color: $light-color;
@@ -32,8 +31,7 @@
         align-items: center;
         justify-content: space-between;
         margin: 0 auto;
-        width: 760px;
-        max-width: 100%;
+        width: 100%;
     }
 }
 

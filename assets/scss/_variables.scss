@@ -21,7 +21,9 @@ $dark-title-color: #e4e4e4;
 $dark-color-secondary: #73747b;
 $dark-border-color: #4a4b50;
 
-$media-size-phone: "(max-width: 684px)";
+$media-size-1600: "(max-width: 1600px)";
+$media-size-1400: "(max-width: 1400px)";
+$media-size-phone: "(max-width: 730px)";
 $media-size-tablet: "(max-width: 900px)";
 
 /* variables for js, must be the same as these in @custom-media queries */
