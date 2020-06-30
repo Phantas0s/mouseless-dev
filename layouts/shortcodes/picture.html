@@ -1,0 +1,7 @@
+{{ with .Get "caption" }}<figure>{{ end }}
+<picture>
+    {{ with .Get "webp" }}<source srcset="{{.}}" type="image/webp">{{ end }}
+    <img src="{{ .Get "src" }}" alt="{{ .Get "alt" }}">
+</picture>
+{{ with .Get "caption" }}<figcaption>{{.}}</figcaption>{{ end }}
+{{ with .Get "caption" }}</figure>{{ end }}
