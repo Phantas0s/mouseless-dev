@@ -1,0 +1,2 @@
+environemnt = "dev"
+baseURL = "localhost:1414"

@@ -1,4 +1,4 @@
-baseurl      = "localhost"
+baseurl      = "https://themouseless.dev/"
 title        = ""
 languageCode = "en-us"
 theme        = "friend-ng"
@@ -9,6 +9,7 @@ paginate     = 10
   dateformShort   = "Jan 2"
   dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04 -0700"
+  # googleAnalyticsUserID = ""
 
   # Subtitle for home
   # homeSubtitle = "Switching keyboard / mouse constantly make you..."
