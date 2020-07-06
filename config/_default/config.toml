@@ -19,9 +19,9 @@ paginate     = 10
   disableReadOtherPosts = false
 
   # Metadata mostly used in document's head
-  description = "My new homepage or blog"
+  description = "Build Your Mouseless Development Environment"
   keywords = "homepage, blog"
-  images = [""]
+  images = ["images/book_cover_mouseless_2_300.jpg"]
 
   # Default theme "light" or "dark"
   defaultTheme = "dark"
