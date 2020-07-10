@@ -59,8 +59,11 @@
 
         @media #{$media-size-phone} {
             flex-direction: column;
-            div, aside {
+            div {
                 width: 100%;
+            }
+            aside {
+                width: inherit;
             }
         }
     }
@@ -124,7 +127,6 @@
     }
 
     #about {
-
         width: 65%;
         margin: auto;
         justify-content: center;
@@ -145,6 +147,34 @@
                 }
             }
             width: 65%;
+        }
+    }
+
+    blockquote {
+        position: relative;
+        border: none;
+        text-align: left;
+        font-size: 1.2em;
+        width: 50%;
+        margin: 5em auto;
+
+        @media #{$media-size-tablet} {
+            font-size: 1em;
+            width: 75%;
+        }
+
+        &:before {
+            content: "\201c";
+            display: block;
+            font-size: 4rem;
+            line-height: 1;
+            position: absolute;
+            top: 0;
+            left: -.6em;
+        }
+
+        cite {
+
         }
     }
 }
