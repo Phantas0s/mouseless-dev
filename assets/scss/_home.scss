@@ -18,7 +18,7 @@
     }
 
     section {
-        margin: 3rem;
+        margin: 1.5em 3rem;
         @media #{$media-size-phone} {
             margin: 1.5rem;
         }
@@ -81,29 +81,47 @@
         }
     }
 
-    form {
-        margin: 2em;
-        input {
-            padding: 0.75em;
-        }
-        #bd-email {
-            border-radius: 0;
-            border: 3px solid $light-border-color;
-            @media #{$media-size-phone} {
-                margin-bottom: 1em;
+    #subscription {
+        form {
+            margin: 2em;
+            input {
+                padding: 0.75em;
+            }
+            #bd-email {
+                border-radius: 0;
+                border: 3px solid $light-border-color;
+                @media #{$media-size-phone} {
+                    margin-bottom: 1em;
+                }
+            }
+            #subscribe {
+                border: 3px solid $yellow;
+                color: $black;
+                background-color: $yellow;
+                cursor: pointer;
             }
         }
-        #subscribe {
-            border: 3px solid $yellow;
-            color: $black;
-            background-color: $yellow;
-            cursor: pointer;
+
+        > div {
+            text-align: left;
+            width: 50%;
+            margin: auto;
+            padding-left: 1em;
+
+            @media #{$media-size-tablet} {
+                width:75%;
+            }
+            
+            @media #{$media-size-phone} {
+                width:100%;
+            }
         }
     }
 
     #description {
+        margin: 5rem 3rem;
         div {
-            margin-left: 6%;
+            margin-left: 12%;
         }
     }
 
