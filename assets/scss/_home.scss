@@ -123,10 +123,19 @@
         div {
             margin-left: 12%;
         }
+        img {
+            box-shadow: 2px 4px 6px;
+        }
+        .dark-theme & {
+            img {
+                box-shadow: none;
+            }
+        }
     }
 
     #book-cover {
         margin: auto;
+
     }
 
     #benefits {
