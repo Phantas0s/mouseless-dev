@@ -18,7 +18,7 @@
     }
 
     section {
-        margin: 1.5em 3rem;
+        margin: 1.5em 0 5em;
         @media #{$media-size-phone} {
             margin: 1.5rem;
         }
@@ -111,7 +111,7 @@
             @media #{$media-size-tablet} {
                 width:75%;
             }
-            
+
             @media #{$media-size-phone} {
                 width:100%;
             }
