@@ -29,11 +29,11 @@
     }
 
     .size-xl {
-        font-size: 3em;
+        font-size: 2em;
     }
 
     .size-l {
-        font-size: 2em;
+        font-size: 1.5em;
     }
 
     .size-m {
@@ -123,12 +123,20 @@
         div {
             margin-left: 12%;
         }
+        p {
+            margin-top: 6em;
+        }
         img {
             box-shadow: 2px 4px 6px;
         }
         .dark-theme & {
             img {
                 box-shadow: none;
+            }
+        }
+        @media #{$media-size-phone} {
+            p {
+                margin-top: inherit;
             }
         }
     }
