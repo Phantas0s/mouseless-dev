@@ -1,4 +1,4 @@
-# Build Your Mouseless Development Environment
+# Building Your Mouseless Development Environment
 
 This is the landing page for my book, [Building your Mouseless Development Environment](https://themouseless.dev/).
 
