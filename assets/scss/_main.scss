@@ -347,3 +347,13 @@ i {
         color: $dark-opposite-color;
     }
 }
+
+iframe {
+    width: 600px;
+    height: 350px;
+
+    @media #{$media-size-phone} {
+        width: 300px;
+        height: 125px;
+    }
+}
