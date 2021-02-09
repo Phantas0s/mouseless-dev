@@ -86,15 +86,19 @@
         flex-direction: row;
         justify-content: center;
         a {
-            font-size: 1.1em;
+            font-size: 1.3em;
             color: $black;
         }
+
         button {
             padding: 1em 1.5em;
             border-radius: 0;
-            border: 3px solid $yellow;
+            border: 3px solid darken($yellow, 10%);
             background-color: $yellow;
             cursor: pointer;
+        } 
+        button:hover {
+            background: darken($yellow, 10%);
         }
     }
 
