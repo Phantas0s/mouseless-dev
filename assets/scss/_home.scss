@@ -90,12 +90,21 @@
             color: $black;
         }
 
+        b {
+            color: $yellow;
+        }
+
+        p {
+            font-size: 1.1em;
+        }
+
         button {
             padding: 1em 1.5em;
             border-radius: 0;
             border: 3px solid darken($yellow, 10%);
             background-color: $yellow;
             cursor: pointer;
+            margin: 0 auto;
         } 
         button:hover {
             background: darken($yellow, 10%);
@@ -103,7 +112,7 @@
     }
 
     #get-sample a {
-        font-size: 1em;
+        font-size: 1.1em;
     }
 
     #subscription {
