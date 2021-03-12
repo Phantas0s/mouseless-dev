@@ -1,5 +1,5 @@
 baseurl      = "https://themouseless.dev/"
-title        = ""
+title        = "Building Your Mouseless Development Environment"
 languageCode = "en-us"
 theme        = "friend-ng"
 paginate     = 10
@@ -19,7 +19,7 @@ paginate     = 10
   disableReadOtherPosts = false
 
   # Metadata mostly used in document's head
-  description = "Build Your Mouseless Development Environment"
+  description = "Building Your Mouseless Development Environment"
   keywords = "homepage, blog"
   images = ["images/book_cover_mouseless_2_300.jpg"]
 

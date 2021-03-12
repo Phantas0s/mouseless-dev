@@ -1,2 +1,3 @@
-environemnt = "dev"
-baseURL = "localhost:1414"
+[params]
+    environemnt = "dev"
+    baseURL = "localhost:1414"
