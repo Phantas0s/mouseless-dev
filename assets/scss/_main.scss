@@ -16,7 +16,7 @@ body {
   padding: 0;
   font-family: 'Inter UI', -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",  Helvetica, Arial, sans-serif;
   font-display: auto;
-  font-size: 1rem;
+  font-size: 18px;
   line-height: 1.54;
   background-color: $light-background;
   color: $light-color;
@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6, .opposite {
 h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
-  line-height: 2.7;
+  padding: 0.25em 0;
 }
 
 h1 {
@@ -63,11 +63,11 @@ h2 {
 }
 
 h3 {
-  font-size: 2.375rem;
+  font-size: 1.625rem;
 }
 
 h4 {
-  font-size: 2.125rem;
+  font-size: 1.225rem;
 }
 
 @media #{$media-size-phone} {
@@ -89,8 +89,12 @@ h4 {
 }
 
 a {
-  color: $yellow;
+  color: $blue;
   text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 img {
@@ -177,6 +181,7 @@ figure {
 
 code {
   font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
+  color: $yellow;
   font-display: auto;
   font-feature-settings: normal;
   background: $light-background-secondary;
