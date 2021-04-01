@@ -1,6 +1,6 @@
 +++
 date = "2021-04-20"
-draft = true
+draft = false
 title = "GNU grep For Beginners"
 image = "/images/2021/grep/grep.png"
 
