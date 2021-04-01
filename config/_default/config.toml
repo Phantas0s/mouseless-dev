@@ -20,16 +20,14 @@ paginate     = 10
 
   # Metadata mostly used in document's head
   description = "Building Your Mouseless Development Environment"
-  keywords = "homepage, blog"
+  keywords = "mouseless, development, environment"
   images = ["images/book_cover_mouseless_2_300.jpg"]
 
   # Default theme "light" or "dark"
   defaultTheme = "dark"
 
 [taxonomies]
-    category = "blog"
     tag      = "tags"
-    series   = "series"
 
 [languages]
   [languages.en]
