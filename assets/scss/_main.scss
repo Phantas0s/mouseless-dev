@@ -89,7 +89,11 @@ h4 {
 }
 
 a {
-  color: $blue;
+  color: $dark-blue;
+
+  .dark-theme & {
+    color: $blue;
+  }
   text-decoration: none;
 }
 
@@ -181,7 +185,7 @@ figure {
 
 code {
   font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
-  color: $yellow;
+  color: $red;
   font-display: auto;
   font-feature-settings: normal;
   background: $light-background-secondary;
@@ -191,6 +195,7 @@ code {
   font-size: .95rem;
 
   .dark-theme & {
+    color: $yellow;
     background: $dark-background-secondary;
   }
 }
