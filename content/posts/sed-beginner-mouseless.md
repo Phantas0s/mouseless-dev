@@ -1,19 +1,17 @@
 +++
-date = "2021-04-01"
-draft = false
-title = "GNU grep For Beginners"
-image = "/images/2021/grep/grep.png"
+date = "2021-04-15"
+draft = true
+title = "GNU sed For Beginners"
+image = ""
 
-description = "How to use grep: matching, invert match, output line numbers, file name, number of matches... and more!"
+description = ""
 +++
 
-The tool grep is a fantastic CLI (Command-Line Interface) allowing you to filter any *pattern* for a given *input*, including a file.
+The tool sed is a really good CLI (Command Line Interface) allowing you to perform action on your content line by line. But first, to be sure you have GNU sed, you can run in your terminal `sed --version`. If you don't have GNU grep (but BSD for example), I would recommend you to install the GNU counterpart. You'll have access to many more options.
 
-To know if you have GNU grep, you can run in your terminal `grep --version`. If you don't have GNU grep, I would recommend installing it.
+This article is a summary of two videos. I would recommend you to watch them, it's more complete with many examples and exercises. Here's the first part:
 
-This article is a summary of the following video I made. I would recommend you to watch it first, it's more complete with many examples and exercises:
-
-{{< youtube SEkdPKcws3s >}}
+{{< youtube R-3EahsCmpg >}}
 
 If you find the videos I have on this channel helpful, don't hesitate to subscribe and to like them. It would then appear to other Youtubers to help even more!
 
@@ -24,6 +22,8 @@ I also recommend you to:
 3. Try each command you'll see in this article. 
 
 You won't learn much if you only read (or watch a video) passively.
+
+=====
 
 In this article we'll see together how to:
 
