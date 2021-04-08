@@ -23,225 +23,170 @@ I also recommend you to:
 
 You won't learn much if you only read (or watch a video) passively.
 
-=====
+If you want to dig deeper, I wouldn't recommend the manual of sed (command `man sed`), it's pretty short and not that interesting. Instead, try to run `info sed`.
 
-In this article we'll see together how to:
+## Basics
 
-* Colorize grep output
-* Case insensitive patters
-* Output lines with pattern matched
-* Output lines with pattern not matched
-* Output only the pattern matched
-* Output lines numbers
-* Output the match count
-* Hiding filenames
-* Always output filenames
-* Only output filenames
-* Only output filenames without matches
-* Output lines after the match
-* Output lines before the match
-* Output lines before and after the match
-* Excluding files
-* Piping grep
-* Summary: a mindmap of grep
-* Using grep in practice
-
-## Colors!
-
-I would advise you to colorize the output of grep using the option `--color` as following: 
-
-```bash
-grep --color=auto
-```
-
-But it's a pain to use this option each time you use grep. You can define an alias to make grep always colorful:
-
-```bash
-alias grep="grep --color=auto"
-```
-
-It's now a firework machine.
-
-## Output Lines With Pattern Matched
-
-Here's the general way to use grep:
-
-```bash
-grep "<pattern>" <input>
-```
-
-The `<pattern>` is a regular expression and the `<input>` can be what you enter in your terminal or a file. For example:
-
-```bash
-grep "package" pacman.log
-```
-
-You'll see this output:
-
-{{< picture src="/images/2021/grep/01_displaying_lines_pattern_matched.png" webp="/images/2021/grep/01_displaying_lines_pattern_matched.webp" alt="Displaying lines with pattern matched" >}}
-
-You can see that the pattern `package` is part of these two lines; that's why they are output. Incredible! It would be nice if we could do that in our daily life. I already know what words I would filter.
-
-Note that the pattern wouldn't be colorized without the option `--color` set to `auto` as we saw above.
-
-## Output Lines With Pattern Not Matched
-
-If you want to in`v`ert the match, that is, only output the lines which *don't match* the pattern, you can use the option `-v` as follows:
-
-```bash
-grep -v "package" pacman.log
-```
-
-This time, you'll output all the file except the two lines containing the pattern `package`.
-
-## Output Only The Pattern Matched
-
-It can be useful to `o`nly output the match and not the whole line. You can do that with the option `-o`
-
-```bash
-grep -o "package" pacman.log
-```
-
-## Output Line Numbers
-
-If you to output the lines and the line `n`umbers, you need to use the option `-n`. For example:
-
-```bash
-grep -n "package" pacman.log
-```
-
-The line numbers will be prefixed to each line of the output.
-
-## Only Output Match Count
-
-You can also *only* output the match `c`ount with the option `-c`:
-
-```bash
-grep -c "package" pacman.log
-```
-
-## Case Insensitive Patterns
-
-By default, to match a pattern, you'll need to know what letters of the pattern are uppercase or lowercase. You can match your pattern without worrying about the case if you use the option `-i`:
-
-```bash
-grep -i "pacman" *.log
-```
-
-You can see that grep can filter more than one file. The glob `*` has a special meaning: it represents 0 or more character. Said differently, we want every file in our working directory ending up with `.log`. The following is equivalent:
-
-```bash
-grep -i "pacman" haskell.log pacman.log
-```
-
-## Filenames
-
-### Hiding Filenames
-
-As you saw, grep will output the filenames of the occurrence matches if you use more than one file as input. To `h`ide them, you can use the option `-h`. An example:
-
-```bash
-grep -h "package" *.log
-```
-
-### Always Output Filenames
-
-If you want to output the filename where there's a match, even if you gave only one file as input, you can use the option `-H`. As usual, here's an example you can run in your terminal:
-
-```bash
-grep -H "package" pacman.log
-```
-
-For some option, the uppercase variant will do the inverse of the lowercase one, like `-h` and `-H`.
-
-### Only Output Filenames
-
-To only output the filenames where the patterns match, you can use the option `-l`:
-
-```bash
-grep -l "package" *.log
-```
-
-### Only Output Filenames Without Matches
-
-You might have guessed it: the option `-L` only output the filename where the pattern *doesn't* match:
-
-```bash
-grep -L "package" *.log
-```
-
-## Output Lines Around The Match
-
-Outputing the lines before or after your match can be useful to get a bit of *context* and understand the result of your filtering.
-
-### Output Lines After The Match
-
-To output a variable number of lines `A`fter the line with a match, you can use the option `-A`:
-
-```bash
-grep -A 3 "package" pacman.log
-```
-
-### Output Lines Before The Match
-
-Similarly, if you want to output the lines `B`efore the match, you can use the option `-B`:
-
-```bash
-grep -B 3 "package" pacman.log
-```
-
-### Output Lines Before And After the Match
-
-You can even output some lines before *and* after the match with the option `-C`:
-
-```bash
-grep -C 3 "package" pacman.log
-```
-
-In this example, the second match of `package` won't output the 3 lines after because it's the end of the file after the line containing the match.
-
-Did you see the pattern? `A`fter, `B`efore, `C`ontext: it's `ABC`!
-
-## Excluding Files
-
-We always gave the files we wanted to filter to grep's input, but what if we want everything *except* a couple of files? For that, we can use the option `--exclude`:
-
-```bash
-grep "package" --exclude="pacman.log" *.log
-```
-
-## Piping grep
-
-You can directly give the output of a command to the input of grep if you want to filter it. Actually, you can do that with every CLI accepting an input using pipes. 
-
-For example, if I run `ps` (a CLI to output the processes running on my machine), I get this:
+This weird name sed means `s`tream `ed`itor. It allows you to edit streams of data. Here's how to use it:
 
 ```
-    PID TTY          TIME CMD
-   2026 pts/9    00:11:36 nvim
-   2431 pts/11   00:01:11 hugo
-   2584 pts/10   00:00:01 tmuxp
-   3009 pts/18   00:00:01 nvim
-   3241 pts/20   00:00:17 taskell
-   3484 pts/22   00:00:11 taskell
-   3663 pts/21   00:00:00 nvim
+sed '<script>' <input>
 ```
 
-What if I want only the lines containing the pattern `nvim`? I can do the following:
-
-```bash
-ps -a | grep "nvim"
-```
-
-It means that I give to the input of grep the output of the command `ps -a`. Here's the result:
+The script is the main element here. Its format:
 
 ```
-   2026 pts/9    00:11:36 nvim
-   3009 pts/18   00:00:01 nvim
-   3663 pts/21   00:00:00 nvim
+<address><command><option>
 ```
 
-Pipes are one of the reason why the command line is so powerful: you can pipe small CLIs doing one thing and you'll have crazy results!
+What's all of that?
+
+* The *address* allows you to match the input lines you want to transform.
+* The *command* determines how the content will be transformed. It's always a single letter.
+* The *options* are only available for some command. They modify their default behaviors.
+
+Only the command is required here.
+
+By default, `sed` will never modify its input. Instead, it will process each line as follows:
+
+1. Copy the line in a buffer (called *the pattern space*)
+2. Edit it depending of the script (command, address, and option(s))
+3. Output the edited line
+
+For example, here's a very basic sed command:
+
+```
+sed 'd' nginx.conf
+```
+
+The script is only an action, `d`. It means that you'll `d`elete every line of your input, the file `nginx.conf`. Nothing will be output, which make this command pretty useless. How cool is that?
+
+### The Address
+
+The address part of a sed script allows you to select the line you want to edit. By default, sed will apply the command on every line of the input if the address is not specified.
+
+It can be a:
+
+* Line number
+* Range of lines (from and to separated with a comma)
+* Every *nth* line (line where to start followed by a tilda `~` and the )
+* Regex (surrounded by two slashes `/`)
+
+For example:
+
+* `sed '1d' nginx.conf` - Delete the first line
+* `sed '1,102d' nginx.conf` - Delete a range of line, from line 1 to line 102 (included)
+* `sed '/on/d' nginx.conf` - Delete each line where the regex pattern `on` is matched
+* `sed '10,/on/d' nginx.conf` - Delete the 10th line if part of it match the regex pattern `on`
+* `sed '0~2d' nginx.conf` - Delete every even line.
+* `sed '1~2d' nginx.conf` - Delete every odd line.
+
+* How sed works:
+    1. Go through a line of the input one by one
+    2. Copy the line in a buffer (the pattern space)
+    3. Apply the script on the pattern space 
+    4. Spit the resulting pattern space and delete it
+    5. Continue to the next line
+
+It's possible to negate the address using a bang `!`. In practice it inverts the address.
+
+For example:
+
+* `sed '1!d' nginx.conf` - Delete every line except the first one.
+* `sed '/on/!d' nginx.conf` - Delete every line except the ones matching the regex pattern `on`.
+
+### Using Multiple Scripts
+
+You can use more than one script per sed command using a semicolon `;`. For example:
+
+```
+sed '1d;/on/d;$d' nginx.conf
+```
+
+There are three scripts executed here:
+
+* `1d` - Delete the first line.
+* `/on/d` - Delete every line having matching the substring `on`.
+* `$d` - Delete the last line.
+
+## Command-Line Options
+
+### Writing Directly The Input File
+
+As we saw, sed doesn't modify the input by default. If you want to do that, you can add the option `-i` for edit files `i`n-place.
+
+Before trying, I recommend to copy your file (say "nginx2.conf") to keep the original. For example:
+
+```
+sed -i '1d' nginx2.conf
+```
+
+With GNU grep, you can create this backup automatically by prefixing the optino `-i` with the prefix you want the backup filename to take.
+
+For example:
+
+```
+sed -i.backup '1d' nginx.conf
+```
+
+It will create a copy of nginx.conf called nginx.conf.backup and then delete the first line of the file nginx.conf. You can use any string your want instead of `.backup`.
+
+### Using multiple scripts
+
+We saw already how to use multiple scripts using a semicolon ';'. We can do the same with the command option `-e`.
+
+For example the following is equivalent to `sed '1d;/on/d;$d' nginx.conf`:
+
+```
+sed -e '1d' -e '/on/d' -e '$d' nginx.conf
+```
+
+I think using the option `-e` insteand of semicolon `;` makes everything a bit clearer.
+
+### Script from a file
+
+To run a script for a file, you can use the option `-f`.
+
+You can try to run the following for example:
+
+```
+echo "1d;/on/d;$d" > script
+sed -f script nginx.conf
+```
+
+### Regex
+
+* Have the choice between two regex engines
+    * By default: Basic regular expression 
+    * `-E` Extended regular expression
+    * similar to grep -E
+        * Compared to the basic regex, are metacharacter: : '?', '+', '()', '{}', and '|'.
+
+* No PERL engine
+
+### Silent
+
+* Display no output
+    * `sed -n '1,102d' nginx.conf`
+* New command: p
+* To print the first line 
+    * Could think doing `sed "1p"`
+    * sed -n "1p" nginx.conf
+
+### Exercises
+
+Output only the lines which have the pattern "on" from the file nginx.conf
+    * `sed -n '/on/p' nginx.conf`
+    * `sed '/on/!d' nginx.conf`
+
+Output only the lines beginning by two whitespace characters from the file nginx.conf.
+    * `sed -En '/^\s{2}/p' nginx.conf`
+    * `sed -E '/^\s{2}/!d' nginx.conf`
+        * Need to use -E
+
+Copy the file pacman.conf and delete directly in the copy the first two lines
+    * `cp pacman.conf pacman2.conf`
+    * `sed -i '1,2d' pacman2.conf`
 
 ## Summary: a Mindmap of grep
 
