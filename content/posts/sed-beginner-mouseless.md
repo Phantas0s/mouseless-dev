@@ -1,15 +1,15 @@
 +++
 date = "2021-04-15"
 draft = true
-title = "GNU sed For Beginners"
+title = "sed: The Basics"
 image = ""
 
 description = ""
 +++
 
-The tool sed is a really good CLI (Command Line Interface) allowing you to perform action on your content line by line. But first, to be sure you have GNU sed, you can run in your terminal `sed --version`. If you don't have GNU grep (but BSD for example), I would recommend you to install the GNU counterpart. You'll have access to many more options.
+The useful tool sed is a CLI (Command Line Interface) allowing you to edit some content line by line. But first, to be sure you have GNU sed installed on your computer, you can run in your terminal `sed --version`. If you don't have GNU sed (but BSD for example), I would recommend you to install its GNU counterpart. You'll have access to many more options making your life in the shell easier.
 
-This article is a summary of these two videos. I would recommend you to watch them, it's more complete with many examples and exercises. Here's the first part:
+This article is a summary of these two videos. They are more detailed and they have some exercises to stick the knowledge in your wonderful brain:
 
 {{< youtube R-3EahsCmpg >}}
 
@@ -17,80 +17,78 @@ The second part:
 
 {{< youtube BtZB-fndkzM >}}
 
-If you find the videos I have on this channel helpful, don't hesitate to subscribe and to hit the like button. It would then appear to other Youtubers to help even more!
+If you find the videos on my Youtube channel helpful, don't hesitate to subscribe and to hit the like button. It would then appear to other Youtubers to help even more!
 
-I also recommend you to:
+I would also recommend you to:
 
-1. Download [these files](https://github.com/Phantas0s/mouseless-dev-youtube/tree/master/01_grep)
-2. Fire up your beautiful shell
-3. Try each command you'll see in this article. 
+1. Download [the file nginx.conf](https://github.com/Phantas0s/mouseless-dev-youtube/tree/master/01_grep). Every example are based on it.
+2. Fire up your beautiful shell.
+3. Try each example you'll see in this article.
 
-You won't learn much if you only read (or watch a video) passively.
+[You won't learn much](https://thevaluable.dev/learning-developer-efficiently-effectively/) if you only read (or watch a video) passively.
 
 If you want to dig deeper, I wouldn't recommend the manual of sed (command `man sed`), it's pretty short and not that interesting. Instead, try to run `info sed`.
 
 ## Basics
 
-This weird name sed means `s`tream `ed`itor. It allows you to edit streams of data. Here's how to use it:
+This weird name sed means `s`tream `ed`itor. It allows you to edit streams of content. Here's how to use it:
 
 ```
 sed '<script>' <input>
 ```
 
-The script is the main element here. Its format:
+The content you give as input will be copied and edited depending on the sed script. It can be divided in three parts:
 
 ```
 <address><command><option>
 ```
 
-What's all of that?
+What's all of these shenanigans?
 
-* The *address* allows you to match the input lines you want to transform.
-* The *command* determines how the content will be transformed. It's always a single letter.
-* The *options* are only available for some command. They modify their default behaviors.
+* The *address* allows you to match the input lines you want to edit.
+* The *command* determines how the content will be edited. It's always a single letter.
+* The *options* are only available for some commands. They modify their default behaviors.
 
-Only the command is required here.
+Only the command is required, the rest is optional.
 
-By default, `sed` will never modify its input. Instead, it will process each line as follows:
+By default, `sed` will never modify the input you give. Instead, it will:
 
-1. Copy the line in a buffer (called *the pattern space*)
-2. Edit it depending of the script (command, address, and option(s))
+1. Copy the line it's processing in a buffer (called *the pattern space*)
+2. Edit the line depending on the script (command, address, and option(s))
 3. Output the edited line
 
-For example, here's a very basic sed command:
+This cycle repeat for every line of the input. For example, here's a very basic sed command:
 
 ```bash
 sed 'd' nginx.conf
 ```
 
-The script is only an action, `d`. It means that you'll `d`elete every line of your input, the file `nginx.conf`. Nothing will be output, which make this command pretty useless. How cool is that?
+The input is the file `nginx.conf` and the script is only an action, `d`. It means that you'll `d`elete every line of the file `nginx.conf`. Nothing will be output, which make this command useless. How cool is that?
 
 ### The Address
 
 The address part of a sed script allows you to select the line you want to edit. By default, sed will apply the command on every line of the input if the address is not specified.
 
-It can be a:
+This address can be a:
 
 * Line number
-* Range of lines (from and to separated with a comma)
-* Every *nth* line (line where to start followed by a tilda `~` and the )
+* Range of lines
+* Every *nth* line (line where to start followed by a tilda `~` and the repetition)
 * Regex (surrounded by two slashes `/`)
 
 For example:
 
 * `sed '1d' nginx.conf` - Delete the first line
 * `sed '1,102d' nginx.conf` - Delete a range of line, from line 1 to line 102 (included)
-* `sed '/on/d' nginx.conf` - Delete each line where the regex pattern `on` is matched
-* `sed '10,/on/d' nginx.conf` - Delete the 10th line if part of it match the regex pattern `on`
-* `sed '0~2d' nginx.conf` - Delete every even line.
-* `sed '1~2d' nginx.conf` - Delete every odd line.
+* `sed '/on/d' nginx.conf` - Delete each line when part of them match the regex pattern `on`
+* `sed '10,/on/d' nginx.conf` - Delete the 10th line if part of it matches the regex pattern `on`
+* `sed '0~2d' nginx.conf` - Delete every even line (delete every two lines)
+* `sed '1~2d' nginx.conf` - Delete every odd line (delete every two lines after the first one)
 
-It's possible to negate the address using a bang `!`. In practice it inverts the address.
+It's possible to negate the address using a bang `!`. It will invert the address. For example:
 
-For example:
-
-* `sed '1!d' nginx.conf` - Delete every line except the first one.
-* `sed '/on/!d' nginx.conf` - Delete every line except the ones matching the regex pattern `on`.
+* `sed '1!d' nginx.conf` - Delete every line *except* the first one.
+* `sed '/on/!d' nginx.conf` - Delete every line *except* the ones matching the regex pattern `on`.
 
 ### Using Multiple Scripts
 
@@ -108,37 +106,39 @@ There are three scripts executed here:
 
 ## The Substitute Command
 
-I love to delete stuff to make everything simpler, but it would be nice to perform more operations with sed. Beyond the substitute command.
+I love to delete stuff to make everything simpler, but it would be nice to be able to perform more operations with sed. Let's look at THE awesome command everybody's using: the `s`ubstitute command.
 
 ### The Basics
 
-Here's how you can use the `s`ubstitute command:
+Here's the general way to use it:
 
-```bash
+```
 s/<pattern>/<replacement>/<flag>
 ```
 
-It will try to match the regular expression `<pattern>` on each line of your input and replace it with the `<replacement>`. For example, if you want to replace the string "on;" by "off;" you can do:
+This command will try to match the regular expression `<pattern>` on each line of your input and replace it with the `<replacement>`. For example, if you want to replace the string "on;" by "off;" you can do:
 
 ```bash
 sed 's/on;/off;/' nginx.conf
 ```
 
-If your pattern match two substrings on the line, only the first one will be replaced by default. You can try to run this command for example:
+By default, if your pattern match two substrings on the line, only the first one will be substituted. You can try to run this command for example:
 
 ```
 sed 's/in/on/' nginx.conf
 ```
 
-Only the first `in` of each line are replaced, not the ones afterward. If you want to replace every `in`, you can use the flag g:
+Only the first `in` on each line is replaced, not the ones afterward. If you want to replace every `in`, you need to use the flag `g` (for `g`lobal):
 
 ```
 sed 's/in/on/g' nginx.conf
 ```
 
+No more silly `in` in our output!
+
 ### Reusing the Pattern in the Replacement
 
-You can reuse the pattern you want to replace using the character "&" in your replacement. For example:
+You can reuse the pattern you're replacing using the character "&" in your replacement. For example:
 
 ```
 sed 's/on;/&off;/' nginx.conf
@@ -148,77 +148,103 @@ It will replace every first occurrence of "on;" with "on;off;" on each line.
 
 ### Changing the Separators
 
-If you need to replace URLs, you'll have a problem if you use slashes `/` as separator for your substitute command. You'll need to escape every single one of them in your pattern and replacement for sed not to consider them as separators. For example:
+Using the slash `/` as a separator between your pattern, your replacement, and your flag can bring some problems, especially if you want to replace some URLs. You'll need to escape every single slashes in the URLs themselves for sed to understand what slashes are separators and what slashes aren't. 
+
+For example, the following won't work. Our sed is not smart enough to know what slash is used as a separator:
+
+```
+sed 's/http://server.com/ftp://ftpserver/' nginx.conf
+```
+
+Instead, you need to escape every slash which are *not* separators:
 
 ```
 sed 's/http:\/\/server.com/ftp:\/\/ftpserver/' nginx.conf
 ```
 
-This becomes quite difficult to read. But fear not, dear reader: there's a better solution. You can actually use another separator, like `%` or `#`. For example:
+This becomes painful to write and quite difficult to read. But fear not! There's a better solution. You can actually use another separator, like `%` or `#` for example, as follows:
 
 ```
 sed 's#http://server.com#ftp://ftpserver#' nginx.conf
+sed 's%http://server.com%ftp://ftpserver%' nginx.conf
 ```
 
-The two examples in this section are equivalent, but the second one is easier to read.
+This is a life savior each time I use sed with URLs.
 
 ### Writing Every Line Substituted in a File
 
-If you need to `w`rite everything you substitute in a file, you can use the flag `w` as follow:
+If you want to `w`rite everything you substitute in a file, you can use the flag `w` as follows:
+
+```
+sed 's/on;/&off;/w output_file' nginx.conf
+```
+
+It will create a file `output_file` with these two lines:
+
+```
+sendfile     on;off;
+tcp_nopush   on;off;
+```
 
 ## Command-Line Options
 
+Let's see now what option we can use with our new friend sed.
+
 ### Writing Directly The Input File
 
-As we saw, sed doesn't modify the input by default. If you want to do that, you can add the option `-i` for edit files `i`n-place. Note that it won't output anything anymore.
+As we saw, sed doesn't modify the input by default. If you want to do that, you can add the option `-i` for editing your input file `i`n-place. Note that it won't output anything anymore.
 
-Before trying, I recommend to copy your file (say "nginx2.conf") to keep the original. For example:
+Before trying, I recommend you to copy your file "nginx.conf" (running something like `cp nginx.conf nginx2.conf` in your shell) to keep the original.
+
+Here's an example for replacing a file `i`n-place:
 
 ```
 sed -i '1d' nginx2.conf
 ```
 
-With GNU grep, you can create this backup automatically by prefixing the optino `-i` with the prefix you want the backup filename to take.
-
-For example:
+With GNU grep, you can create automatically a backup adding to the option `-i` the suffix your new file should have. For example:
 
 ```
 sed -i.backup '1d' nginx.conf
 ```
 
-It will create a copy of nginx.conf called nginx.conf.backup and then delete the first line of the file nginx.conf. You can use any string your want instead of `.backup`.
+This command will 
+
+1. Create a copy of "nginx.conf" called "nginx.conf.backup"
+2. Delete the first line of the file nginx.conf
+
+Instead of `.backup` you can use any string your imagination can create.
 
 ### Using multiple scripts
 
-We saw already how to use multiple scripts using a semicolon ';'. We can do the same with the command option `-e`.
-
-For example the following is equivalent to `sed '1d;/on/d;$d' nginx.conf`:
+We saw already how to use multiple scripts using a semicolon ';'. We can do the same with the option `-e`.  For example these two commands are equivalent:
 
 ```
 sed -e '1d' -e '/on/d' -e '$d' nginx.conf
+sed '1d;/on/d;$d' nginx.conf
 ```
 
-I think using the option `-e` instead of semicolon `;` makes everything a bit clearer.
+I think using the option `-e` instead of semicolons `;` makes the command a bit easier to read.
 
-### Script from a file
+### Scripts From a File
 
-To run a script for a file, you can use the option `-f`.
-
-You can try to run the following for example:
+To run a script from a file, you can use the option `-f`. You can try to run the following for example:
 
 ```
 echo "1d;/on/d;$d" > script
 sed -f script nginx.conf
 ```
 
-### Regex
+It can be handy for long and complex sed scripts.
 
-You'll have the choice to use two regex engines with GNU sed:
+### Regexes
 
-* The basic regex engine (by default).
+You'll have the choice of two regex engines with GNU sed:
+
+* The basic regex engine (by default)
 * The `E`xtended regex engine (option `-E`).
 
-The extended regex engine include these metacharacters: '?', '+', '()', '{}', and '|'. If you don't use the option `-E`, you would need to escape these metacharacters making the whole regex more difficult to read.
+The `E`xtended regex engine `-E` include these metacharacters: '?', '+', '()', '{}', and '|'. If you don't use the option `-E`, you would need to escape these metacharacters to use them, making the whole regex more difficult to read.
 
 For example, these two commands are equivalent:
 
@@ -227,25 +253,27 @@ sed '/on\|nginx/d' nginx.conf
 sed -E '/on|nginx/d' nginx.conf
 ```
 
+I always use `-E` when I want to use regex metacharacters. It makes everything easier.
+
 ### Silent
 
-With the sile`n`t option `-n`,  sed doesn't display anything anymore. Said like that, it doesn't sound very useful. But with the command `p` it becomes more useful.
+Don't worry, I don't ask you to remain silent. You can make all the noise you want! 
 
-This command allows you to `p`rint specific lines. Without the option `-n`, it will copy the line you want. If you want to copy the first line, you can do:
+With the sile`n`t option `-n`,  sed doesn't output anything anymore. Said like that, it doesn't look very useful. But you can use the command `p` (for `p`rint) to output exactly what you want. 
+
+For example, to output only the first line of your input, you can run:
 
 ```
 sed -n "1p" nginx.conf
 ```
 
-With the option `-n`, it will only print the first line.
+## In a Nutshell: a Mindmap of sed
 
-## Summary: a Mindmap of grep
+[{{< picture src="/images/2021/sed/sed.png" webp="/images/2021/sed/sed.webp" alt="mindmap of sed" >}}](/images/2021/sed/sed.jpg)
 
-[{{< picture src="/images/2021/grep/grep.png" webp="/images/2021/grep/grep.webp" alt="mindmap of grep" >}}](/images/2021/grep/grep.png)
+## Using sed in Practice
 
-## Using grep in Practice
+It's nice to learn all of that, but how can you use sed in real life? Here's a video showing you a problem I had and I solved nicely using sed and other CLIs:
 
-It's nice to learn all of that, but how can you use grep in real life? Here's a video showing you a problem I had and I solved nicely using grep and other CLIs:
-
-{{< youtube N2YsWcyEpr8 >}}
+{{< youtube 4DwXYAAgKKU >}}
 

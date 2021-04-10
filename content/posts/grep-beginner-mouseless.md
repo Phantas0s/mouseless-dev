@@ -1,7 +1,7 @@
 +++
 date = "2021-04-01"
 draft = false
-title = "GNU grep For Beginners"
+title = "grep: The Basics"
 image = "/images/2021/grep/grep.png"
 
 description = "How to use grep: matching, invert match, output line numbers, file name, number of matches... and more!"
@@ -243,7 +243,7 @@ It means that I give to the input of grep the output of the command `ps -a`. Her
 
 Pipes are one of the reason why the command line is so powerful: you can pipe small CLIs doing one thing and you'll have crazy results!
 
-## Summary: a Mindmap of grep
+## In a Nutshell: a Mindmap of grep
 
 [{{< picture src="/images/2021/grep/grep.png" webp="/images/2021/grep/grep.webp" alt="mindmap of grep" >}}](/images/2021/grep/grep.png)
 
