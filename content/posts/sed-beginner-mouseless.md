@@ -9,13 +9,17 @@ description = ""
 
 The tool sed is a really good CLI (Command Line Interface) allowing you to perform action on your content line by line. But first, to be sure you have GNU sed, you can run in your terminal `sed --version`. If you don't have GNU grep (but BSD for example), I would recommend you to install the GNU counterpart. You'll have access to many more options.
 
-This article is a summary of two videos. I would recommend you to watch them, it's more complete with many examples and exercises. Here's the first part:
+This article is a summary of these two videos. I would recommend you to watch them, it's more complete with many examples and exercises. Here's the first part:
 
 {{< youtube R-3EahsCmpg >}}
 
-If you find the videos I have on this channel helpful, don't hesitate to subscribe and to like them. It would then appear to other Youtubers to help even more!
+The second part:
 
-I also recommend you to: 
+{{< youtube BtZB-fndkzM >}}
+
+If you find the videos I have on this channel helpful, don't hesitate to subscribe and to hit the like button. It would then appear to other Youtubers to help even more!
+
+I also recommend you to:
 
 1. Download [these files](https://github.com/Phantas0s/mouseless-dev-youtube/tree/master/01_grep)
 2. Fire up your beautiful shell
@@ -55,7 +59,7 @@ By default, `sed` will never modify its input. Instead, it will process each lin
 
 For example, here's a very basic sed command:
 
-```
+```bash
 sed 'd' nginx.conf
 ```
 
@@ -81,13 +85,6 @@ For example:
 * `sed '0~2d' nginx.conf` - Delete every even line.
 * `sed '1~2d' nginx.conf` - Delete every odd line.
 
-* How sed works:
-    1. Go through a line of the input one by one
-    2. Copy the line in a buffer (the pattern space)
-    3. Apply the script on the pattern space 
-    4. Spit the resulting pattern space and delete it
-    5. Continue to the next line
-
 It's possible to negate the address using a bang `!`. In practice it inverts the address.
 
 For example:
@@ -99,7 +96,7 @@ For example:
 
 You can use more than one script per sed command using a semicolon `;`. For example:
 
-```
+```bash
 sed '1d;/on/d;$d' nginx.conf
 ```
 
@@ -109,11 +106,71 @@ There are three scripts executed here:
 * `/on/d` - Delete every line having matching the substring `on`.
 * `$d` - Delete the last line.
 
+## The Substitute Command
+
+I love to delete stuff to make everything simpler, but it would be nice to perform more operations with sed. Beyond the substitute command.
+
+### The Basics
+
+Here's how you can use the `s`ubstitute command:
+
+```bash
+s/<pattern>/<replacement>/<flag>
+```
+
+It will try to match the regular expression `<pattern>` on each line of your input and replace it with the `<replacement>`. For example, if you want to replace the string "on;" by "off;" you can do:
+
+```bash
+sed 's/on;/off;/' nginx.conf
+```
+
+If your pattern match two substrings on the line, only the first one will be replaced by default. You can try to run this command for example:
+
+```
+sed 's/in/on/' nginx.conf
+```
+
+Only the first `in` of each line are replaced, not the ones afterward. If you want to replace every `in`, you can use the flag g:
+
+```
+sed 's/in/on/g' nginx.conf
+```
+
+### Reusing the Pattern in the Replacement
+
+You can reuse the pattern you want to replace using the character "&" in your replacement. For example:
+
+```
+sed 's/on;/&off;/' nginx.conf
+```
+
+It will replace every first occurrence of "on;" with "on;off;" on each line.
+
+### Changing the Separators
+
+If you need to replace URLs, you'll have a problem if you use slashes `/` as separator for your substitute command. You'll need to escape every single one of them in your pattern and replacement for sed not to consider them as separators. For example:
+
+```
+sed 's/http:\/\/server.com/ftp:\/\/ftpserver/' nginx.conf
+```
+
+This becomes quite difficult to read. But fear not, dear reader: there's a better solution. You can actually use another separator, like `%` or `#`. For example:
+
+```
+sed 's#http://server.com#ftp://ftpserver#' nginx.conf
+```
+
+The two examples in this section are equivalent, but the second one is easier to read.
+
+### Writing Every Line Substituted in a File
+
+If you need to `w`rite everything you substitute in a file, you can use the flag `w` as follow:
+
 ## Command-Line Options
 
 ### Writing Directly The Input File
 
-As we saw, sed doesn't modify the input by default. If you want to do that, you can add the option `-i` for edit files `i`n-place.
+As we saw, sed doesn't modify the input by default. If you want to do that, you can add the option `-i` for edit files `i`n-place. Note that it won't output anything anymore.
 
 Before trying, I recommend to copy your file (say "nginx2.conf") to keep the original. For example:
 
@@ -141,7 +198,7 @@ For example the following is equivalent to `sed '1d;/on/d;$d' nginx.conf`:
 sed -e '1d' -e '/on/d' -e '$d' nginx.conf
 ```
 
-I think using the option `-e` insteand of semicolon `;` makes everything a bit clearer.
+I think using the option `-e` instead of semicolon `;` makes everything a bit clearer.
 
 ### Script from a file
 
@@ -156,37 +213,31 @@ sed -f script nginx.conf
 
 ### Regex
 
-* Have the choice between two regex engines
-    * By default: Basic regular expression 
-    * `-E` Extended regular expression
-    * similar to grep -E
-        * Compared to the basic regex, are metacharacter: : '?', '+', '()', '{}', and '|'.
+You'll have the choice to use two regex engines with GNU sed:
 
-* No PERL engine
+* The basic regex engine (by default).
+* The `E`xtended regex engine (option `-E`).
+
+The extended regex engine include these metacharacters: '?', '+', '()', '{}', and '|'. If you don't use the option `-E`, you would need to escape these metacharacters making the whole regex more difficult to read.
+
+For example, these two commands are equivalent:
+
+```
+sed '/on\|nginx/d' nginx.conf
+sed -E '/on|nginx/d' nginx.conf
+```
 
 ### Silent
 
-* Display no output
-    * `sed -n '1,102d' nginx.conf`
-* New command: p
-* To print the first line 
-    * Could think doing `sed "1p"`
-    * sed -n "1p" nginx.conf
+With the sile`n`t option `-n`,  sed doesn't display anything anymore. Said like that, it doesn't sound very useful. But with the command `p` it becomes more useful.
 
-### Exercises
+This command allows you to `p`rint specific lines. Without the option `-n`, it will copy the line you want. If you want to copy the first line, you can do:
 
-Output only the lines which have the pattern "on" from the file nginx.conf
-    * `sed -n '/on/p' nginx.conf`
-    * `sed '/on/!d' nginx.conf`
+```
+sed -n "1p" nginx.conf
+```
 
-Output only the lines beginning by two whitespace characters from the file nginx.conf.
-    * `sed -En '/^\s{2}/p' nginx.conf`
-    * `sed -E '/^\s{2}/!d' nginx.conf`
-        * Need to use -E
-
-Copy the file pacman.conf and delete directly in the copy the first two lines
-    * `cp pacman.conf pacman2.conf`
-    * `sed -i '1,2d' pacman2.conf`
+With the option `-n`, it will only print the first line.
 
 ## Summary: a Mindmap of grep
 
