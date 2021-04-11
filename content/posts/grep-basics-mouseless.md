@@ -2,9 +2,11 @@
 date = "2021-04-01"
 draft = false
 title = "grep: The Basics"
-image = "/images/2021/grep/grep.png"
-
-description = "How to use grep: matching, invert match, output line numbers, file name, number of matches... and more!"
+aliases = [
+    "grep-beginner-mouseless",
+]
+image = "/images/2021/grep/grep.jpg"
+description = "The basics of grep : output line numbers, filenames, number of matches, or even inverting matches... and more!"
 +++
 
 The tool grep is a fantastic CLI (Command-Line Interface) allowing you to filter any *pattern* for a given *input*, including a file.
@@ -245,7 +247,7 @@ Pipes are one of the reason why the command line is so powerful: you can pipe sm
 
 ## In a Nutshell: a Mindmap of grep
 
-[{{< picture src="/images/2021/grep/grep.png" webp="/images/2021/grep/grep.webp" alt="mindmap of grep" >}}](/images/2021/grep/grep.png)
+[{{< picture src="/images/2021/grep/grep.jpg" webp="/images/2021/grep/grep.webp" alt="mindmap of grep" >}}](/images/2021/grep/grep.jpg)
 
 ## Using grep in Practice
 
