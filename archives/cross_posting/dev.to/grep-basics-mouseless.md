@@ -3,7 +3,7 @@ title: The Basics of grep - Filtering All The Content You Want
 published: false
 description: The basics of grep : output line numbers, filenames, number of matches, or even inverting matches... and more!
 tags: #mouseless #commandline #productivity
-cover_image: https://themouseless.dev/images/2021/grep/grep.png
+cover_image: https://themouseless.dev/images/2021/grep/grep.jpg
 canonical_url: https://themouseless.dev/posts/grep-basics-mouseless/
 ------
 
@@ -21,7 +21,7 @@ I also recommend you to:
 
 1. Download [these files](https://github.com/Phantas0s/mouseless-dev-youtube/tree/master/01_grep)
 2. Fire up your beautiful shell
-3. Try each command you'll see in this article. 
+3. Try each command you'll see in this article
 
 You won't learn much if you only read (or watch a video) passively.
 
@@ -245,8 +245,7 @@ Pipes are one of the reason why the command line is so powerful: you can pipe sm
 
 ## In a Nutshell: a Mindmap of grep
 
-![summary how to use grep in mind map](https://themouseless.dev/images/2021/grep/grep.png)
-## Using grep in Practice
+[![summary how to use grep in mind map](https://themouseless.dev/images/2021/grep/grep.jpg)](https://themouseless.dev/images/2021/grep/grep.jpg)
 
 It's nice to learn all of that, but how can you use grep in real life? Here's a video showing you a problem I had and I solved nicely using grep and other CLIs:
 
@@ -254,7 +253,9 @@ It's nice to learn all of that, but how can you use grep in real life? Here's a 
 
 ---------
 
-Interested in building a Mouseless Development Environment?
+## Becoming Mouseless
+
+Do you want to build a [Mouseless Development Environment](https://themouseless.dev) where the Linux shell has a central role?
 
 [![building your mouseless development environment](https://themouseless.dev/images/small_cover.webp)](https://themouseless.dev)
 

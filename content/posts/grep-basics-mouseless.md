@@ -23,7 +23,7 @@ I also recommend you to:
 
 1. Download [these files](https://github.com/Phantas0s/mouseless-dev-youtube/tree/master/01_grep)
 2. Fire up your beautiful shell
-3. Try each command you'll see in this article. 
+3. Try each command you'll see in this article
 
 You won't learn much if you only read (or watch a video) passively.
 
