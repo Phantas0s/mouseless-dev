@@ -153,12 +153,12 @@
     }
 
     #description {
-        margin: 5rem 3rem;
+        margin: 5rem 3rem 0;
         div {
             margin-left: 12%;
         }
         p {
-            margin: 5em 0 5em 0;
+            margin: 4em 0 4em 0;
         }
         img {
             box-shadow: 2px 4px 6px $yellow;
@@ -254,7 +254,7 @@
         text-align: left;
         font-size: 1.2em;
         width: 50%;
-        margin: 5em auto;
+        margin: 3em auto;
         padding: 0em 4em 0 3em;
 
         @media #{$media-size-tablet} {
