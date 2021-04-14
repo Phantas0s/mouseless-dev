@@ -1,6 +1,6 @@
 +++
-date = "2021-04-15"
-draft = true
+date = "2021-04-13"
+draft = false
 title = "sed: The Basics"
 image = "/images/2021/sed/sed.jpg"
 
