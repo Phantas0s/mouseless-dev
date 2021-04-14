@@ -2,9 +2,9 @@
 date = "2021-04-15"
 draft = true
 title = "sed: The Basics"
-image = ""
+image = "/images/2021/sed/sed.jpg"
 
-description = ""
+description = "The basics of sed: how to delete precise lines and many ways to substitute whatever content you want using the command-line."
 +++
 
 The useful tool sed is a CLI (Command Line Interface) allowing you to edit some content line by line. But first, to be sure you have GNU sed installed on your computer, you can run in your terminal `sed --version`. If you don't have GNU sed (but BSD for example), I would recommend you to install its GNU counterpart. You'll have access to many more options making your life in the shell easier.
