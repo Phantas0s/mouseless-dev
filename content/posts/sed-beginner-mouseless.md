@@ -124,13 +124,13 @@ sed 's/on;/off;/' nginx.conf
 
 By default, if your pattern match two substrings on the line, only the first one will be substituted. You can try to run this command for example:
 
-```
+```bash
 sed 's/in/on/' nginx.conf
 ```
 
 Only the first `in` on each line is replaced, not the ones afterward. If you want to replace every `in`, you need to use the flag `g` (for `g`lobal):
 
-```
+```bash
 sed 's/in/on/g' nginx.conf
 ```
 
@@ -140,7 +140,7 @@ No more silly `in` in our output!
 
 You can reuse the pattern you're replacing using the character "&" in your replacement. For example:
 
-```
+```bash
 sed 's/on;/&off;/' nginx.conf
 ```
 
@@ -152,19 +152,19 @@ Using the slash `/` as a separator between your pattern, your replacement, and y
 
 For example, the following won't work. Our sed is not smart enough to know what slash is used as a separator:
 
-```
+```bash
 sed 's/http://server.com/ftp://ftpserver/' nginx.conf
 ```
 
 Instead, you need to escape every slash which are *not* separators:
 
-```
+```bash
 sed 's/http:\/\/server.com/ftp:\/\/ftpserver/' nginx.conf
 ```
 
 This becomes painful to write and quite difficult to read. But fear not! There's a better solution. You can actually use another separator, like `%` or `#` for example, as follows:
 
-```
+```bash
 sed 's#http://server.com#ftp://ftpserver#' nginx.conf
 sed 's%http://server.com%ftp://ftpserver%' nginx.conf
 ```
@@ -175,13 +175,13 @@ This is a life savior each time I use sed with URLs.
 
 If you want to `w`rite everything you substitute in a file, you can use the flag `w` as follows:
 
-```
+```bash
 sed 's/on;/&off;/w output_file' nginx.conf
 ```
 
 It will create a file `output_file` with these two lines:
 
-```
+```bash
 sendfile     on;off;
 tcp_nopush   on;off;
 ```
@@ -198,13 +198,13 @@ Before trying, I recommend you to copy your file "nginx.conf" (running something
 
 Here's an example for replacing a file `i`n-place:
 
-```
+```bash
 sed -i '1d' nginx2.conf
 ```
 
 With GNU grep, you can create automatically a backup adding to the option `-i` the suffix your new file should have. For example:
 
-```
+```bash
 sed -i.backup '1d' nginx.conf
 ```
 
@@ -219,7 +219,7 @@ Instead of `.backup` you can use any string your imagination can create.
 
 We saw already how to use multiple scripts using a semicolon ';'. We can do the same with the option `-e`.  For example these two commands are equivalent:
 
-```
+```bash
 sed -e '1d' -e '/on/d' -e '$d' nginx.conf
 sed '1d;/on/d;$d' nginx.conf
 ```
@@ -230,7 +230,7 @@ I think using the option `-e` instead of semicolons `;` makes the command a bit 
 
 To run a script from a file, you can use the option `-f`. You can try to run the following for example:
 
-```
+```bash
 echo "1d;/on/d;$d" > script
 sed -f script nginx.conf
 ```
@@ -248,7 +248,7 @@ The `E`xtended regex engine `-E` include these metacharacters: '?', '+', '()', '
 
 For example, these two commands are equivalent:
 
-```
+```bash
 sed '/on\|nginx/d' nginx.conf
 sed -E '/on|nginx/d' nginx.conf
 ```
@@ -263,7 +263,7 @@ With the sile`n`t option `-n`,  sed doesn't output anything anymore. Said like t
 
 For example, to output only the first line of your input, you can run:
 
-```
+```bash
 sed -n "1p" nginx.conf
 ```
 
