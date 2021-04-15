@@ -4,7 +4,7 @@ draft = false
 title = "sed: a Practical Guide With Examples"
 image = "/images/2021/sed/sed.jpg"
 alias = [
-    "sed-beginner-mouseless."
+    "sed-beginner-mouseless"
 ]
 
 description = "The basics of sed: how to delete precise lines and many ways to substitute whatever content you want using the command-line."
