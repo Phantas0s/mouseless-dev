@@ -3,7 +3,7 @@ date = "2021-04-13"
 draft = false
 title = "sed: a Practical Guide With Examples"
 image = "/images/2021/sed/sed.jpg"
-alias = [
+aliases = [
     "sed-beginner-mouseless"
 ]
 
