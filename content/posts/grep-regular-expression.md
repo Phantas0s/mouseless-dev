@@ -159,25 +159,17 @@ grep -E "^\[2020" pacman.log
 
 We are basically saying: "I want to match every line where there is the characters "[2020" at the beginning of the line. We escape the character `[` with backslash `\` to say to grep: "I want to use `[` as a character, not a metacharacter".
 
+It's the same thing if you want to match something at the end of the line. For example, if you want to match "done" only at the end of the line, you can do:
 
-* If we try to search every log in 2020
-    * ``
-        * Doesn't work. We have result from `2019` as well
-    * need to use `^`
-    * ``
-* If we try to see what tasks where done (with done at the end of the line) 
-    * `grep -E "done" haskell.log`
-        * Doesn't work
-    * `grep -E "done$" haskell.log`
-
+```
+grep -E "done$" haskell.log
+```
 
 ## Matching a Whole Word
 
-Let's see first how we can match a whole word with our regex. A word is defined as a string of character which can contains the range of letter from a to z (lowercase), from A to Z (uppercase), digits, and underscores.
+Sometimes, we want to match a whole word and not a substring. A word is defined as a string of character which can contains the range of letter from a to z (lowercase), A to Z (uppercase), digits, and underscores.
 
-For example, `this_is_a_w0rd` is considered... a word.
-
-You can try to run:
+For example, `this_is_a_w0rd` is considered... a word. The string `this_is_a_w0rd and_this_one2` is composed of two words. To understand what I mean, you can try to run:
 
 ```
 grep -E "Warn" haskell.log
@@ -193,34 +185,23 @@ grep -E "\bWarn\b" haskell.log
 
 There is only one line of output this time, because there is only one whole word "Warn" in the entire input file.
 
-You an also add the option `-w` to grep for the same effect.
+You an also add the option `-w` for the same effect:
 
 ```
 grep -E -w "Warn" haskell.log
 ```
 
-### Exercise
-
-* In haskell.log, only lines beginning with "HTTP"
-    * grep -E "^HTTP" pacman.log
-    * Only 3 results normally
-* In pacman.log, only the whole word "sane"
-* In pacman.log, only the whole word "sane" but at end of line
-
 ## Matching characters
 
-* Matching any single character: `.`
-    * For example match only pacman when there is an option to it
-    * `grep -E "-." pacman.log`
-        * Doesn't work, `-.` taken as an option
-            * Even if not in our metacharacters
-        * Can escape it
-        * Can add `--`
-    * `grep -E -- "-." pacman.log`
-        * Problem: everything with `-` + other character is match
-    * `grep -E -- " -." pacman.log`
-    * Works but better to use metacharacter for space
-    * `grep -E -- "\s-." pacman.log`
+### Matching Any Single Character
+
+If you want to match a single character, you can use `.`. For example:
+
+```
+grep 'th.' pacman.log
+```
+
+It will match `the` and the substring `tha` from `zathura`.
 
 ## Matching range of character
 
