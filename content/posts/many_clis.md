@@ -9,14 +9,13 @@ aliases = [
 
 description = "The basics of sed: how to delete precise lines and many ways to substitute whatever content you want using the command-line."
 +++
+⏰ It's CLI time.
 
-Today is the first day for THE challenge.
-
-In May, I'll give you a CLI each day. I'll try to make it neat for every living soul. I like hard mode, even when I lose.
+In May, I'll give you a GNU command-line tool each day. I'll try to make it neat for every living soul. I like hard mode, even when I lose.
 
 Help me carving history with some shell madness. Gimme your tricks for each CLI to spread love in the Universe. 💕🧵
 
-## Alias - 2021-05-01
+## alias 
 
 $> alias [name]="[command]"
 
@@ -42,7 +41,38 @@ rm: remove regular empty file 'super_file_2'? y
 $> \rm super_file_3
 ```
 
-## nl - 2021-05-02
+## type 
+
+$> type <command_name>
+
+Write a description of command type.
+
+```
+# Every command types
+
+## Built in command
+$> type cd
+cd is a shell builtin
+
+## External command
+$> type bash
+bash is /usr/bin/bash
+
+## Alias
+$> alias ll="ls -lah"
+$> type ll
+ll is an alias for ls -lah
+
+## Shell function
+$> type imgtowebp
+imgtowebp is a shell function from /home/hypnos/.dotfiles/zsh/scripts.zsh
+
+## Shell reserved word
+$> type while
+while is a shell keyword
+```
+
+## nl
 
 $> nl [input]
 
@@ -84,7 +114,7 @@ $> nl -i 10 -b a nl_number_line
     21  Great Scott! This is a line too
 ```
 
-## sort - 2021-05-03
+## sort
 
 $> sort [input]
 
@@ -129,7 +159,7 @@ guide_to_seashell 3000 2021-01-01
 korn_or_corn      800  2018-02-04
 ```
 
-## uniq - 2021-05-04 (AFTER SORT)
+## uniq - AFTER SORT
 
 $> uniq [input]
 
@@ -182,7 +212,7 @@ OH! LINE!
 Wow! A line
 ```
 
-## tree - 2021-05-05
+## tree
 
 $> tree [directory]
 
@@ -251,7 +281,7 @@ $> tree -J
 ]
 ```
 
-## wc - 2021-05-06
+## wc
 
 $> wc [input]
 
@@ -280,7 +310,7 @@ $> wc -m wc_word_count
 
 [06/41]
 
-## tee - 2021-05-07
+## tee
 
 $> tee [file]...
 
@@ -310,8 +340,157 @@ hello
 bonjour
 ```
 
-## jobs
+## mkdir (After TREE)
+
+$> mdkir [directory]
+
+Create directory(ies) if they don't already exist
+
+```
+# Create one directory maximum, throw an error if directory exists
+$> mkdir my_dir
+
+# Option `-p` to create parents as needed. Doesn't throw an error if directories exist
+$> mkdir -p my_dir/my_other_dir
+$> mkdir -p more_dirs/level_1/{level_2_a/{level_3_a,level_3_b},level_2_b}
+$> tree
+├── more_dirs
+│   └── level_1
+│       ├── level_2_a
+│       │   ├── level_3_a
+│       │   └── level_3_b
+│       └── level_2_b
+└── my_dir
+    └── my_other_dir
+
+# Option `-m` to set the file mode (permissions).
+$> mkdir -m 777 free_for_all
+$> ls -og
+total 12
+drwxrwxrwx 2 4096 Apr 25 17:22 free_for_all
+drwxr-xr-x 3 4096 Apr 25 17:13 more_dirs
+drwxr-xr-x 3 4096 Apr 25 17:13 my_dir
+
+8 directories, 0 files
+```
+
+## bc
+
+$> bc [input]
+
+A `b`asic `c`alculator in your wonderful shell.
+
+```
+# Give inputs to bc
+$> bc
+2+2
+4
+. + 2
+6
+
+# Variable `scale` to control... the `scale`
+$> echo "scale=10; 1.2345 * 2.2345" | bc
+2.75849025
+$> echo "scale=3; 1.2345 * 2.2345" | bc
+2.7584
+
+# Option `-l` initialize the scale to 20
+$> echo "2/3" | bc
+0
+$> echo "2/3" | bc -l
+.66666666666666666666
+
+## Variable `ibase` to set the `i`nput `base` system
+# Hexadecimal conversion
+$> echo 'ibase=16; FFFFFF' | bc
+16777215
+$> 
+
+## Variable `obase` to set the `o`utput `base` system
+$> echo 'obase=16; ibase=16; 000FFF+FFF000' | bc
+FFFFFF
+$> echo 'obase=2; ibase=2; 1 + 1' | bc
+10
+```
+
+## cut
+
+$> cut [file]...
+
+Cut fields (sections) of each lines of a file and output it. The default section delimiter is TAB (not space).
+
+```
+$> cat cut_this
+space_delimiters_on_this_line 800 2018-02-04 a_filed
+space_delimiters_on_this_line 400 2017-02-04 another_field
+tab_delimiters_on_this_line      200     2020-20-20      field
+
+# Only one of these option is mandatory: `-b`, `-c`, or the most used `-f`
+
+# Option `-f` to cut precise `f`ields
+$> cut -f 2 cut_this
+space_delimiters_on_this_line 800 2018-02-04 a_filed
+space_delimiters_on_this_line 400 2017-02-04 another_field
+200
+
+# Option `-d` to give another delimiter than the default TAB. It must be a single character.
+$> cut -f 2 -d ' ' cut_this
+800
+400
+
+# Cutting multiple fields
+$> cut -f 1,3 -d ' ' cut_this
+space_delimiters_on_this_line 2018-02-04
+space_delimiters_on_this_line 2017-02-04
+
+# Cutting a range
+$> cut -f 2-4 -d ' ' cut_this
+800 2018-02-04 a_filed
+400 2017-02-04 another_field
+
+# Cutting field and everything after it
+$> cut -f 2- -d ' ' cut_this
+800 2018-02-04 a_filed
+400 2017-02-04 another_field
+
+# Changing the delimiter for the output
+$> cut -f 1-3 -d ' ' --output-delimiter=',' cut_this
+space_delimiters_on_this_line,800,2018-02-04
+space_delimiters_on_this_line,400,2017-02-04
+```
+
+## tr
+
+$> tr [string1] [string2] [input]
+
+Can `tr`anslate, delete, or squeeze characters. The string `string1` is always mandatory.
+
+```
+# Replace characters from string1 to string2. Both strings mandatory.
+$> echo "hello" | tr "el" "yz"
+hyzzo
+$> echo "if()" | tr "()" "{}"
+if{}
+
+# Option `-d` to `d`elete characters 
+$> echo "hello" | tr "l"
+heo
+
+# Option -s to squeeze repeated characters
+$> echo "hello        how are        you?" | tr -s " "
+hello how are you?
+
+# Using sets of characters
+$> echo "hello what's up" | tr "[a-z]" "[A-Z]"
+HELLO WHAT'S UP
+$> echo "hello what's up" | tr "[ol2e]" "[0-3]"
+h3110 what's up
+
+```
 
 ## IDEAS
 
-$> gimmeyourmoney > file-which-launch-at-startup
+* grep, sed, tr
+* ps, kill, jobs, pwd, tail
+
+* $> gimmeyourmoney > file-which-launch-at-startup
