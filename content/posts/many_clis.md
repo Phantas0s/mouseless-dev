@@ -15,11 +15,22 @@ In May, I'll give you a GNU command-line tool each day. I'll try to make it neat
 
 Help me carving history with some shell madness. Gimme your tricks for each CLI to spread love in the Universe. 💕🧵
 
+```
+system> Arch Linux
+shell> Zsh
+commands> mostly GNU
+
+advice> If you have a BSD command, install the GNU version
+```
+
 ## alias 
 
 $> alias [name]="[command]"
 
-An alias can represent a particular command, often defining a short name for a long, complicated command. It can also run a command with specific options.
+An alias can represent a particular command, often used for:
+
+- Defining a short name for a long, complicated command
+- Always running a command with specific options
 
 [01/31]
 
@@ -37,18 +48,19 @@ $> alias rm="rm -i"
 $> rm super_file_2
 rm: remove regular empty file 'super_file_2'? y
 
-# Ignore the alias using a slash \ (default behavior of rm)
+# Use a backslash "\" to ignore the alias
+# Delete a file without confirmation
 $> \rm super_file_3
 ```
 
 ## type 
 
-$> type <command_name>
+$> type [command]
 
-Write a description of command type.
+Write a description of the command's type.
 
 ```
-# Every command types
+# Every type of command
 
 ## Built in command
 $> type cd
@@ -417,7 +429,7 @@ $> echo 'obase=2; ibase=2; 1 + 1' | bc
 
 $> cut [file]...
 
-Cut fields (sections) of each lines of a file and output it. The default section delimiter is TAB (not space).
+This CLI can `cut` fields (sections) of each lines of a file and output them. The default section delimiter is TAB (not SPACE).
 
 ```
 $> cat cut_this
@@ -463,7 +475,7 @@ space_delimiters_on_this_line,400,2017-02-04
 
 $> tr [string1] [string2] [input]
 
-Can `tr`anslate, delete, or squeeze characters. The string `string1` is always mandatory.
+This CLI can `tr`anslate, delete, or squeeze characters. The string `string1` is always mandatory.
 
 ```
 # Replace characters from string1 to string2. Both strings mandatory.
@@ -488,9 +500,157 @@ h3110 what's up
 
 ```
 
+## jobs
+
+$> jobs [job_id]
+
+Display status of jobs started in the current shell session. Useful when there are processes in the background.
+
+```
+# Open okular (a PDF reader) and send it to the foreground with '&'
+$> okular my_pdf.pdf &
+[1] 73514
+
+# List jobs started in current shell session
+$> jobs
+[1]  + running    okular my_pdf.pdf
+
+# Stop the process (send the signal STOP)
+$> killall -STOP okular
+$> jobs
+[1]  + suspended (signal)  okular my_pdf.pdf
+
+# Continue the process (send the signal CONT)
+$> killall -CONT okular
+$> jobs
+[1]  + running    okular 2020_lohnsteuerbescheinigung.pdf
+
+# Send the process to the foreground
+$> fg %okular
+[1]  + continued  okular 2020_lohnsteuerbescheinigung.pdf
+
+# Use CTRL+z to suspend and send the process from the foreground to the background
+^Z
+zsh: suspended  okular my_pdf.pfg
+$> jobs
+[1]  + suspended (signal)  okular my_pdf.pdf
+
+# Allow a process continue running in the background with bg
+$> vim
+zsh: suspended vim
+$> jobs
+[1]  + suspended  okular my_pdf.pdf
+[2]  - suspended  \vim
+$> bg %vim
+[2]  - continued  \vim
+[2]  + suspended (tty output)  \vim
+$> jobs
+[1]  - suspended  okular 2020_lohnsteuerbescheinigung.pdf
+[2]  + suspended (tty output)  \vim
+```
+
+## man (after less?)
+
+$> man [section] [page]
+
+Display the system manual using a pager. The argument [page] is mandatory.
+
+```
+# Open the manual page for the command ls
+$> man ls
+
+# Open the manual page for the command man
+$> man man
+
+# Option `-f` output a short description
+# Equivalent to the command "whatis"
+$> man -f cd
+cd (1p)              - change the working directory
+
+# Option `-k` uses a regex to search in short descriptions
+# Equivalent to the command "apropos"
+$> man -k "^ls"
+ls (1)               - list directory contents
+ls (1p)              - list directory contents
+lsattr (1)           - list file attributes on a Linux second extended file system
+lsb_release (1)      - manual page for FSG lsb_release v1.4
+lsblk (8)            - list block devices
+lscpu (1)            - display information about the CPU architecture
+...
+
+# Option `-H` displays the man page in a browser
+$> man -Hfirefox ls
+
+# Section 1 for executable programs or shell commands
+$> man 1 cd
+
+# Section 4 for special files (usually in the directory /dev)
+$> man 4 pts
+
+# Section 5 for configuration
+$> man 5 ssh_config
+
+# Section 8 for system administration commands
+$> man 8 mount
+
+# Different sections in order will be tried if non is precised
+# By default on Linux: 1 n l 8 3 0 2 5 4 9 6 7
+# See "/etc/man_db.conf"
+$> man ssh_config
+
+# Displaying man in Vim
+# Option `-R` sets option `r`ead only
+# Option `-M` sets option not `m`odifiable
+# Option `+` runs an Ex command at startup
+$> man man | vim -MR +"set filetype=man"
+```
+
+## ls
+
+...
+
+## touch (After ls)
+
+$> touch [file...]
+
+Change the file access and modification time of each file. Create the files if they don't exist.
+
+```
+# Create a file
+$> touch super_file
+$> ls -l
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:54 super_file
+
+# Modify the file's timestamp (done one minute after creating the file)
+$> touch super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:55 super_file
+
+# Option `-f` to change the `d`ate of the file
+$> touch -d "2021-04-30" super_file
+$> ls -l super_file
+-rw-r--r-- 1 hypnos wheel 0 Apr 30 18:54 super_file
+
+# Option `-a` to change the `a`ccess and change time
+$> touch -a super_file
+$> ls -l super_file
+-rw-r--r-- 1 hypnos wheel 0 Apr 30 18:54 super_file
+$> ls -lu super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
+
+# Option `-m` to change the `m`odification and change time
+$> touch -m super_file
+$> ls -l super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 18:01 super_file
+$> ls -lu super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
+
+```
+
+# Option 
+
 ## IDEAS
 
 * grep, sed, tr
-* ps, kill, jobs, pwd, tail
+* ps, kill, pwd, tail, stat
 
 * $> gimmeyourmoney > file-which-launch-at-startup
