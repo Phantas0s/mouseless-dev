@@ -23,7 +23,7 @@ commands> mostly GNU
 advice> If you have a BSD command, install the GNU version
 ```
 
-## alias 
+## alias - 2021-05-01
 
 $> alias [name]="[command]"
 
@@ -53,7 +53,63 @@ rm: remove regular empty file 'super_file_2'? y
 $> \rm super_file_3
 ```
 
-## type 
+## man (after less?) - 2021-05-02
+
+$> man [section] [page]
+
+Display the system manual using a pager. The argument [page] is mandatory.
+
+```
+# Open the manual page for the command ls
+$> man ls
+
+# Open the manual page for the command man
+$> man man
+
+# Option `-f` output a short description
+# Equivalent to the command "whatis"
+$> man -f cd
+cd (1p)              - change the working directory
+
+# Option `-k` uses a regex to search in short descriptions
+# Equivalent to the command "apropos"
+$> man -k "^ls"
+ls (1)               - list directory contents
+ls (1p)              - list directory contents
+lsattr (1)           - list file attributes on a Linux second extended file system
+lsb_release (1)      - manual page for FSG lsb_release v1.4
+lsblk (8)            - list block devices
+lscpu (1)            - display information about the CPU architecture
+...
+
+# Option `-H` displays the man page in a browser
+$> man -Hfirefox ls
+
+# Section 1 for executable programs or shell commands
+$> man 1 cd
+
+# Section 4 for special files (usually in the directory /dev)
+$> man 4 pts
+
+# Section 5 for configuration
+$> man 5 ssh_config
+
+# Section 8 for system administration commands
+$> man 8 mount
+
+# Different sections in order will be tried if non is precised
+# By default on Linux: 1 n l 8 3 0 2 5 4 9 6 7
+# See "/etc/man_db.conf"
+$> man ssh_config
+
+# Displaying man in Vim
+# Option `-R` sets option `r`ead only
+# Option `-M` sets option not `m`odifiable
+# Option `+` runs an Ex command at startup
+$> man man | vim -MR +"set filetype=man"
+```
+
+## type - 2021-05-03
 
 $> type [command]
 
@@ -126,13 +182,13 @@ $> nl -i 10 -b a nl_number_line
     21  Great Scott! This is a line too
 ```
 
-## sort
+## sort - 2021-05-04
 
 $> sort [input]
 
 Sort lines of the input which can be a file. How surprising!
 
-[03/31]
+[04/31]
 
 ```
 $> cat sort_that
@@ -171,7 +227,7 @@ guide_to_seashell 3000 2021-01-01
 korn_or_corn      800  2018-02-04
 ```
 
-## uniq - AFTER SORT
+## uniq - 2021-05-05
 
 $> uniq [input]
 
@@ -549,65 +605,70 @@ $> jobs
 [2]  + suspended (tty output)  \vim
 ```
 
-## man (after less?)
-
-$> man [section] [page]
-
-Display the system manual using a pager. The argument [page] is mandatory.
-
-```
-# Open the manual page for the command ls
-$> man ls
-
-# Open the manual page for the command man
-$> man man
-
-# Option `-f` output a short description
-# Equivalent to the command "whatis"
-$> man -f cd
-cd (1p)              - change the working directory
-
-# Option `-k` uses a regex to search in short descriptions
-# Equivalent to the command "apropos"
-$> man -k "^ls"
-ls (1)               - list directory contents
-ls (1p)              - list directory contents
-lsattr (1)           - list file attributes on a Linux second extended file system
-lsb_release (1)      - manual page for FSG lsb_release v1.4
-lsblk (8)            - list block devices
-lscpu (1)            - display information about the CPU architecture
-...
-
-# Option `-H` displays the man page in a browser
-$> man -Hfirefox ls
-
-# Section 1 for executable programs or shell commands
-$> man 1 cd
-
-# Section 4 for special files (usually in the directory /dev)
-$> man 4 pts
-
-# Section 5 for configuration
-$> man 5 ssh_config
-
-# Section 8 for system administration commands
-$> man 8 mount
-
-# Different sections in order will be tried if non is precised
-# By default on Linux: 1 n l 8 3 0 2 5 4 9 6 7
-# See "/etc/man_db.conf"
-$> man ssh_config
-
-# Displaying man in Vim
-# Option `-R` sets option `r`ead only
-# Option `-M` sets option not `m`odifiable
-# Option `+` runs an Ex command at startup
-$> man man | vim -MR +"set filetype=man"
-```
-
 ## ls
 
-...
+$> ls [file...]
+
+List information about the file given as argument. List current directory by default.
+
+```
+# Option `--color` add colors to the output.
+# I would recommend to create this alias: `alias ls="ls --color=auto"`
+
+# Output files, folders, and links in current directory
+$> ls
+file  my_dir  symlink
+
+# Output files, folders, and links in directory "my_dir"
+$> ls directory
+01.md  02.md  03.txt  subdirectory
+
+# Using glob to output every file with extension "md" in directory "my_dir"
+$> ls my_dir/*.md
+my_dir/01.md  my_dir/02.md
+
+# Using globs "**" with Bash parse one directory level
+$> ls **/*.md 
+my_dir/01.md  my_dir/02.md
+
+# Using globs "**" with Zsh parse every directory level
+$> ls **/*.md
+my_dir/01.md  my_dir/02.md  my_dir/subdirectory/01.md  my_dir/subdirectory/02.md
+
+# Option `-a` to list `a`ll files and directories including hidden files (file beginning with dot "." or dotfile)
+$> ls -a
+.  ..  directory  file_1  .hidden  symlink
+
+# Option `-l` use a `l`ong list format
+$> ls -l
+drwxr-xr-x 2 hypnos wheel 4096 May  4 20:17 directory
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file_1
+lrwxrwxrwx 1 hypnos wheel    6 May  4 20:17 symlink -> file_1
+
+# Option `-h` display a `h`uman readable size with option `-l`. Many CLIs have this option.
+$> ls -lh
+drwxr-xr-x 2 hypnos wheel 4.0K May  4 20:17 directory
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
+lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
+
+# Option `-I` use a shell pattern to `i`gnore entries
+$> ls -I "*.md" my_dir
+03.txt  subdirectory
+
+# Option `-t` sort by `t`ime (newest first)
+$> ls -lt
+drwxr-xr-x 3 hypnos wheel 4096 May  4 20:35 my_dir
+lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
+
+# Option `-S` sort by file`s`ize (largest first)
+$> ls -lSh
+total 4.0K
+drwxr-xr-x 3 hypnos wheel 4.0K May  4 20:35 my_dir
+lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
+
+```
 
 ## touch (After ls)
 
@@ -643,7 +704,6 @@ $> ls -l super_file
 -rw-r--r-- 1 hypnos wheel 0 May  1 18:01 super_file
 $> ls -lu super_file
 -rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
-
 ```
 
 # Option 
@@ -651,6 +711,7 @@ $> ls -lu super_file
 ## IDEAS
 
 * grep, sed, tr
-* ps, kill, pwd, tail, stat
+* ps, pwd, tail, stat, ln, wget
+* [xargs](http://widgetsandshit.com/teddziuba/2010/10/taco-bell-programming.html)
 
 * $> gimmeyourmoney > file-which-launch-at-startup
