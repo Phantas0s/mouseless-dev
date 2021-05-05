@@ -233,7 +233,7 @@ $> uniq [input]
 
 Report or omit consecutive and repeated lines.
 
-[04/41]
+[05/31]
 
 ```
 $> cat uniq_this
@@ -256,7 +256,7 @@ A LINE!
 OH! LINE!
 A LINE!
 
-# Options `-c` `c`ount number of occurences and add it as prefix.
+# Options `-c` `c`ount number of occurences and add it as prefix
 $> uniq -c uniq_this
       1 A LINE!
       1 OH! LINE!
