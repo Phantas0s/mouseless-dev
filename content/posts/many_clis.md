@@ -280,16 +280,45 @@ OH! LINE!
 Wow! A line
 ```
 
+## wc 2021-05-06
+
+$> wc [input]
+
+wc (for `w`ord `c`ount) can output count of newlines, words, characters, and bytes of a given input. The input can be a file.
+
+[06/31]
+
+```
+$> cat wc_word_count
+This file™
+Is meant→
+To be counted!
+
+# Count lines, words, and bytes respectively
+$> wc wc_word_count
+ 3  7 40 wc_word_count
+
+# Give multiple files as input
+$> wc wc_word_count wc_word_count
+ 3  7 40 wc_word_count
+ 3  7 40 wc_word_count
+ 6 14 80 total
+
+# Options `-c` print the byte `c`counts, `-m` the characters count, `-l` the `l`ines count, `-w` the `w`ords count
+$> wc -m wc_word_count
+36 wc_word_count
+```
+
 ## tree
 
 $> tree [directory]
 
-Display file and folders recursively in a tree.
+Output files and folders recursively as a tree.
 
-[05/41]
+[07/41]
 
 ```
-# Output files and folder from working directory
+# Output files & folder (from working directory if no path specified)
 $> tree
 .
 ├── my_dir
@@ -348,35 +377,6 @@ $> tree -J
   {"type":"report","directories":1,"files":2}
 ]
 ```
-
-## wc
-
-$> wc [input]
-
-wc can output count of newlines, words, characters, and bytes of a given input. The input can be a file.
-
-```
-$> cat wc_word_count
-This file™
-Is meant→
-To be counted!
-
-# Count lines, words, and bytes respectively
-$> wc wc_word_count
- 3  7 40 wc_word_count
-
-# Give multiple files as input
-$> wc wc_word_count wc_word_count
- 3  7 40 wc_word_count
- 3  7 40 wc_word_count
- 6 14 80 total
-
-# Options `-c` print the byte `c`counts, `-m` the characters count, `-l` the `l`ines count, `-w` the `w`ords count
-$> wc -m wc_word_count
-36 wc_word_count
-```
-
-[06/41]
 
 ## tee
 
