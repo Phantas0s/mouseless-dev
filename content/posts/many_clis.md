@@ -309,7 +309,7 @@ $> wc -m wc_word_count
 36 wc_word_count
 ```
 
-## tree
+## tree 2021-05-07
 
 $> tree [directory]
 
@@ -378,11 +378,13 @@ $> tree -J
 ]
 ```
 
-## tee
+## tee 2021-05-08
 
 $> tee [file]...
 
 Read from standard input and write to both standard output and file(s). This time, input can't be a file.
+
+[08/31]
 
 ```
 # Create and write to files and to standard output
@@ -393,7 +395,7 @@ hello
 $> cat mega_file
 hello
 
-# Append to files
+# Option `-a` to `a`ppend to files
 $> echo "bonjour" | tee -a super_file 
 bonjour
 $> cat super_file
