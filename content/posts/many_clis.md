@@ -410,6 +410,58 @@ hello
 bonjour
 ```
 
+## cut - 2021-05-09
+
+$> cut [file]...
+
+Cut fields (sections) for each line of its input and output them. The input can be a file.
+
+```
+$> cat cut_this
+space_delimiters_on_this_line 800 2018-02-04 a_filed
+space_delimiters_on_this_line 400 2017-02-04 another_field
+tab_delimiters_on_this_line      200     2020-20-20      field
+
+# Only one of these option is mandatory: `-b`, `-c`, or the most used `-f`
+
+# Option `-f` to cut precise `f`ields
+$> cut -f 2 cut_this
+space_delimiters_on_this_line 800 2018-02-04 a_filed
+space_delimiters_on_this_line 400 2017-02-04 another_field
+200
+
+# Option `-d` to give another delimiter than the default TAB. It must be a single character.
+$> cut -f 2 -d ' ' cut_this
+800
+400
+tab_delimiters_on_this_line      200     2020-20-20      field
+
+# Cutting multiple fields
+$> cut -f 1,3 -d ' ' cut_this
+space_delimiters_on_this_line 2018-02-04
+space_delimiters_on_this_line 2017-02-04
+tab_delimiters_on_this_line      200     2020-20-20      field
+
+# Cutting a range
+$> cut -f 2-4 -d ' ' cut_this
+800 2018-02-04 a_filed
+400 2017-02-04 another_field
+tab_delimiters_on_this_line      200     2020-20-20      field
+
+# Cutting field and everything after it
+$> cut -f 2- -d ' ' cut_this
+800 2018-02-04 a_filed
+400 2017-02-04 another_field
+tab_delimiters_on_this_line      200     2020-20-20      field
+
+# Changing the delimiter for the output
+$> cut -f 1-3 -d ' ' --output-delimiter=',' cut_this
+space_delimiters_on_this_line,800,2018-02-04
+space_delimiters_on_this_line,400,2017-02-04
+tab_delimiters_on_this_line      200     2020-20-20      field
+```
+
+
 ## mkdir (After TREE)
 
 $> mdkir [directory]
@@ -481,52 +533,6 @@ $> echo 'obase=16; ibase=16; 000FFF+FFF000' | bc
 FFFFFF
 $> echo 'obase=2; ibase=2; 1 + 1' | bc
 10
-```
-
-## cut
-
-$> cut [file]...
-
-This CLI can `cut` fields (sections) of each lines of a file and output them. The default section delimiter is TAB (not SPACE).
-
-```
-$> cat cut_this
-space_delimiters_on_this_line 800 2018-02-04 a_filed
-space_delimiters_on_this_line 400 2017-02-04 another_field
-tab_delimiters_on_this_line      200     2020-20-20      field
-
-# Only one of these option is mandatory: `-b`, `-c`, or the most used `-f`
-
-# Option `-f` to cut precise `f`ields
-$> cut -f 2 cut_this
-space_delimiters_on_this_line 800 2018-02-04 a_filed
-space_delimiters_on_this_line 400 2017-02-04 another_field
-200
-
-# Option `-d` to give another delimiter than the default TAB. It must be a single character.
-$> cut -f 2 -d ' ' cut_this
-800
-400
-
-# Cutting multiple fields
-$> cut -f 1,3 -d ' ' cut_this
-space_delimiters_on_this_line 2018-02-04
-space_delimiters_on_this_line 2017-02-04
-
-# Cutting a range
-$> cut -f 2-4 -d ' ' cut_this
-800 2018-02-04 a_filed
-400 2017-02-04 another_field
-
-# Cutting field and everything after it
-$> cut -f 2- -d ' ' cut_this
-800 2018-02-04 a_filed
-400 2017-02-04 another_field
-
-# Changing the delimiter for the output
-$> cut -f 1-3 -d ' ' --output-delimiter=',' cut_this
-space_delimiters_on_this_line,800,2018-02-04
-space_delimiters_on_this_line,400,2017-02-04
 ```
 
 ## tr
