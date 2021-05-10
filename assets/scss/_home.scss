@@ -25,7 +25,11 @@
     }
 
     h1, h2, h3 {
-        color: white;
+        color: $light-color;
+
+        .dark-theme & {
+            color: $dark-color;
+        }
         display: inline;
     }
 
