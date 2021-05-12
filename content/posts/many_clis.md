@@ -461,12 +461,106 @@ space_delimiters_on_this_line,400,2017-02-04
 tab_delimiters_on_this_line      200     2020-20-20      field
 ```
 
+## tr 2021-05-10
+
+$> tr [string1] [string2] [input]
+
+This CLI can `tr`anslate, delete, or squeeze characters. The string `string1` is always mandatory.
+
+```
+# Replace characters from string1 to string2. Both strings mandatory.
+$> echo "hello" | tr "el" "yz"
+hyzzo
+$> echo "if()" | tr "()" "{}"
+if{}
+
+# Option `-d` to `d`elete characters 
+$> echo "hello" | tr -d "l"
+heo
+
+# Option -s to squeeze repeated characters
+$> echo "hello        how are        you?" | tr -s " "
+hello how are you?
+
+# Using sets of characters
+$> echo "hello what's up" | tr "[a-z]" "[A-Z]"
+HELLO WHAT'S UP
+$> echo "hello what's up" | tr "[ol2e]" "[0-3]"
+h3110 what's up
+```
+
+
+## ls 2021-05-11
+
+$> ls [files]...
+
+List information about the files given as argument (the working directory without argument).
+
+```
+# Option `--color` add colors to the output.
+# I would recommend to create this alias: 
+# alias ls="ls --color=auto"
+
+# Output files, folders, and links in current directory
+$> ls
+file  my_dir  symlink
+
+# Output files, folders, and links in directory "my_dir"
+$> ls my_dir
+01.md  02.md  03.txt  subdirectory
+
+# Using glob to output every file with extension "md" in directory "my_dir"
+$> ls my_dir/*.md
+my_dir/01.md  my_dir/02.md
+
+# Using globs "**" with Bash parse one directory level
+$> ls **/*.md 
+my_dir/01.md  my_dir/02.md
+
+# Using globs "**" with Zsh parse every directory level
+$> ls **/*.md
+my_dir/01.md  my_dir/02.md  my_dir/subdirectory/01.md  my_dir/subdirectory/02.md
+
+# Option `-a` to list `a`ll files and directories including hidden files (file beginning with dot "." or dotfile)
+$> ls -a
+.  ..  directory  file_1  .hidden  symlink
+
+# Option `-l` use a `l`ong list format
+$> ls -l
+drwxr-xr-x 2 hypnos wheel 4096 May  4 20:17 directory
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file_1
+lrwxrwxrwx 1 hypnos wheel    6 May  4 20:17 symlink -> file_1
+
+# Option `-h` display a `h`uman readable size with option `-l`. 
+# Many CLIs have this `-h` option.
+$> ls -lh
+drwxr-xr-x 2 hypnos wheel 4.0K May  4 20:17 directory
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
+lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
+
+# Option `-I` use a shell pattern to `i`gnore entries
+$> ls -I "*.md" my_dir
+03.txt  subdirectory
+
+# Option `-t` sort by `t`ime (newest first)
+$> ls -lt
+drwxr-xr-x 3 hypnos wheel 4096 May  4 20:35 my_dir
+lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
+
+# Option `-S` sort by file`s`ize (largest first)
+$> ls -lSh
+total 4.0K
+drwxr-xr-x 3 hypnos wheel 4.0K May  4 20:35 my_dir
+lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
+-rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
+```
 
 ## mkdir (After TREE)
 
 $> mdkir [directory]
 
-Create directory(ies) if they don't already exist
+Create directory(ies) if they don't already exist.
 
 ```
 # Create one directory maximum, throw an error if directory exists
@@ -535,35 +629,6 @@ $> echo 'obase=2; ibase=2; 1 + 1' | bc
 10
 ```
 
-## tr
-
-$> tr [string1] [string2] [input]
-
-This CLI can `tr`anslate, delete, or squeeze characters. The string `string1` is always mandatory.
-
-```
-# Replace characters from string1 to string2. Both strings mandatory.
-$> echo "hello" | tr "el" "yz"
-hyzzo
-$> echo "if()" | tr "()" "{}"
-if{}
-
-# Option `-d` to `d`elete characters 
-$> echo "hello" | tr "l"
-heo
-
-# Option -s to squeeze repeated characters
-$> echo "hello        how are        you?" | tr -s " "
-hello how are you?
-
-# Using sets of characters
-$> echo "hello what's up" | tr "[a-z]" "[A-Z]"
-HELLO WHAT'S UP
-$> echo "hello what's up" | tr "[ol2e]" "[0-3]"
-h3110 what's up
-
-```
-
 ## jobs
 
 $> jobs [job_id]
@@ -613,71 +678,6 @@ $> jobs
 [2]  + suspended (tty output)  \vim
 ```
 
-## ls
-
-$> ls [file...]
-
-List information about the file given as argument. List current directory by default.
-
-```
-# Option `--color` add colors to the output.
-# I would recommend to create this alias: `alias ls="ls --color=auto"`
-
-# Output files, folders, and links in current directory
-$> ls
-file  my_dir  symlink
-
-# Output files, folders, and links in directory "my_dir"
-$> ls directory
-01.md  02.md  03.txt  subdirectory
-
-# Using glob to output every file with extension "md" in directory "my_dir"
-$> ls my_dir/*.md
-my_dir/01.md  my_dir/02.md
-
-# Using globs "**" with Bash parse one directory level
-$> ls **/*.md 
-my_dir/01.md  my_dir/02.md
-
-# Using globs "**" with Zsh parse every directory level
-$> ls **/*.md
-my_dir/01.md  my_dir/02.md  my_dir/subdirectory/01.md  my_dir/subdirectory/02.md
-
-# Option `-a` to list `a`ll files and directories including hidden files (file beginning with dot "." or dotfile)
-$> ls -a
-.  ..  directory  file_1  .hidden  symlink
-
-# Option `-l` use a `l`ong list format
-$> ls -l
-drwxr-xr-x 2 hypnos wheel 4096 May  4 20:17 directory
--rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file_1
-lrwxrwxrwx 1 hypnos wheel    6 May  4 20:17 symlink -> file_1
-
-# Option `-h` display a `h`uman readable size with option `-l`. Many CLIs have this option.
-$> ls -lh
-drwxr-xr-x 2 hypnos wheel 4.0K May  4 20:17 directory
--rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
-lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
-
-# Option `-I` use a shell pattern to `i`gnore entries
-$> ls -I "*.md" my_dir
-03.txt  subdirectory
-
-# Option `-t` sort by `t`ime (newest first)
-$> ls -lt
-drwxr-xr-x 3 hypnos wheel 4096 May  4 20:35 my_dir
-lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
--rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
-
-# Option `-S` sort by file`s`ize (largest first)
-$> ls -lSh
-total 4.0K
-drwxr-xr-x 3 hypnos wheel 4.0K May  4 20:35 my_dir
-lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
--rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
-
-```
-
 ## touch (After ls)
 
 $> touch [file...]
@@ -714,12 +714,149 @@ $> ls -lu super_file
 -rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
 ```
 
-# Option 
+## tail
+
+$> tail tail_that
+
+Print the last 10 lines of the input. The input can be a file.
+
+```
+$> tail tail_that
+Line 5
+Line 6
+Line 7
+Line 8
+Line 9
+Line 10
+Line 11
+Line 12
+Line 13
+Line 14
+
+# Option `-n` display the last `n`umber of lines
+$> tail -n 3 tail_that
+Line 12
+Line 13
+Line 14
+
+# You can give multiple files as input
+$> tail -n 2 nl_number_line tail_that
+==> nl_number_line <==
+
+Great Scott! This is a line too
+
+==> tail_that <==
+Line 13
+Line 14
+
+# Option `-q` makes tail `q`uiet
+# The filenames won't be displayed
+$> tail -q -n 2 nl_number_line tail_that
+
+Great Scott! This is a line too
+Line 13
+Line 14
+
+# Option `-n` with a `+` display all file since a precise line
+$> tail -n +12 tail_that
+Line 12
+Line 13
+Line 14
+
+# Option `-f` output added lines as they're written by another process
+# Use the file descriptor by default (so the file can be renamed without problem)
+# Very useful for log files
+
+$> tail -f -n 3 tail_that
+Line 12
+Line 13
+Line 14
+this line is written by another process
+
+# Option `-F` output added lines as they're written by another process
+# Use the file name by default (so a log file is still read even if it's rotated)
+
+# Option `--retry` keep trying to open a file if it's inaccessible
+# Useful when a log file doesn't exists yet
+
+# Option `--pid=PID` terminates tail when the process with the specified PID ends
+
+# If you use option `-f` with multiple files, using `-q` won't display the name of the file read
+```
+
+## pwd
+
+$> pwd
+`p`rint the name of the `w`orking `d`irectory
+
+```
+$> pwd
+/home/hypnos/tests
+
+# Option `-P` display the target if the working directory is a symlink
+$> pwd -P
+/home/hypnos/Documents/projects/mouseless/blog/many_clis/tests
+
+# If you change the working directory in your script, use $PWD
+$> echo $PWD
+/home/hypnos/tests
+```
+
+## ln
+
+$> ln [TARGET] [LINK_NAME]
+
+Create a link to [TARGET] with name [LINK_NAME]
+
+$> ln [TARGET]... [DIRECTORY]
+
+Create links to [TARGET] in [DIRECTORY]
+
+```
+$> ls
+dir  file  other_file
+
+# Option `-s` create a symbolic link (symlink)
+$> ln -s dir symlink_dir
+total 8
+drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 dir
+drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 file
+-rw-r--r-- 1 hypnos wheel    0 May 12 20:33 other_file
+lrwxrwxrwx 1 hypnos wheel    3 May 12 20:32 symlink_dir -> dir
+
+# Option `-f` remove existing destination files
+$> ln -s file other_file
+ln: failed to create symbolic link 'other_file': File exists
+
+$> ln -sf file other_file
+$> ls -l
+total 4
+drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 dir
+-rw-r--r-- 1 hypnos wheel    0 May 12 20:36 file
+lrwxrwxrwx 1 hypnos wheel    4 May 12 20:37 other_file -> file
+lrwxrwxrwx 1 hypnos wheel    3 May 12 20:32 symlink_dir -> dir
+
+# Option `-i` for `i`nteractive: to prompt whether to remove destination
+$> ln -si file other_file
+ln: replace 'other_file'? y
+
+# Give a directory as second argument to create a link in that directory
+# Option `-t` for the same result
+$> ln -s $HOME dir
+$> ls -l dir
+lrwxrwxrwx 1 hypnos wheel 12 May 12 20:46 hypnos -> /home/hypnos
+
+$> ln -s -t dir $HOME/tests
+$> ls -l dir
+total 0
+lrwxrwxrwx 1 hypnos wheel 12 May 12 20:46 hypnos -> /home/hypnos
+lrwxrwxrwx 1 hypnos wheel 18 May 12 20:48 tests -> /home/hypnos/tests
+```
 
 ## IDEAS
 
 * grep, sed, tr
-* ps, pwd, tail, stat, ln, wget
+* ps, pwd, stat, ln, wget, which, who
 * [xargs](http://widgetsandshit.com/teddziuba/2010/10/taco-bell-programming.html)
 
 * $> gimmeyourmoney > file-which-launch-at-startup
