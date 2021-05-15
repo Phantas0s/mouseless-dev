@@ -140,48 +140,6 @@ $> type while
 while is a shell keyword
 ```
 
-## nl
-
-$> nl [input]
-
-Number Lines of an input which can be a file, as often.
-
-[02/31]
-
-```
-# Look at my cool file
-$> cat nl_number_line
-This is a line
-
-Great Scott! This is a line too
-
-# Number lines
-$> nl nl_number_line
-     1  This is a line
-
-     2  Great Scott! This is a line too
-
-# Option `-b` (`b`ody numbering) with style
-
-## Style `a` to number `a`ll lines 
-$> nl -b a nl_number_line
-     1  This is a line
-     2
-     3  Great Scott! This is a line too
-
-## Style `p` to number lines only when it matches a regex
-$> nl -b p'Scott.*' nl_number_line
-       This is a line
-
-     1  Great Scott! This is a line too
-
-# Option `-i` (line `i`ncrement)
-$> nl -i 10 -b a nl_number_line
-     1  This is a line
-    11
-    21  Great Scott! This is a line too
-```
-
 ## sort - 2021-05-04
 
 $> sort [input]
@@ -556,7 +514,7 @@ lrwxrwxrwx 1 hypnos wheel    4 May  4 20:22 symlink -> file
 -rw-r--r-- 1 hypnos wheel    0 May  4 20:17 file
 ```
 
-## mkdir (After TREE)
+## mkdir 2021-05-12
 
 $> mdkir [directory]
 
@@ -588,6 +546,130 @@ drwxr-xr-x 3 4096 Apr 25 17:13 more_dirs
 drwxr-xr-x 3 4096 Apr 25 17:13 my_dir
 
 8 directories, 0 files
+```
+
+## jobs - 2021-05-13
+
+$> jobs [job_id]
+
+Display status of processes started in the current shell session. Useful when there are processes in the background.
+
+```
+# Open okular (a PDF reader) and send it to the background (thanks to &)
+$> okular my_pdf.pdf &
+[1] 73514
+
+# List jobs started in the current shell session
+$> jobs
+[1]  + running    okular my_pdf.pdf
+
+# Stop the process (send the signal STOP)
+$> killall -STOP okular
+$> jobs
+[1]  + suspended (signal)  okular my_pdf.pdf
+
+# Continue the process (send the signal CONT)
+$> killall -CONT okular
+$> jobs
+[1]  + running    okular my_pdf.pdf
+
+# Send the process to the foreground
+$> fg %okular
+[1]  + continued  okular my_pdf.pdf
+
+# Use CTRL+z to suspend and send the process to the background again
+^Z
+zsh: suspended  okular my_pdf.pfg
+$> jobs
+[1]  + suspended (signal)  okular my_pdf.pdf
+
+# Allowing a process to continue running in the background with bg
+$> vim
+^Z
+zsh: suspended vim
+$> jobs
+[1]  + suspended  okular my_pdf.pdf
+[2]  - suspended  vim
+$> bg %vim
+[2]  - continued  vim
+[2]  + suspended (tty output)  vim
+```
+
+## touch (After ls) - 2021-05-14
+
+$> touch [file...]
+
+Change the file access and modification time of each file. Create the files if they don't exist.
+
+```
+# Create a file
+$> touch super_file
+$> ls -l
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:54 super_file
+
+# Modify the file's timestamp
+$> touch super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:55 super_file
+
+# Option `-f` to change the `d`ate of the file
+$> touch -d "2021-04-30" super_file
+$> ls -l super_file
+-rw-r--r-- 1 hypnos wheel 0 Apr 30 18:54 super_file
+
+# Option `-a` to change the `a`ccess time and change time
+$> touch -a super_file
+$> ls -l super_file
+-rw-r--r-- 1 hypnos wheel 0 Apr 30 18:54 super_file
+$> ls -lu super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
+
+# Option `-m` to change the `m`odification time and change time
+$> touch -m super_file
+$> ls -l super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 18:01 super_file
+$> ls -lu super_file
+-rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
+```
+
+## nl - 2021-05-15
+
+$> nl [input]
+
+`n`umber `l`ines of a given input. As often, the input can be a file.
+
+[02/31]
+
+```
+$> cat nl_number_line
+This is a line
+
+Great Scott! This is a line too
+
+# Number lines
+$> nl nl_number_line
+     1  This is a line
+
+     2  Great Scott! This is a line too
+
+# Option `-b` (`b`ody numbering) to add a style
+
+## Style `a` to number `a`ll lines 
+$> nl -b a nl_number_line
+     1  This is a line
+     2
+     3  Great Scott! This is a line too
+
+## Style `p` to number lines only when it matches a `p`attern (regex)
+$> nl -b p'Scott.*' nl_number_line
+       This is a line
+
+     1  Great Scott! This is a line too
+
+# Option `-i` to `i`ncrement lines with a count
+$> nl -i 10 -b a nl_number_line
+     1  This is a line
+    11
+    21  Great Scott! This is a line too
 ```
 
 ## bc
@@ -627,91 +709,6 @@ $> echo 'obase=16; ibase=16; 000FFF+FFF000' | bc
 FFFFFF
 $> echo 'obase=2; ibase=2; 1 + 1' | bc
 10
-```
-
-## jobs
-
-$> jobs [job_id]
-
-Display status of jobs started in the current shell session. Useful when there are processes in the background.
-
-```
-# Open okular (a PDF reader) and send it to the foreground with '&'
-$> okular my_pdf.pdf &
-[1] 73514
-
-# List jobs started in current shell session
-$> jobs
-[1]  + running    okular my_pdf.pdf
-
-# Stop the process (send the signal STOP)
-$> killall -STOP okular
-$> jobs
-[1]  + suspended (signal)  okular my_pdf.pdf
-
-# Continue the process (send the signal CONT)
-$> killall -CONT okular
-$> jobs
-[1]  + running    okular 2020_lohnsteuerbescheinigung.pdf
-
-# Send the process to the foreground
-$> fg %okular
-[1]  + continued  okular 2020_lohnsteuerbescheinigung.pdf
-
-# Use CTRL+z to suspend and send the process from the foreground to the background
-^Z
-zsh: suspended  okular my_pdf.pfg
-$> jobs
-[1]  + suspended (signal)  okular my_pdf.pdf
-
-# Allow a process continue running in the background with bg
-$> vim
-zsh: suspended vim
-$> jobs
-[1]  + suspended  okular my_pdf.pdf
-[2]  - suspended  \vim
-$> bg %vim
-[2]  - continued  \vim
-[2]  + suspended (tty output)  \vim
-$> jobs
-[1]  - suspended  okular 2020_lohnsteuerbescheinigung.pdf
-[2]  + suspended (tty output)  \vim
-```
-
-## touch (After ls)
-
-$> touch [file...]
-
-Change the file access and modification time of each file. Create the files if they don't exist.
-
-```
-# Create a file
-$> touch super_file
-$> ls -l
--rw-r--r-- 1 hypnos wheel 0 May  1 17:54 super_file
-
-# Modify the file's timestamp (done one minute after creating the file)
-$> touch super_file
--rw-r--r-- 1 hypnos wheel 0 May  1 17:55 super_file
-
-# Option `-f` to change the `d`ate of the file
-$> touch -d "2021-04-30" super_file
-$> ls -l super_file
--rw-r--r-- 1 hypnos wheel 0 Apr 30 18:54 super_file
-
-# Option `-a` to change the `a`ccess and change time
-$> touch -a super_file
-$> ls -l super_file
--rw-r--r-- 1 hypnos wheel 0 Apr 30 18:54 super_file
-$> ls -lu super_file
--rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
-
-# Option `-m` to change the `m`odification and change time
-$> touch -m super_file
-$> ls -l super_file
--rw-r--r-- 1 hypnos wheel 0 May  1 18:01 super_file
-$> ls -lu super_file
--rw-r--r-- 1 hypnos wheel 0 May  1 17:59 super_file
 ```
 
 ## tail
@@ -797,7 +794,7 @@ $> pwd
 $> pwd -P
 /home/hypnos/Documents/projects/mouseless/blog/many_clis/tests
 
-# If you change the working directory in your script, use $PWD
+# If you change the working directory in your a shell script, use $PWD
 $> echo $PWD
 /home/hypnos/tests
 ```
@@ -856,7 +853,7 @@ lrwxrwxrwx 1 hypnos wheel 18 May 12 20:48 tests -> /home/hypnos/tests
 ## IDEAS
 
 * grep, sed, tr
-* ps, pwd, stat, ln, wget, which, who
+* ps, pwd, stat, , wget, which, who
 * [xargs](http://widgetsandshit.com/teddziuba/2010/10/taco-bell-programming.html)
 
 * $> gimmeyourmoney > file-which-launch-at-startup
