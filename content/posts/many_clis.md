@@ -672,7 +672,7 @@ $> nl -i 10 -b a nl_number_line
     21  Great Scott! This is a line too
 ```
 
-## bc
+## bc - 2021-05-16
 
 $> bc [input]
 
@@ -711,11 +711,61 @@ $> echo 'obase=2; ibase=2; 1 + 1' | bc
 10
 ```
 
-## tail
+## ln - 2021-05-17
 
-$> tail tail_that
+$> ln [TARGET] [LINK_NAME]
 
-Print the last 10 lines of the input. The input can be a file.
+Create a link to [TARGET] with name [LINK_NAME]
+
+$> ln [TARGET]... [DIRECTORY]
+
+Create links to [TARGET] in [DIRECTORY]
+
+```
+$> ls
+dir  file  other_file
+
+# Option `-s` create a symbolic link (symlink)
+$> ln -s dir symlink_dir
+$> ls -l
+drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 dir
+drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 file
+-rw-r--r-- 1 hypnos wheel    0 May 12 20:33 other_file
+lrwxrwxrwx 1 hypnos wheel    3 May 12 20:32 symlink_dir -> dir
+
+# Option `-f` remove existing destination files
+$> ln -s file other_file
+ln: failed to create symbolic link 'other_file': File exists
+
+$> ln -sf file other_file
+$> ls -l
+drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 dir
+-rw-r--r-- 1 hypnos wheel    0 May 12 20:36 file
+lrwxrwxrwx 1 hypnos wheel    4 May 12 20:37 other_file -> file
+lrwxrwxrwx 1 hypnos wheel    3 May 12 20:32 symlink_dir -> dir
+
+# Option `-i` for `i`nteractive: to prompt whether to remove  the destinations
+$> ln -si file other_file
+ln: replace 'other_file'? y
+
+# Give a directory as second argument to create a link in that directory
+# Option `-t` for the same result
+$> ln -s $HOME dir
+$> ls -l dir
+lrwxrwxrwx 1 hypnos wheel 12 May 12 20:46 hypnos -> /home/hypnos
+
+$> ln -s -t dir $HOME/tests
+$> ls -l dir
+total 0
+lrwxrwxrwx 1 hypnos wheel 12 May 12 20:46 hypnos -> /home/hypnos
+lrwxrwxrwx 1 hypnos wheel 18 May 12 20:48 tests -> /home/hypnos/tests
+```
+
+## tail - 2020-05-18
+
+$> tail [file]...
+
+Print the last 10 lines of the input (can also be files).
 
 ```
 $> tail tail_that
@@ -730,7 +780,7 @@ Line 12
 Line 13
 Line 14
 
-# Option `-n` display the last `n`umber of lines
+# Option `-n` display the `n` last `n`umber of lines
 $> tail -n 3 tail_that
 Line 12
 Line 13
@@ -781,6 +831,36 @@ this line is written by another process
 # If you use option `-f` with multiple files, using `-q` won't display the name of the file read
 ```
 
+## stat - 2020-05-19
+
+$> stat [file]...
+
+Display file status
+
+[19/31]
+
+```
+$> stat stat_me
+  File: stat_me
+  Size: 8               Blocks: 8          IO Block: 4096   regular file
+Device: 804h/2052d      Inode: 10892061    Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 1000/  hypnos)   Gid: (  998/   wheel)
+Access: 2021-05-17 19:22:14.352929595 +0200
+Modify: 2021-05-17 19:22:29.242961250 +0200
+Change: 2021-05-17 19:22:29.242961250 +0200
+ Birth: 2021-05-17 19:22:14.352929595 +0200
+
+# Option `-c` output data your want
+
+## Output owner name, owner id, group owner name, group owner id 
+$> stat -c "%U %u %G %g" stat_me
+hypnos wheel 1000 998
+
+## Output permissions in octal and human format
+$> stat -c "%a %A" stat_me
+644 -rw-r--r--
+```
+
 ## pwd
 
 $> pwd
@@ -799,61 +879,11 @@ $> echo $PWD
 /home/hypnos/tests
 ```
 
-## ln
-
-$> ln [TARGET] [LINK_NAME]
-
-Create a link to [TARGET] with name [LINK_NAME]
-
-$> ln [TARGET]... [DIRECTORY]
-
-Create links to [TARGET] in [DIRECTORY]
-
-```
-$> ls
-dir  file  other_file
-
-# Option `-s` create a symbolic link (symlink)
-$> ln -s dir symlink_dir
-total 8
-drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 dir
-drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 file
--rw-r--r-- 1 hypnos wheel    0 May 12 20:33 other_file
-lrwxrwxrwx 1 hypnos wheel    3 May 12 20:32 symlink_dir -> dir
-
-# Option `-f` remove existing destination files
-$> ln -s file other_file
-ln: failed to create symbolic link 'other_file': File exists
-
-$> ln -sf file other_file
-$> ls -l
-total 4
-drwxr-xr-x 2 hypnos wheel 4096 May 12 20:32 dir
--rw-r--r-- 1 hypnos wheel    0 May 12 20:36 file
-lrwxrwxrwx 1 hypnos wheel    4 May 12 20:37 other_file -> file
-lrwxrwxrwx 1 hypnos wheel    3 May 12 20:32 symlink_dir -> dir
-
-# Option `-i` for `i`nteractive: to prompt whether to remove destination
-$> ln -si file other_file
-ln: replace 'other_file'? y
-
-# Give a directory as second argument to create a link in that directory
-# Option `-t` for the same result
-$> ln -s $HOME dir
-$> ls -l dir
-lrwxrwxrwx 1 hypnos wheel 12 May 12 20:46 hypnos -> /home/hypnos
-
-$> ln -s -t dir $HOME/tests
-$> ls -l dir
-total 0
-lrwxrwxrwx 1 hypnos wheel 12 May 12 20:46 hypnos -> /home/hypnos
-lrwxrwxrwx 1 hypnos wheel 18 May 12 20:48 tests -> /home/hypnos/tests
-```
 
 ## IDEAS
 
 * grep, sed, tr
-* ps, pwd, stat, , wget, which, who
+* ps, stat, wget, which, who
 * [xargs](http://widgetsandshit.com/teddziuba/2010/10/taco-bell-programming.html)
 
 * $> gimmeyourmoney > file-which-launch-at-startup
