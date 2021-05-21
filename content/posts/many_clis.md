@@ -861,9 +861,10 @@ $> stat -c "%a %A" stat_me
 644 -rw-r--r--
 ```
 
-## pwd
+## pwd - 2021-05-20
 
 $> pwd
+
 `p`rint the name of the `w`orking `d`irectory
 
 ```
@@ -879,11 +880,131 @@ $> echo $PWD
 /home/hypnos/tests
 ```
 
+## grep - 2020-05-21
+
+$> grep [pattern] [input]
+
+Search for pattern in the input. The input can be one or more files.
+
+```
+$> cat grep_that
+This text will be filtered
+With the nice grep tool
+GLORY to grep!
+
+# Output the lines matching the pattern
+$> grep "tool" grep_that
+With the nice grep tool
+
+# Option `-v` output the lines NOT matching the pattern (in`v`ert the match)
+$> grep -v "tool" grep_that
+This text will be filtered
+GLORY to grep!
+
+# Option `-o` output the pattern matched `o`nly, not the entire line
+$> grep -o "tool" grep_that
+tool
+
+# Option `-i` for pattern with case `i`sensitive
+$> grep -i "glory" grep_that
+GLORY to grep!
+
+# Option `-n` output the line `n`umbers
+$> grep -n "tool" grep_that 
+2:With the nice grep tool
+
+# Option `-h` always `h`ide filename
+# Option `-H` always output filename
+$> grep -H "tool" grep_that
+grep_that:With the nice grep tool
+
+# Option `-l` on`l`y output fi`l`ename
+$> grep -l "tool" grep_that another_file yet_another_file
+grep_that
+
+# Option `-L` on`l`y output fi`l`ename without match
+$> grep -L "tool" grep_that another_file yet_another_file
+another_file
+yet_another_file
+
+# Option `-A n`, `-B n`, `-C n` output n lines `a`fter, `b`efore, or both, depending on the matched `c`ontext
+$> grep -A 1 "tool" grep_that 
+With the nice grep tool
+GLORY to grep!
+
+$> grep -B 1 "tool" grep_that 
+This text will be filtered
+With the nice grep tool
+
+$> grep -C 1 "tool" grep_that 
+This text will be filtered
+With the nice grep tool
+GLORY to grep!
+
+# Useful grep alias
+alias grep="grep --color=auto"
+```
+
+## sed - 2020-05-22
+
+$> sed [script] [input]
+
+Tool `ed`iting `s`tream of content. Said differently, it transforms the input and produce an output.
+
+A sed script is structured as follow: [address][command][option]
+```
+$> cat sed_file
+This file will be edited with sed
+It's a fantastic command-line editor
+See https://themouseless.dev/posts/sed-guide-example-mouseless/
+
+# An address (`1`) to select a line
+# A command (`d`) to delete this line
+$> sed '1d' sed_file
+It's a fantastic command-line editor
+See https://themouseless.dev/posts/sed-guide-example-mouseless/
+
+# Address selecting line according to a regex
+$> sed '/command-line/d' sed_file
+This file will be edited with sed
+See https://themouseless.dev/posts/sed-guide-example-mouseless/
+
+# Address as a range
+$> sed '2,3d' sed_file
+This file will be edited with sed
+
+# Option `-e` `e`xecute another script
+$> sed -e '1d' -e '3d' sed_file
+It's a fantastic command-line editor
+
+# Command `s` substitute a pattern with a replacement
+$> sed -e 's/file/stream/' -e '2,3d' sed_file
+This stream will be edited with sed
+
+## Use `&` to reuse pattern in replacement
+$> sed -e 's/file/&-stream/' -e '2,3d' sed_file
+This file-stream will be edited with sed
+
+## You can change the separator
+$> sed -e 's#themouseless.dev/posts/sed-guide-example-mouseless/#gnu.org/software/sed/manual/sed.html#' -e '1,2d' sed_file
+See https://gnu.org/software/sed/manual/sed.html
+
+# Option `-i` write file `i`n place
+$> sed -i 's/file/stream/' sed_file
+$> cat sed_file
+This stream will be edited with sed
+It's a fantastic command-line editor
+See https://themouseless.dev/posts/sed-guide-example-mouseless/
+
+# Command `p` `p`rint lines a second time, option `-n` sile`n`t the output expect for line `p`rinted
+$> sed -n `1p` sed_file
+This file will be edited with sed
+```
 
 ## IDEAS
 
-* grep, sed, tr
-* ps, stat, wget, which, who
+* sed
+* ps, wget, which, who
 * [xargs](http://widgetsandshit.com/teddziuba/2010/10/taco-bell-programming.html)
 
 * $> gimmeyourmoney > file-which-launch-at-startup
