@@ -947,24 +947,24 @@ alias grep="grep --color=auto"
 
 ## sed - 2020-05-22
 
-$> sed [script] [input]
+$> sed [script] [input]...
 
-Tool `ed`iting `s`tream of content. Said differently, it transforms the input and produce an output.
+Tool `ed`iting a `s`tream of content. Said differently, it transforms the input and produce an output.
 
 A sed script is structured as follow: [address][command][option]
 ```
 $> cat sed_file
 This file will be edited with sed
-It's a fantastic command-line editor
+What a fantastic command-line editor!
 See https://themouseless.dev/posts/sed-guide-example-mouseless/
 
 # An address (`1`) to select a line
 # A command (`d`) to delete this line
 $> sed '1d' sed_file
-It's a fantastic command-line editor
+What a fantastic command-line editor!
 See https://themouseless.dev/posts/sed-guide-example-mouseless/
 
-# Address selecting line according to a regex
+# Address selecting lines according to a regular expression
 $> sed '/command-line/d' sed_file
 This file will be edited with sed
 See https://themouseless.dev/posts/sed-guide-example-mouseless/
@@ -975,7 +975,7 @@ This file will be edited with sed
 
 # Option `-e` `e`xecute another script
 $> sed -e '1d' -e '3d' sed_file
-It's a fantastic command-line editor
+What a fantastic command-line editor!
 
 # Command `s` substitute a pattern with a replacement
 $> sed -e 's/file/stream/' -e '2,3d' sed_file
@@ -993,12 +993,83 @@ See https://gnu.org/software/sed/manual/sed.html
 $> sed -i 's/file/stream/' sed_file
 $> cat sed_file
 This stream will be edited with sed
-It's a fantastic command-line editor
+What a fantastic command-line editor!
 See https://themouseless.dev/posts/sed-guide-example-mouseless/
 
 # Command `p` `p`rint lines a second time, option `-n` sile`n`t the output expect for line `p`rinted
 $> sed -n `1p` sed_file
 This file will be edited with sed
+```
+
+## find
+
+$> find [starting_point] [expression]...
+
+Search a directory tree from a starting point (the working directory if not precised). Expressions can filter or act on the results.
+
+```
+$> find .
+.
+./a_dir
+./a_dir/a_file
+./a_file
+./a_symlink
+
+# Expression `-name` filter by name
+$> find . -name "a_file"
+./a_dir/a_file
+./a_file
+
+# Expression `-wholename` filter by filepath
+$> find . -wholename "./a_dir/a_file"
+./a_dir/a_file
+
+# Expression `-type` filter by filetype
+# `d` for `d`irectory
+# `f` for regular `f`ile
+# `l` for symlink
+$> find . -type f
+./a_dir/another_file
+./a_file
+
+# Expression `-regex` filter with a `reg`ular `ex`pression
+
+## Without the expression `-regextype`, use Emacs Regular Expression 
+$> find . -regex "*.file"
+./a_dir/a_file
+./a_file
+
+## With the expression `-regextype` BEFORE `-refex`, can specify another regex engine
+$> find . -regextype help
+find: Unknown regular expression type ‘help’; valid types are ‘findutils-default’, ‘ed’, ‘emacs’, ‘gnu-awk’, ‘grep’, ‘posix-awk’, ‘awk’, ‘posix-basic’, ‘posix-egrep’, ‘egrep’, ‘posix-extended’, ‘posix-minimal-basic’, ‘sed’.
+
+$> find . -regextype egrep -regex "*.(file|dir)"
+find . -regextype egrep -regex ".*(file|dir)"
+
+# Expression `-perm` filter with exact permissions
+
+## Octal form
+$> find . -perm 644
+./a_dir/a_file
+./find
+./a_file
+
+## Symbolic form
+$> find . -perm u=r,g=r
+
+# Expression `-size` filter by `size`
+# Can be used to find files in a size range
+$> find . -size +1k -size -10M
+.
+./a_dir
+
+# Expression `-exec` `exec`ute a command on each file one by one
+# The '{}' is replaced by the current file
+# For example, one of the command executed here will be "wc -l ./a_file"
+$> find . -type f -exec wc -l {} ';'
+0 ./a_dir/a_file
+0 ./find
+2 ./a_file
 ```
 
 ## IDEAS
