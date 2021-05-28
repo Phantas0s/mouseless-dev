@@ -1001,7 +1001,7 @@ $> sed -n `1p` sed_file
 This file will be edited with sed
 ```
 
-## find
+## find 2020-05-23
 
 $> find [starting_point] [expression]...
 
@@ -1072,10 +1072,241 @@ $> find . -type f -exec wc -l {} ';'
 2 ./a_file
 ```
 
+## who - 2021-05-24
+
+$> who
+
+Show what users are logged on, and what tty or pts (pseudo terminal) they're running.
+
+```
+$> who
+hypnos   tty1         2021-05-24 06:45
+hypnos   pts/2        2021-05-24 06:45 (tmux(1449).%0)
+hypnos   pts/3        2021-05-24 06:45 (tmux(1449).%1)
+hypnos   pts/4        2021-05-24 06:45 (tmux(1449).%2)
+hypnos   pts/8        2021-05-24 06:47 (tmux(1449).%6)
+...
+
+# Option `-b` for time of last system `b`oot
+$> who -b
+system boot  2021-05-24 06:44
+```
+
+## id - 2021-05-25
+
+$> id [user]...
+
+Print information about a user (or the current user if the argument [user] is not specified).
+
+```
+$> id
+uid=1000(hypnos) gid=998(wheel) groups=998(wheel),974(docker)
+
+# Option `-g` to print `g`roup ID
+$> id -g
+998
+
+# Option `-G` to print all `g`roup IDs
+$> id -G
+998 974
+
+# Option `-u` only print the `u`ser ID
+$> id -u
+1000
+
+# Option `-n` needs to be used with one of the options above 
+# Print the `n`ame of user or group
+$> id -un
+hypnos
+
+$> id -Gn
+wheel docker
+```
+
+## whereis - 2021-05-26
+
+$> whereis name...
+
+Locate the binary, source, and manual page for one or more commands.
+
+```
+$> whereis ls
+ls: /usr/bin/ls /usr/share/man/man1/ls.1p.gz /usr/share/man/man1/ls.1.gz
+
+# Option `-b` only output the `b`inary
+$> whereis -b ls
+ls: /usr/bin/ls
+
+# Option `-m` only output the `m`anual page
+$> whereis -m ls
+ls: /usr/share/man/man1/ls.1p.gz /usr/share/man/man1/ls.1.gz
+
+# Option `-l` `l`ist the paths whereis is searching
+$> whereis -l
+bin: /usr/bin
+bin: /usr/lib
+bin: /etc
+...
+man: /usr/share/info
+
+# Useful when a built-in command (or reserved shell word) has a binary with same name.
+# In this example there is two time: a reserved word and GNU time (/usr/bin/time)
+$> type time
+time is a reserved word
+$> whereis -b time
+time: /usr/bin/time
+```
+
+## time - 2021-05-27
+
+$> time command [arguments]...
+
+Run the command with arguments. When the command terminate, output real time and CPU time.
+
+```
+$> time find "~/Documents"
+/home/hypnos/Documents
+...
+/home/hypnos/Documents/cooking/mom_recipe.pdf
+find ~/Documents  0.04s user 0.09s system 94% cpu 0.131 total
+
+# Using GNU time
+
+$> type time
+time is a reserved word
+
+$> whereis time
+time: /usr/bin/time
+
+## Option `-f` decides of the output `f`ormat
+## %E - Elapsed real time (%e to have it in seconds)
+## %M - Maximum memory used in Kbytes
+## %K - Average total memory used in Kbytes
+$> /usr/bin/time -f "Time: %E - Memory: %M - Avg Memory: %K" find ~/Documents
+/home/hypnos/Documents
+...
+/home/hypnos/Documents/cooking/mom_recipe.pdf
+Time: 0:00.78 - Memory: 3248 - Avg Memory: 0
+
+## Option `-v` to have a `v`erbose output about everything time knows about
+```
+
+## xargs - 2021-05-28
+
+$> xargs [options] [command] [initial-arguments]... [input]
+
+Read whitespace-separated inputs and use it as arguments to a command. The input can't be a file.
+
+```
+$> ls *.sh
+script_1.sh  script_2.sh  script_3.sh
+
+# Give the three scripts as argument to wc -l (count the lines)
+# Equivalent to "wc -l script_1.sh script_2.sh script_3.sh"
+$> ls *.sh | xargs wc -l
+   9 script_1.sh
+  11 script_2.sh
+  28 script_3.sh
+  48 total
+
+# Option `-0` use the ASCII character null as delimiter instead of whitespace
+# It should always be used with files to handle filenames with spaces correctly
+# The find argument `-print0` use the ASCII null character as delimiter for its output
+$> find . -name "*.sh" -print0 | xargs -0 wc -l
+  28 ./script_3.sh
+  11 ./script_2.sh
+   9 ./script_1.sh
+  48 total
+
+# Options `-a` re`a`d arguments from a file instead of input
+$> cat list_files
+./script_1.sh
+./script_2.sh
+./script_3.sh
+
+$> xargs -a list_files wc -l 
+   9 ./script_1.sh
+  11 ./script_2.sh
+  28 ./script_3.sh
+  48 total
+
+# Option `-I` creates a placeholder for the input passed to xargs
+# In that case, the command runs for each argument
+# Needs to add `-n` for it to work (or the command will only run once...)
+$> find . -name "*.sh" -print0 | xargs -0 -I % grep % ./list_files
+./script_3.sh
+./script_2.sh
+./script_1.sh
+
+# Option `-n` decides number of argument given to the command
+# In this example, equivalent to "wc -l script_1.sh && wc -l script_2.sh && wc -l script_3.sh"
+$> find . -name "*.sh" -print0 | xargs -0 -n 1 wc -l
+28 ./script_3.sh
+11 ./script_2.sh
+9 ./script_1.sh
+
+# Option `-P` determine how many processes will run at a time (for concurrent work)
+# Value of 0 create as much processes as possible
+# Useful for tasks asking for a lot of resources
+
+
+# You can use the command "bash -c" to chain commands with xargs
+$> find . -name "*.sh" -print0 | xargs -0 -I $ bash -c "grep $ ./list_files && echo 'current script: $'"
+./script_3.sh
+current script: ./script_3.sh
+./script_2.sh
+current script: ./script_2.sh
+./script_1.sh
+current script: ./script_1.sh
+```
+
+## diff - 2021-05-29 
+
+$> diff [files]...
+
+Compare multiple files line by line
+
+```
+$> cat file_1
+This is a file
+With many differences
+To test diff
+
+$> cat file_2
+This is a file
+With SO many differences
+To test        diff
+
+$> diff file_1 file_2
+< With many differences
+< To test diff
+---
+> With SO many differences
+> To test        diff
+
+# Option `-y` show the difference side by side
+$> diff -y file_1 file_2
+This is a file                          This is a file
+With many differences                 | With SO many differences
+To test diff                          | To test        diff
+
+# Option `-u` for `u`nified format (format used by git diff)
+$> diff -u file_1 file_2
+--- file_1      2021-05-28 13:49:53.277345044 +0200
++++ file_2      2021-05-28 13:50:01.094019947 +0200
+@@ -1,3 +1,3 @@
+ This is a file
+-With many differences
+-To test diff
++With SO many differences
++To test        diff
+
+# Options `-w` doesn't compare `w`histespaces
+```
+
 ## IDEAS
 
-* sed
-* ps, wget, which, who
+* split, diff, free, pgrep
 * [xargs](http://widgetsandshit.com/teddziuba/2010/10/taco-bell-programming.html)
 
 * $> gimmeyourmoney > file-which-launch-at-startup
