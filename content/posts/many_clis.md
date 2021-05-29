@@ -1260,7 +1260,7 @@ current script: ./script_2.sh
 current script: ./script_1.sh
 ```
 
-## diff - 2021-05-29 
+## diff - 2021-05-29
 
 $> diff [files]...
 
@@ -1290,6 +1290,13 @@ This is a file                          This is a file
 With many differences                 | With SO many differences
 To test diff                          | To test        diff
 
+# Options `-w` doesn't compare `w`histespaces
+$> diff -w file_1 file_2
+2c2
+< With many differences
+---
+> With SO many differences
+
 # Option `-u` for `u`nified format (format used by git diff)
 $> diff -u file_1 file_2
 --- file_1      2021-05-28 13:49:53.277345044 +0200
@@ -1301,12 +1308,132 @@ $> diff -u file_1 file_2
 +With SO many differences
 +To test        diff
 
-# Options `-w` doesn't compare `w`histespaces
+# Option `-r` compare two directories recursively
+$> ls dir_1
+file_1  file_2  file_3
+$> ls dir_2
+file_1  file_2 file_4
+$> diff -r dir_1 dir_2
+Only in dir_1: file_3
+Only in dir_2: file_4
+
+# Option `-x` e`x`clude filenames that match a pattern
+$> diff -r -x "file_3" dir_1 dir_2
+Only in dir_2: file_4
+
+# Option `-i` compare files and `i`gnore case
+```
+
+## split - 2021-05-30
+
+$> split [file] [prefix]
+
+Split a file into multiple files named [prefix]aa, [prefix]ab... Default [prefix] is "x"
+
+```
+# Option `-l` put precise count of `l`ines in each split
+$> ls
+file_1
+$> wc -l file_1
+5
+$> split -l 2 file_1
+$> ls
+file_1  xaa  xab  xac
+$> wc -l file_1 xaa xab xac 
+  5 file_1
+  2 xaa
+  2 xab
+  1 xac
+ 10 total
+
+# Option `-n` create a precise `n`umber of files of same size
+$> split -n 3 file_1
+$> ls -lh
+-rw-r--r-- 1 hypnos wheel 75 May 29 11:03 file_1
+-rw-r--r-- 1 hypnos wheel 25 May 29 11:05 xaa
+-rw-r--r-- 1 hypnos wheel 25 May 29 11:05 xab
+-rw-r--r-- 1 hypnos wheel 25 May 29 11:05 xac
+$> rm -f xaa xab xac
+
+# Option `-b` create files with a precise `b`ytes size
+# Use `k` for `k`ilobyte or `m` for `m`egabyte
+$> split -b 20 file_1
+$> ls -lh
+-rw-r--r--  1 hypnos wheel   75 May 29 11:03 file_1
+-rw-r--r--  1 hypnos wheel   20 May 29 11:18 xaa
+-rw-r--r--  1 hypnos wheel   20 May 29 11:18 xab
+-rw-r--r--  1 hypnos wheel   20 May 29 11:18 xac
+-rw-r--r--  1 hypnos wheel   15 May 29 11:18 xad
+$> rm -f xaa xab xac xad
+
+# Option `-a` generate suffixes of nth length
+$> split -a 5 -l 2 file_1
+$> ls
+file_1  xaaaaa  xaaaab  xaaaac
+$> rm xaaaaa xaaaab xaaaac
+
+# Option `--filter` write to a shell command
+# Current filename is $FILE
+$> rm -f xaa xab xac
+$> split -l 3 --filter "wc -l" file_1 
+1
+2
+2
+$> ls
+file_1
+```
+
+## seq - 2021-05-31
+
+$> seq [FIRST] [INCREMENT] LAST
+
+Output a sequence of number using an increment
+
+```
+# By default, [FIRST] is 1 and [INCREMENT] is 1
+$> seq 4
+1
+2
+3
+4
+
+# Set INCREMENT to 2
+$> seq 1 2 4
+1
+3
+
+# Option `-s` to define a separator (default is newline) 
+$> seq -s "," 4
+1,2,3,4
+
+# Option `-f` output with printf style `f`ormat
+
+## Specify number of digits
+$> seq -f "%.4f" 4
+1.0000
+2.0000
+3.0000
+4.0000
+
+$> seq -f "%.4f" 1.2 0.5589 4.3
+1.2000
+1.7589
+2.3178
+2.8767
+3.4356
+3.9945
+
+## Padding with 0
+$> seq -f "%04g" 4
+0001
+0002
+0003
+0004
 ```
 
 ## IDEAS
 
-* split, diff, free, pgrep
+* free, pgrep
 * [xargs](http://widgetsandshit.com/teddziuba/2010/10/taco-bell-programming.html)
 
 * $> gimmeyourmoney > file-which-launch-at-startup
