@@ -1260,7 +1260,55 @@ current script: ./script_2.sh
 current script: ./script_1.sh
 ```
 
-## diff - 2021-05-29
+## seq - 2021-05-29
+
+$> seq [FIRST] [INCREMENT] LAST
+
+Output a sequence of number using an increment
+
+```
+# By default, [FIRST] is 1 and [INCREMENT] is 1
+$> seq 4
+1
+2
+3
+4
+
+# Set INCREMENT to 2
+$> seq 1 2 4
+1
+3
+
+# Option `-s` to define a separator (default is newline) 
+$> seq -s "," 4
+1,2,3,4
+
+# Option `-f` output with printf style `f`ormat
+
+## Specify number of digits
+$> seq -f "%.4f" 4
+1.0000
+2.0000
+3.0000
+4.0000
+
+$> seq -f "%.4f" 1.2 0.5589 4.3
+1.2000
+1.7589
+2.3178
+2.8767
+3.4356
+3.9945
+
+## Padding with 0
+$> seq -f "%04g" 4
+0001
+0002
+0003
+0004
+```
+
+## diff - 2021-05-30
 
 $> diff [files]...
 
@@ -1324,7 +1372,7 @@ Only in dir_2: file_4
 # Option `-i` compare files and `i`gnore case
 ```
 
-## split - 2021-05-30
+## split - 2021-05-31
 
 $> split [file] [prefix]
 
@@ -1381,54 +1429,6 @@ $> split -l 3 --filter "wc -l" file_1
 2
 $> ls
 file_1
-```
-
-## seq - 2021-05-31
-
-$> seq [FIRST] [INCREMENT] LAST
-
-Output a sequence of number using an increment
-
-```
-# By default, [FIRST] is 1 and [INCREMENT] is 1
-$> seq 4
-1
-2
-3
-4
-
-# Set INCREMENT to 2
-$> seq 1 2 4
-1
-3
-
-# Option `-s` to define a separator (default is newline) 
-$> seq -s "," 4
-1,2,3,4
-
-# Option `-f` output with printf style `f`ormat
-
-## Specify number of digits
-$> seq -f "%.4f" 4
-1.0000
-2.0000
-3.0000
-4.0000
-
-$> seq -f "%.4f" 1.2 0.5589 4.3
-1.2000
-1.7589
-2.3178
-2.8767
-3.4356
-3.9945
-
-## Padding with 0
-$> seq -f "%04g" 4
-0001
-0002
-0003
-0004
 ```
 
 ## IDEAS
