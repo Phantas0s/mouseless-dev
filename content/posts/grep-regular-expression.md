@@ -1,7 +1,7 @@
 +++
 date = "2021-04-01"
 draft = true
-title = "grep: The Basics"
+title = "Learning Regular Expressions With grep"
 aliases = [
     "grep-beginner-mouseless",
 ]
