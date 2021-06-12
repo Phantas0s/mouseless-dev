@@ -53,7 +53,7 @@ rm: remove regular empty file 'super_file_2'? y
 $> \rm super_file_3
 ```
 
-## man (after less?) - 2021-05-02
+## man - 2021-05-02
 
 $> man [section] [page]
 
@@ -595,7 +595,7 @@ $> bg %vim
 [2]  + suspended (tty output)  vim
 ```
 
-## touch (After ls) - 2021-05-14
+## touch - 2021-05-14
 
 $> touch [file...]
 
