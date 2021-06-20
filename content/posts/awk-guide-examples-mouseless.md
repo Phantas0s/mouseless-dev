@@ -279,7 +279,7 @@ price
 
 ### Changing the Value of a Variable
 
-The option `-v` can change the `v`alue of a variable. By default, the value of the variable `NR` is 0, but you can set it to 10 for example:
+The option `-v` can change the value of a `v`ariable. By default, the value of the variable `NR` is 0, but you can set it to 10 for example:
 
 ```
 awk -v NR=10 '{ print NR,$1 }' lsblk
@@ -415,46 +415,33 @@ Let's decompose what's happening here:
 
 These pattern / action pairs are separated with newlines for readability purposes, but we can separate them with whitespaces too.
 
-## Computation
+## Computations From a CSV
 
-* Present CSV
+We can now compute useful information from a CSV, for example [product_sold.csv](https://github.com/Phantas0s/mouseless-dev-youtube/blob/master/07_awk/product_sold.csv).
 
-* Want to know how many product I sold
+For example, we could count every products sold for 20 euros.
 
 ```
 awk -F "," 'NR != 1 && $2 == 20 {product = product + 1}
-    END {print product,"products costing 20euro have been sold"}' product_sold.csv
+            END {print product,"products costing 20euro have been sold"}' product_sold.csv
 ```
 
-* Sum of all the product sold
-
-```
-awk -F "," 'NR != 1 
-{product = product + $2}
-    END {print "Total of sales is",product}' product_sold.csv
-```
-
-### Exercises
-    * Calculate and display the average sell price per buyer from the file "product_sold.csv".
+We could also compute the total of sales as follows:
 
 ```
 awk -F "," 'NR != 1 {product = product + $2}
-    END {print "Average sell price is",product/NR}' product_sold.csv
+            END {print "Total of sales is",product}' product_sold.csv
 ```
 
-    * Calculate the total sales of "super-product1" and display the list of user who bought it and how much each of them paid for it
+From there the sky's the limit!
 
-```
-awk -F "," 'BEGIN {print "Buyers"}
-NR != 1 && $1 == "super-product1" {product = product + $2; print $2, $5}
-    END {print ""; print "Total super-product1 sold",product}' product_sold.csv
-```
+## In a Nutshell: a Mindmap of sed
 
-## REFERENCE
+[{{< picture src="/images/2021/sed/sed.png" webp="/images/2021/sed/sed.webp" alt="mindmap of sed" >}}](/images/2021/sed/sed.jpg)
 
-* https://en.wikibooks.org/wiki/An_Awk_Primer
-* https://www.gnu.org/software/gawk/manual/gawk.html
-* https://www.grymoire.com/Unix/Awk.html
-* https://unix.stackexchange.com/questions/159695/how-does-awk-a0-work/639902#639902
-* https://jemma.dev/blog/awk-part-1
-* https://jemma.dev/blog/awk-part-2
+## Using sed in Practice
+
+It's nice to learn all of that, but how can you use sed in real life? Here's a video showing you a problem I had and I solved nicely using sed and other CLIs:
+
+{{< youtube 4DwXYAAgKKU >}}
+
