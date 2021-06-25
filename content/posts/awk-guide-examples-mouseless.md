@@ -65,7 +65,7 @@ awk '{ print }' lsblk
 
 Here, [lsblk](https://github.com/Phantas0s/mouseless-dev-youtube/blob/master/06_awk/lsblk) is a file we give to awk as input. You'll get this output:
 
-```bash
+```
 NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
 sda           8:0    0 465.8G  0 disk
 sda1          8:1    0   200M  0 part /boot
@@ -78,7 +78,7 @@ The print action is the default action used if you don't give any to awk. Note t
 
 What if we want to print the first field of each record? 
 
-```
+```bash
 awk '{ print $1 }' lsblk
 ```
 
@@ -97,7 +97,7 @@ Remember: by default, a record is a line, and a field is a string beginning and 
 
 The records are one-indexed, that's why the first record is `$1` and not `$0`. It begs the question: what's `$0`? The best it to try it:
 
-```
+```bash
 awk '{ print $0 }' lsblk
 ```
 
@@ -116,7 +116,7 @@ What happened here? The symbol `$0` represents the entire record. That's why eac
 
 We can also print more than one field. For example:
 
-```
+```bash
 awk '{ print $1,$2,"hello" }' lsblk
 ```
 
@@ -129,7 +129,7 @@ Now that we saw the most basic action, let's look at the expressions of the awk 
 First, let's add a basic pattern to our awk command:
 
 
-```
+```bash
 awk '/sda/ { print $1 }' lsblk
 ```
 
@@ -147,7 +147,7 @@ We want here to print the first field of every record. The pattern `/sda/` will 
 
 We can also use other basic expression in the pattern. For example, if we only want to print the record when its first field is *exactly* `sda`, we can do:
 
-```
+```bash
 awk '$1 == "sda" { print $1,$2,$5 }' lsblk
 ```
 
@@ -159,7 +159,7 @@ sda 8:0 0
 
 You can play in your shell with the following examples to grasp the concept. They are not difficult to understand if you have some experience with programming languages using a C-like syntax:
 
-```
+```bash
 awk '$2 == 4+4 ":0"  { print $1,$2,$5 }' lsblk
 awk '$2 == 4+4 ":0" && $3 < 2' lsblk
 awk '$2 == 4+4 ":0" && $3 < 2  { print $1,$2,$5 }' lsblk
@@ -167,7 +167,7 @@ awk '$2 == 4+4 ":0" && $3 < 2  { print $1,$2,$5 }' lsblk
 
 You'll notice here that a space in the pattern (between `4+4` and `:0` for example) represents a concatenation. For example, these two commands are equivalent:
 
-```
+```bash
 awk '$1 == "sda" { print $1,$2,$5 }' lsblk
 awk '$1 == "s" "d" "a" { print $1,$2,$5 }' lsblk
 ```
@@ -183,7 +183,7 @@ You can use different variables in the awk programming language. Here are some I
 
 An example is often better than a long chunk of boring text:
 
-```
+```bash
 awk '{print $1,$4,NF}' lsblk
 ```
 
@@ -200,7 +200,7 @@ sda4 389.6G 7
 
 As you can see, `NF` display the total number of fields for each record, even if you output only some of them. Practically, `NF` can be useful to use in the pattern to filter records by their number of fields:
 
-```
+```bash
 awk 'NF > 6 {print $1,$4,NF}' lsblk
 ```
 
@@ -220,7 +220,7 @@ Only the records which have more than 6 fields will be printed.
 
 The variable `NR` can be useful to print the record number. For example:
 
-```
+```bash
 awk '{print NR,$1,$4}' lsblk
 ```
 
@@ -237,7 +237,7 @@ Here's the output:
 
 If you want to print only specific records, you can use a pattern:
 
-```
+```bash
 awk 'NR != 1 { print "My disk",$1,"is",$4 }' lsblk
 ```
 
@@ -261,7 +261,7 @@ As we already saw above, the default field separator is a whitespace or a newlin
 
 It's useful if you want to manipulate a CSV with commas `,` as separators:
 
-```
+```bash
 awk -F "," '{print $2}' product_sold.csv
 ```
 
@@ -282,7 +282,7 @@ price
 
 The option `-v` can change the value of a `v`ariable. By default, the value of the variable `NR` is 0, but you can set it to 10 for example:
 
-```
+```bash
 awk -v NR=10 '{ print NR,$1 }' lsblk
 ```
 
@@ -299,7 +299,7 @@ Here's the output:
 
 You can also create a variable you can use in the pattern or the action:
 
-```
+```bash
 awk -v "my_var=10" '{ print NR,$1,my_var }' lsblk
 ```
 
@@ -316,14 +316,14 @@ Here's the output:
 
 This is very useful to pass to your awk program some external shell variables. For example, the following won't work:
 
-```
+```bash
 MYVAR="sda"
 awk '$1 ~ $MYVAR {print $1,$4}' lsblk
 ```
 
 Why does it not work? The variable `$MYVAR` is not expanded by the shell in that case. We need to pass the shell variable in our awk program using `-v`:
 
-```
+```bash
 MYVAR="sda"
 awk -v var="$MYVAR" '$1 ~ var {print $1,$4}' lsblk
 ```
@@ -334,7 +334,7 @@ This last example will work. The expression `~` means that the first record repr
 
 If you're awk program begins to be too complicated to write in the shell, you can use the option `-f` to write it in a file. For example:
 
-```
+```bash
 echo '{print NR,$1,$4}' > my_awk_program
 awk -f my_awk_program lsblk
 ```
@@ -352,7 +352,7 @@ You can use multiple `BEGIN` and `END` patterns. In that case, the actions assoc
 
 As always, let's try to uncover the mystery of `BEGIN` with an example. Here's our starting point:
 
-```
+```bash
 awk '{ print $1,$4 }' lsblk
 ```
 
@@ -371,7 +371,7 @@ What if we want to replace the headers `NAME` and `SIZE` with `Disk` and `Size` 
 
 The pattern BEGIN comes in handy:
 
-```
+```bash
 awk 'BEGIN {print "Disk","Size","\n"}
      NR != 1 { print $1,$4 }' lsblk
 ```
@@ -384,7 +384,7 @@ What happens here?
 
 As a result, we don't output the headers from the input. Here's the output:
 
-```
+```bash
 Disk Size
 
 sda 465.8G
@@ -400,7 +400,7 @@ The pattern `END` executes some options *after* processing the input.
 
 For example, if we want to change the header with `BEGIN` and count the number of partitions from the file "lsblk", we can do that:
 
-```
+```bash
 awk 'BEGIN { print "Disk","Size","\n"; TP=0 }
      NR != 1 { print $1,$4 }
      /sda[0-9]/ { TP=TP+1 }
@@ -426,14 +426,14 @@ We can now compute useful information from a CSV, for example [product_sold.csv]
 
 What about counting every product sold for 20 euro?
 
-```
+```bash
 awk -F "," 'NR != 1 && $2 == 20 {product = product + 1}
             END {print product,"products costing 20 euro have been sold"}' product_sold.csv
 ```
 
 We could also compute the total of sales as follows:
 
-```
+```bash
 awk -F "," 'NR != 1 {product = product + $2}
             END {print "Total of sales is",product}' product_sold.csv
 ```

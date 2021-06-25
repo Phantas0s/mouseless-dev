@@ -254,4 +254,3 @@ Pipes are one of the reason why the command line is so powerful: you can pipe sm
 It's nice to learn all of that, but how can you use grep in real life? Here's a video showing you a problem I had and I solved nicely using grep and other CLIs:
 
 {{< youtube N2YsWcyEpr8 >}}
-
