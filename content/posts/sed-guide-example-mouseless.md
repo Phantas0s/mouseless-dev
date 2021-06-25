@@ -1,7 +1,7 @@
 +++
 date = "2021-04-13"
 draft = false
-title = "sed: a Practical Guide With Examples"
+title = "A Practical Guide of GNU sed With Examples"
 image = "/images/2021/sed/sed.jpg"
 aliases = [
     "sed-beginner-mouseless"
