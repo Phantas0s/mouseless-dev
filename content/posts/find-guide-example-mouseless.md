@@ -56,7 +56,7 @@ What are these elements?
 
 You can form with expressions a query to search what you want to find. Some of them need a value.
 
-These expressions can be:
+These expressions can be of different types:
 
 * Test expression - They are the most common. They're used to filter the search.
 * Action expression - You can act on each file of the search result using these.
@@ -64,82 +64,82 @@ These expressions can be:
 * Positional options - They only change the behavior of test and action expressions directly following them.
 * Operators - They're boolean operators, like AND and OR, to manage the relationships between the different expressions.
 
-When using multiple expressions without specifying any operator, the AND operator is implicitly used.
+When using multiple expressions without specifying any operator, the AND operator is implicitly used. 
+
+Here's a basic example:
+
+```
+find /home/user -name "super-file" -perm 664 
+```
+
+* `/home/user` - Starting point of the search.
+* `-name` - A test expression.
+* `"super-file"` - Value of the expression `-name`.
+* `-perm` - Another test expression.
+* `664` - The value of the expression `-perm`.
+
+Nothing difficult here!
 
 ## Test Expressions
 
-* Often used to filter folders and files
-* Return true or false
+Test expressions are used to filter the folders and files. I list here the most useful ones.
 
-* `-empty` - empty files
+### Filtering Empty File
 
-* Name
-    * `-name` - Search by filename (and not filepath) with shell pattern
-        * Shell pattern: `*`, `?`, `[]`
-        * `find -name "README.md"`
-        * Case sensitive by default
-    * `-wholename` - Search by filepath
-        * `find -wholename "./Documents/README.md"`
-    * `-regex` - Match regular expression pattern (with more metacharacters)
-        * Match the whole path
-        * -regextype
-            * Used BEFORE `-regex` option
-            * Display all possible type of regex
-                * `find . -regextype aslkjsldfkj`
-            * For example finding all md or log files
-                * `find . -regextype "egrep" -regex '.*(md|log)$'`
-                * Without regextype
-                    `find . -regex '.*\(md\|log\)$'`
-    * For case insensitive add a `i` before
-        * `find -iname "readme.md"`
+The first expression is easy: `-empty` will search only empty files and directories. Next!
 
-* Permissions
-    * `-writable`
-    * `-executable`
-    * `-readable`
-    * `-perm` - Need to be the exact permissions
-        * Octal
-            * `find . -perm 644`
-        * find files writable by user symbolic
-            * `find . -perm /u=w`
-        * find files writable by user OR readable by group
-            * `find . -perm /u=x,g=r`
-        * find files writable by user AND readable by group
-            * `find . -perm -u=w,g=w`
-* Type
-    * Can filter by type of file
-        * Regular file
-            * `find . -type f`
-        * Directory
-            * `find . -type d`
-        * Symlink
-            * `find . -type l`
-* User
-    * `-user <username>`
-        * Files own by username
-            * `find -user "hypnos"`
-            * `find -user "root"`
+### Filtering by Name
 
-### Exercises
+Filtering your files and folders by name is the most common use of find. 
 
-* Output all the files in the folder Documents (folder included) using find
-    * `find Documents`
+* `-name <value>`  - Filter every files and directories by filename. You can't use regular expressions for the `<value>`, but shell patterns (also called *globbing*) are authorized, like  `*`, `?`, or `[]`. For example: `find . -name "*.log"` to find all the log files from your working directory.
+* `-path <value>` - Filter every files and directories by filepath. Like `-name`, it doesn't accept regexes but globbing.
+* `-regex <value>` - Filter every files and directories filepath using a regex. You can use the positional option `-regextype` *before* `-regex`, to specify the regex engine you want to use. To output a list of regex engines supported, you can run `find . -regextype dummy`
 
-* Find all the log files from your working directory
-    * `find . -name "*.log"`
+If you want your expression's value to be case insensitive, you can add the prefix `i` to these expressions. For example `-iname`, `ipath`, or even `-iregex`.
 
-* Find all the log files from your working directory owned by your current user
-        * `find . -name "*.log" -user "hypnos"`
-    * If you have only one user on your Linux system, it's likely with id 1000
-        * `find . -name "*.log" -user "1000"`
+### Filtering by Permissions
 
-* Can you find the REGULAR files from your working directory owned by your current user which is readable, writable, and executable?
-    * `find -user "1000" -perm "777" -type f`
+You can also filter files if they're whether `-writable`, `-executable`, or `-readable` for your current user. You can also use `-perm <value>`, where `<value>` can be:
 
-## Actions
+* A string beginning with `/` and followed by a series of rules using the OR boolean operator. For example, `-perm /u=w,g=e` (writable by user, and executable by group).
+* A string beginning with `-` and followed by a series of rules using the AND boolean operator. For example, `-perm -u=w,g=e` (writable by user, or executable by group).
+* An octal number, for example: `644`.
 
-* `-delete`
-    * `find . -name ".hidden" -delete`
+### Filtering by Type of File
+
+Here are the three values you can use with `-type <value>`, to filter your search by type of file:
+
+* `f` - Regular file
+* `d` - Directory
+* `l` - Symlink
+
+For example, if you want to find only directories called `directory` from your working directory , you can run `find . -name "directory" -type d`.
+
+### Filtering by Owner
+
+Finally, you can filter files depending of their owners, using the expression `-user <value>` where `<value>` is a username.
+
+## Action Expressions
+
+With find, you're not only doing searches, you can also perform some actions on the results.
+
+### Deleting Files
+
+You can easily delete every files and directories found using the `-delete` option. For example, the command `find . -name "test*" -delete` will delete all files and directory which names begin with `test`. 
+
+Be careful however: you can't get the deleted files back! That's why I don't use this expression at all.
+
+### Running a Command on Each Result
+
+This is a very powerful functionality of find: you can run whatever command you want on each file found! You can use a couple of expressions for doing that:
+
+* `-exec` - The command use your current working directory to run the command. The characters `{}` are used to indicate where you want to insert the result of the search in the command. Note also that you need to use `;` to end the command (it allows you to add other commands afterward). For example: 
+    * `find . -exec basename '{}' ';'` - Run the command `basename` for every result of the search.
+    * `find ~/Documents -exec bash -c 'basename "${0%*.}"' '{}' ';'` - Use `bash -c` if you want to use some parameter expansion (like `${0%.*}` not to display files' extensions). Even if `Documents` is the starting point for the search, the command will be executed in the context of your working directory.
+* `-execdir` - Works like `-exec`, except that the context of the command won't be your current working directory, but the starting point of the search.
+
+===
 
 * Run a command on Search result
     * `-exec command ;`
