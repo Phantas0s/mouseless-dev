@@ -88,22 +88,38 @@ Test expressions are used to filter the folders and files. I list here the most 
 
 The first expression is easy: `-empty` will search only empty files and directories. Next!
 
-### Filtering by Name
+### Filtering by Names
 
 Filtering your files and folders by name is the most common use of find. 
 
-* `-name <value>`  - Filter every files and directories by filename. You can't use regular expressions for the `<value>`, but shell patterns (also called *globbing*) are authorized, like  `*`, `?`, or `[]`. For example: `find . -name "*.log"` to find all the log files from your working directory.
-* `-path <value>` - Filter every files and directories by filepath. Like `-name`, it doesn't accept regexes but globbing.
-* `-regex <value>` - Filter every files and directories filepath using a regex. You can use the positional option `-regextype` *before* `-regex`, to specify the regex engine you want to use. To output a list of regex engines supported, you can run `find . -regextype dummy`
+#### Filtering by File Name
+
+The expression `-name <value>`  filter every files and directories by filename. You can't use regular expressions for the `<value>`, but shell patterns (also called *globbing*) are authorized, like  `*`, `?`, or `[]`. 
+
+For example: `find . -name "*.log"` to find all the log files from your working directory.
+
+#### Filtering by File Path
+
+The expression `-path <value>` filter every files and directories by their file paths. Like `-name`, it doesn't accept regexes but shell patterns.
+
+#### Filtering Using a Regex
+
+If you want to use a regex, the expression `-regex <value>` is here for you. It will filter every file and directory file paths. 
+
+You can also use the positional option `-regextype` *before* `-regex`, to specify the regex engine you want to use. To output a list of regex engines supported, you can run `find . -regextype dummy`.
+
+For example, `find . -regextype "egrep" -regex '.*(md|log)$'` will find every markdown and log files using `egrep`, the extended regular expression engine ([ERE](https://linux.die.net/man/1/egrep)).
+
+#### Case Insensitive
 
 If you want your expression's value to be case insensitive, you can add the prefix `i` to these expressions. For example `-iname`, `ipath`, or even `-iregex`.
 
 ### Filtering by Permissions
 
-You can also filter files if they're whether `-writable`, `-executable`, or `-readable` for your current user. You can also use `-perm <value>`, where `<value>` can be:
+You can also filter files if they're whether `-writable`, `-executable`, or `-readable` for your current user. If you want more granularity for your filter, you can use `-perm <value>`, where `<value>` can be:
 
-* A string beginning with `/` and followed by a series of rules using the OR boolean operator. For example, `-perm /u=w,g=e` (writable by user, and executable by group).
-* A string beginning with `-` and followed by a series of rules using the AND boolean operator. For example, `-perm -u=w,g=e` (writable by user, or executable by group).
+* A string beginning with `/` and followed by a series of rules using the OR boolean operator. For example, `-perm /u=w,g=e` (writable by the owner, *and* executable by the group).
+* A string beginning with `-` and followed by a series of rules using the AND boolean operator. For example, `-perm -u=w,g=e` (writable by owner, *or* executable by the group).
 * An octal number, for example: `644`.
 
 ### Filtering by Type of File
@@ -114,11 +130,11 @@ Here are the three values you can use with `-type <value>`, to filter your searc
 * `d` - Directory
 * `l` - Symlink
 
-For example, if you want to find only directories called `directory` from your working directory , you can run `find . -name "directory" -type d`.
+For example, if you want to find only directories named `log` from your working directory, you can run `find . -name "log" -type d`.
 
-### Filtering by Owner
+### Filtering by Owner or Group
 
-Finally, you can filter files depending of their owners, using the expression `-user <value>` where `<value>` is a username.
+To filter files depending of their owners, you can sue the expression `-user <value>` where `<value>` is a username. You've guessed it, to filter by group, use `-group <value>`.
 
 ## Action Expressions
 
@@ -128,70 +144,53 @@ With find, you're not only doing searches, you can also perform some actions on 
 
 You can easily delete every files and directories found using the `-delete` option. For example, the command `find . -name "test*" -delete` will delete all files and directory which names begin with `test`. 
 
-Be careful however: you can't get the deleted files back! That's why I don't use this expression at all.
+Be careful however: you can't get the deleted files back! I never use it personally, it's too frightening.
 
 ### Running a Command on Each Result
 
-With find, you can run whatever command you want on each file found. To do so, can use a couple of expressions for doing that:
+With find, you can run whatever command you want on each file found. The following expressions will help you for this mighty goal.
 
-* `-exec` - find use your current working directory to run the command. The characters `{}` are used to indicate where you want to insert the result of the search in the command you want to run. You also need to use `;` to end the command (it allows you to add other commands afterward, even if anybody use that). For example: 
-    * `find . -exec basename '{}' ';'` - Run the command `basename` for every result of the search.
-    * `find ~/Documents -exec bash -c 'basename "${0%*.}"' '{}' ';'` - Use `bash -c` if you want to use some parameter expansion (like `${0%.*}` not to display files' extensions). Even if `Documents` is the starting point for the search, the command will be executed in the context of your working directory.
-* `-execdir` - Works like `-exec`, except that the context of the command executed by find won't be your current working directory, but the starting point of the search.
-* `-ok` - Same as `-exec`, except that find will ask you for each result if you want to run the command.
-* `-okdir` - Same as `-execdir`, except that find will ask you for each result if you want to run the command.
+#### Running a Command in the Working Directory
+
+The expression `-exec` allow find to run a command in your current directory. The characters `{}` are used to indicate where you want to insert the result of the search in the command you want to run. You also need to use `;` to end the command (it allows you to add other commands afterward, even if anybody use that). 
+
+For example:
+
+* `find . -exec basename '{}' ';'` - Run the command `basename` for every result of the search.
+* `find chapters -exec bash -c 'basename "${0%.*}"' '{}' ';'` - Use `bash -c` if you want to use some parameter expansion. We use here `${0%.*}` to delete the file extension of each result.
+
+You can also use the expression `-ok`. It's the same as `-exec`, except that you'll be asked for a confirmation to run the command for each result.
+
+#### Running a Command in the Starting Directory
+
+The two expressions `-execdir` and `-okdir` work like `-exec` and `-ok` respectively, except that the commands won't run in your current working directory, but in the starting directory (the first argument of find).
+
+For example, `find ~/Documents -exec bash -c 'basename "${0%*.}"' '{}' ';'` will run the command `bash -c 'basename "${0%*.}"'` on every result in the directory `~/Documents`.
 
 ### Changing the Output
 
-You want to change the output of the results? The wonderful find covers that, too.
+You want to change the output of the results? The following expressions will be your best friends:
 
-* `-ls` - Output files like the command `ls` would do.
-* `-print` - This is the default action used when you don't precise any for your output.
-* `-print0` - By default, the separator between the different is a newline character. With `-print0`, it's a null character instead. Useful to combine with `xargs`, for example.
+* `-print` - This is the default action used when you don't specify any. It simply prints every result.
+* `-ls` - Output the results like the command `ls` would do.
+* `-print0` - By default, the separator between the different results is a newline character. That's why each result are on a new line in your output. With `-print0`, it's a null character instead. It's quite useful if you want to pipe your results to `xargs -0`.
 * `-printf` - Output files with different information you want. For example: `find . -printf %d %p` will print the depth of the file in the file tree (`%d`) and the filename (`%p`).
 
 ### Writing to a file
 
-You can also use a bunch of action expressions to write the output to a file. You can use the action expression to change the output as we saw above, prefixed with an `f`. For example:
-
-* `-fls`
-* `-fprint`
-* `-fprint0`
-* `-fprintf`
+You can also use a bunch of action expressions to write find's output to a file. You just need to prefix the expression we saw above with a `f`, like `-fls`, `-fprint`, `-fprint0` or `-fprintf`.
 
 ## Operators
 
-With find, you have access to a bunch of operators you can use with expressions. When you don't precise any, the operator AND is used implicitly. That is, every test expression needs to be true. You can also use:
+With find, you have access to a bunch of operators you can use with expressions. When you don't precise any, the operator `-and` is used implicitly between each expression. That is, every test expression needs to be true. You can also use:
 
-* `!` - Negation. For example, `find . ! -name ".hidden"` will find every files except the ones named `.hidden`.
+* `!` - Negation. For example, `find . ! -name ".hidden"` will output every file except the ones named `.hidden`.
+* `-or` or `-o` - For example `find . -name "*.log" -or -name "*.md"` will output every files with extensions `log` or `md`.
+* `-and` or `-a` - For example, `find . -name "*.d" -and -type d` will find every directory which name finish with `.d`. It's equivalent to `find . -name "*.d" -type d`.
+* `,` (comma) - adding a comma is useful to use different sets of expression while traversion the filesystem once. For example, `find . -name "*.log" -fprint log_files ',' -name "*.md" -fprint md_files` will write every markdown files in the file `md_files`, and every log file in the file `log_files`.
 
-* Negation or !
-    * Display every files except `.hidden`
-    * `find . ! -name ".hidden"`
+## In a Nutshell: a Mindmap of find
 
-* `-or` or `-o`
-    * Using only `-name` to find different files
-        * `find . -name "*.log" -or -name "*.md"`
+==== CONTINUE THE MINDMAP + REREAD
 
-* `-and` or `-a`
-    * The default
-
-* `,` (comma)
-    * Useful for using different sets of expression but only traversing the filesystem once
-    * For example
-        * `find . -name "*.log" -fprint log_files ',' -name "*.md" -fprint md_files` 
-
-# Exercises
-
-* Find every directory from the working directory and write them into the file "dirs"
-    * `find . -type d -fprint dirs`
-
-* Find every files with extension ".log" and create prompts to delete these files (but don't delete any)
-    * `find . -name "*.log" -ok rm {} ';'`
-
-* Can you write to the file "log_files" every absolute paths to log files, only the relative path to markdown files in the file "md_files", and the relative paths of everything else (excluded log files and markdown files) in the file "other_files"
-th
-    * `find . -name "*.log" -fprint log_files ',' -name "*.md" -fprint md_files  ',' ! -name "*.log" ! -name "*.md" -fprint other_files`
-
-* Can you rename every regular files using find, adding ".bak" extension
-    * `find . -type f -exec mv {} {}.bak ';'`
+[![summary how to use grep in mind map](https://themouseless.dev/images/2021/grep/grep.jpg)](https://themouseless.dev/images/2021/grep/grep.jpg)
