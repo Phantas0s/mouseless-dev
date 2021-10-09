@@ -132,63 +132,38 @@ Be careful however: you can't get the deleted files back! That's why I don't use
 
 ### Running a Command on Each Result
 
-This is a very powerful functionality of find: you can run whatever command you want on each file found! You can use a couple of expressions for doing that:
+With find, you can run whatever command you want on each file found. To do so, can use a couple of expressions for doing that:
 
-* `-exec` - The command use your current working directory to run the command. The characters `{}` are used to indicate where you want to insert the result of the search in the command. Note also that you need to use `;` to end the command (it allows you to add other commands afterward). For example: 
+* `-exec` - find use your current working directory to run the command. The characters `{}` are used to indicate where you want to insert the result of the search in the command you want to run. You also need to use `;` to end the command (it allows you to add other commands afterward, even if anybody use that). For example: 
     * `find . -exec basename '{}' ';'` - Run the command `basename` for every result of the search.
     * `find ~/Documents -exec bash -c 'basename "${0%*.}"' '{}' ';'` - Use `bash -c` if you want to use some parameter expansion (like `${0%.*}` not to display files' extensions). Even if `Documents` is the starting point for the search, the command will be executed in the context of your working directory.
-* `-execdir` - Works like `-exec`, except that the context of the command won't be your current working directory, but the starting point of the search.
+* `-execdir` - Works like `-exec`, except that the context of the command executed by find won't be your current working directory, but the starting point of the search.
+* `-ok` - Same as `-exec`, except that find will ask you for each result if you want to run the command.
+* `-okdir` - Same as `-execdir`, except that find will ask you for each result if you want to run the command.
 
-===
+### Changing the Output
 
-* Run a command on Search result
-    * `-exec command ;`
-        * `find . -exec basename '{}' ';'`
-        * Can be useful to use `bash -c` or `sh -c` to use parameter expension
-            * Display filenames without extension
-            * `find Documents -exec bash -c 'basename "${0%.*}"' '{}' ';'`
-    * `-execdir command`
-        * As if the command was run in the starting point
-        * `find find -exec basename '{}' ';'`
-    * `-execdir command ;`
-    * `-ok`
-        * `-exec` with prompt
-        * `find . -ok rm '{}' ';'`
-    * `-okdir`
-        * `find Documents -ok rm '{}' ';'`
+You want to change the output of the results? The wonderful find covers that, too.
 
-* Output
-    * `-ls`
-        * Print files like ls output
-        * `find . -ls`
-    * `-print`
-        * `find . -print`
-    * `-print0`
-        * `find Documents -type f -print | xargs wc -l`
-        * But what happens if there is a filename with spaces? (create it in Documents)
-            * `find Documents -type f -print | xargs wc -l`
-            * errors!
-            * `find Documents -type f -print0 | xargs -0 wc -l`
-    * `-printf`
-        * `find . -printf "%d %p \n"`
-        * `%d` for depth in file tree
-        * `%p` for filename
-        * `%P` for filename without starting point
-        * `%M` for permissions
+* `-ls` - Output files like the command `ls` would do.
+* `-print` - This is the default action used when you don't precise any for your output.
+* `-print0` - By default, the separator between the different is a newline character. With `-print0`, it's a null character instead. Useful to combine with `xargs`, for example.
+* `-printf` - Output files with different information you want. For example: `find . -printf %d %p` will print the depth of the file in the file tree (`%d`) and the filename (`%p`).
 
-* Writing to file
-    * Add a `f` before
-        * `-fls`
-        * `-fprint`
-        * `-fprint0`
-        * `-fprintf`
+### Writing to a file
 
-* Others
-    * `-quit`
-        * Can be useful to search only one file
-        * `find . -name "*.log" -print -quit`
+You can also use a bunch of action expressions to write the output to a file. You can use the action expression to change the output as we saw above, prefixed with an `f`. For example:
+
+* `-fls`
+* `-fprint`
+* `-fprint0`
+* `-fprintf`
 
 ## Operators
+
+With find, you have access to a bunch of operators you can use with expressions. When you don't precise any, the operator AND is used implicitly. That is, every test expression needs to be true. You can also use:
+
+* `!` - Negation. For example, `find . ! -name ".hidden"` will find every files except the ones named `.hidden`.
 
 * Negation or !
     * Display every files except `.hidden`
