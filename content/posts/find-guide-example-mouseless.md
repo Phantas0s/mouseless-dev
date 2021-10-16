@@ -114,14 +114,6 @@ For example, `find . -regextype "egrep" -regex '.*(md|log)$'` will find every ma
 
 If you want your expression's value to be case insensitive, you can add the prefix `i` to these expressions. For example `-iname`, `ipath`, or even `-iregex`.
 
-### Filtering by Permissions
-
-You can also filter files if they're whether `-writable`, `-executable`, or `-readable` for your current user. If you want more granularity for your filter, you can use `-perm <value>`, where `<value>` can be:
-
-* A string beginning with `/` and followed by a series of rules using the OR boolean operator. For example, `-perm /u=w,g=e` (writable by the owner, *and* executable by the group).
-* A string beginning with `-` and followed by a series of rules using the AND boolean operator. For example, `-perm -u=w,g=e` (writable by owner, *or* executable by the group).
-* An octal number, for example: `644`.
-
 ### Filtering by Type of File
 
 Here are the three values you can use with `-type <value>`, to filter your search by type of file:
@@ -131,6 +123,14 @@ Here are the three values you can use with `-type <value>`, to filter your searc
 * `l` - Symlink
 
 For example, if you want to find only directories named `log` from your working directory, you can run `find . -name "log" -type d`.
+
+### Filtering by Permissions
+
+You can also filter files if they're whether `-writable`, `-executable`, or `-readable` for your current user. If you want more granularity for your filter, you can use `-perm <value>`, where `<value>` can be:
+
+* A string beginning with `/` and followed by a series of rules using the OR boolean operator. For example, `-perm /u=w,g=e` (writable by the owner, *and* executable by the group).
+* A string beginning with `-` and followed by a series of rules using the AND boolean operator. For example, `-perm -u=w,g=e` (writable by owner, *or* executable by the group).
+* An octal number, for example: `644`.
 
 ### Filtering by Owner or Group
 
