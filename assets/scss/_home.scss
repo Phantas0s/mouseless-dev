@@ -224,7 +224,7 @@
         }
     }
 
-    #reviews {
+    .reviews {
         display: flex;
         flex-direction: row;
 
@@ -238,6 +238,9 @@
         }
         .element-toggle:not(:checked) + .toggled-element {
             display: none;
+        }
+        footer {
+            margin-top: 1em;
         }
         @media #{$media-size-tablet} {
             display: block;
