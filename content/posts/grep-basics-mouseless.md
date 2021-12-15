@@ -127,7 +127,7 @@ grep -c "package" pacman.log
 By default, to match a pattern, you'll need to know what letters of the pattern are uppercase or lowercase. You can match your pattern without worrying about the case if you use the option `-i`:
 
 ```bash
-grep -i "pacman" *.log
+grep -i "pacman" '*.log'
 ```
 
 You can see that grep can filter more than one file. The glob `*` has a special meaning: it represents 0 or more character. Said differently, we want every file in our working directory ending up with `.log`. The following is equivalent:
@@ -143,7 +143,7 @@ grep -i "pacman" haskell.log pacman.log
 As you saw, grep will output the filenames of the occurrence matches if you use more than one file as input. To `h`ide them, you can use the option `-h`. An example:
 
 ```bash
-grep -h "package" *.log
+grep -h "package" '*.log'
 ```
 
 ### Always Output Filenames
@@ -161,7 +161,7 @@ For some option, the uppercase variant will do the inverse of the lowercase one,
 To only output the filenames where the patterns match, you can use the option `-l`:
 
 ```bash
-grep -l "package" *.log
+grep -l "package" '*.log'
 ```
 
 ### Only Output Filenames Without Matches
@@ -169,7 +169,7 @@ grep -l "package" *.log
 You might have guessed it: the option `-L` only output the filename where the pattern *doesn't* match:
 
 ```bash
-grep -L "package" *.log
+grep -L "package" '*.log'
 ```
 
 ## Output Lines Around The Match
@@ -209,7 +209,7 @@ Did you see the pattern? `A`fter, `B`efore, `C`ontext: it's `ABC`!
 We always gave the files we wanted to filter to grep's input, but what if we want everything *except* a couple of files? For that, we can use the option `--exclude`:
 
 ```bash
-grep "package" --exclude="pacman.log" *.log
+grep "package" --exclude="pacman.log" '*.log'
 ```
 
 ## Piping grep

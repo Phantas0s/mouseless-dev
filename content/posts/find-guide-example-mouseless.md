@@ -98,7 +98,7 @@ Filtering our files and folders by name is the most common use of find.
 
 The expression `-name <value>` filter files and directories by filename. You can't use regular expressions for the `<value>`, but shell patterns (also called *glob operators*) are authorized, like  `*`, `?`, or `[]`. 
 
-For example: the command `find . -name "*.log"` finds all the log files from your working directory. It's equivalent to `find -name "*.log"`, but I always try to specify the starting point to be as clear as possible.
+For example: the command `find . -name '*.log'` finds all the log files from your working directory. It's equivalent to `find -name '*.log'`, but I always try to specify the starting point to be as clear as possible.
 
 #### Filtering by File Path
 
@@ -196,9 +196,9 @@ Find, additionally to expressions, allow you to use a bunch of operators. When y
 Here are some examples:
 
 * `find . ! -name ".hidden"` - output every file except the ones named `.hidden`.
-* `find . -name "*.log" -or -name "*.md"` - output every file with extensions `log` or `md`.
-* `find . -name "*.d" -and -type d` - find directories which names finish with `.d`. It's equivalent to `find . -name "*.d" -type d`
-* `find . -name "*.log" -fprint log_files ',' -name "*.md" -fprint md_files` will write every markdown files in the file `md_files`, and every log file in the file `log_files`.
+* `find . -name '*.log' -or -name '*.md'` - output every file with extensions `log` or `md`.
+* `find . -name '*.d' -and -type d` - find directories which names finish with `.d`. It's equivalent to `find . -name '*.d' -type d`
+* `find . -name '*.log' -fprint log_files ',' -name '*.md' -fprint md_files` will write every markdown files in the file `md_files`, and every log file in the file `log_files`.
 
 ## In a Nutshell: a Mindmap of find
 
