@@ -171,6 +171,14 @@ The two expressions `-execdir` and `-okdir` work like `-exec` and `-ok` respecti
 
 For example, `find ~/Documents -execdir bash -c 'basename "${0%*.}"' '{}' ';'` will run the command `bash -c 'basename "${0%*.}"'` in the directory `~/Documents`, and on each result.
 
+Another example, from The Real Life™ this time: I wanted to convert a bunch of images in black and white the other day. Using [imagemagick](https://imagemagick.org/), I came up with the following command:
+
+```
+find . -name '*.jpg' -execdir bash -c 'convert $0 -colorspace Gray ${0%.*}_bw.jpg' {} ';'
+```
+
+It converts every jpg files in the current directory, and create new ones (in black & white) with the suffix "_bw.jpg". Pretty neat!
+
 ### Changing the Output
 
 You urgently want to change the output of find? The following expressions will become your best friends:
