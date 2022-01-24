@@ -321,7 +321,9 @@ MYVAR="sda"
 awk '$1 ~ $MYVAR {print $1,$4}' lsblk
 ```
 
-Why does it not work? The variable `$MYVAR` is not expanded by the shell in that case. We need to pass the shell variable in our awk program using `-v`:
+Why it doesn't work? The variable `$MYVAR` is not expanded by the shell in that case. And it's better that way; otherwise whatever is in the variable would be *executed*. It could lead to some sort of... awk injection, I guess?
+
+Instead, we can pass the shell variable in our awk program using `-v`:
 
 ```bash
 MYVAR="sda"
@@ -329,6 +331,15 @@ awk -v var="$MYVAR" '$1 ~ var {print $1,$4}' lsblk
 ```
 
 This last example will work. The expression `~` means that the first record represented by the symbol `$1` needs to match the regular expression of the value of `var` (that is, `sda`). We *can't* use the notation `/var/` with variables to match a regular expression.
+
+Another solution: we can declare our variable just before the file argument:
+
+```bash
+MYVAR="sda"
+awk '$1 ~ var {print $1,$4}' var="$MYVAR" lsblk
+```
+
+Works like a charm!
 
 ### Writing an awk Program in a File
 
