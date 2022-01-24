@@ -339,7 +339,12 @@ MYVAR="sda"
 awk '$1 ~ var {print $1,$4}' var="$MYVAR" lsblk
 ```
 
-Works like a charm!
+With this notation, you can change the value of the variable for each file, by always assigning the variable before the filename. For example:
+
+```
+MYVAR="sda"
+awk '$1 ~ var {print $1,$4}' var="$MYVAR" lsblk var="another-pattern" another_file
+```
 
 ### Writing an awk Program in a File
 
