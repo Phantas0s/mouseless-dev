@@ -179,7 +179,7 @@ You can use different variables in the awk programming language. Here are some I
 * `NF` - `N`umber of `F`ield
 * `NR` - `N`umber of `R`ecord
 
-### NR or Number of Record
+### NF or Number of Fields
 
 An example is often better than a long chunk of boring text:
 
@@ -215,6 +215,8 @@ sda4 389.6G 7
 ```
 
 Only the records which have more than 6 fields will be printed.
+
+Another tip: we can use NF as a variable by adding a dollar as prefix. As such, `$NF` will always be the last field of the output. If you have many fields, it might be useful to use the last one as your starting point. For example, `$(NF - 1)` will target the field before the last one.
 
 ### NR or Number of Record
 
