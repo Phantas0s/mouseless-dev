@@ -27,7 +27,7 @@
         <a title="The cover" href="https://themouseless.dev/images/vim/book_cover_900.webp">
             <picture>
                 <source srcset="../images/vim/book_cover_900.webp" type="image/webp">
-                    <img width="300" height="424" src="../images/vim/book_cover_900.jpg" alt="Cover of the book Learning to Play Vim">
+                    <img width="350" src="../images/vim/book_cover_900.jpg" alt="Cover of the book Learning to Play Vim">
             </picture>
         </a>
     </aside>
@@ -36,20 +36,20 @@
 <h2>What Will This Book Bring You?</h2>
 <section id="benefits" class="col-4">
     <div>
-        <i class="fas fa-chart-line fa-2x"></i>
-        <p>Keeping your hands on your keyboard will <strong>save your cognitive energy</strong>, and <strong>improve your productivity.</strong></p>
-    </div>
-    <div>
-        <i class="fas fa-wrench fa-2x"></i>
-        <p>How to customize your editor for <strong>your own specific needs.</strong></p>
-    </div>
-    <div>
         <i class="fas fa-graduation-cap fa-2x"></i>
         <p>A step-by-step approach to <strong>learn easily without feeling overwhelmed.</strong>
     </div>
     <div>
         <i class="fas fa-check-circle  fa-2x"></i>
         <p>Practice makes perfect: <strong>solve fun exercises and challenges</strong> to build your muscle memory.</p>
+    </div>
+    <div>
+        <i class="fas fa-wrench fa-2x"></i>
+        <p>How to customize your editor for <strong>your own specific needs.</strong></p>
+    </div>
+    <div>
+        <i class="fas fa-chart-line fa-2x"></i>
+        <p>Keeping your hands on your keyboard will <strong>save your cognitive energy</strong>, and <strong>improve your productivity.</strong></p>
     </div>
 </section>
 
@@ -84,7 +84,7 @@
         </picture>
     </div>
     <div class="block description">
-        <p>Hi! I'm Matthieu.</p>
+        <p>Hi! I'm Matthieu. Nice to see you here!</p>
         <p>I've been coding as a hobby for 20 years, professionally for 10+ years.</p>
         <p>I've worked from small to big companies, mentoring and leading developer teams.</p>
         <p>Teaching is very rewarding to me. That's why I love writing for my blog, <a target="_blank" href="https://thevaluable.dev/">The Valuable Dev.</a></p>
@@ -97,6 +97,23 @@
 
     <h2>FAQ</h2>
     <section id="faq">
+        <h3>There are many resources about Vim out there: what's different with this one?</h3>
+        <p>Learning to Play Vim takes a step-by-step approach:
+            <ol>
+                <li>You'll see the most important principles to be able to use Vim as quickly as possible.</li>
+                <li>Each chapter build on the previous one, to show you more advanced techniques.</li>
+                <li>Some chapters will go deeper into one specific subject (like search or building your IDE).</li>
+                <li>Practice makes perfect: there are many exercises for each chapter, to dive deeper and show some useful subtleties.</li>
+            </ol>
+            <p>Additionally, the book is aimed to be as complete as possible without going into useless, boring details.</p>
+            <p>There's also a rich annexe section, making the book a great reference to look at when working with Vim.</p>
+        <p>Finally, it's designed to be fun to read with a minimum of fluff. I don't want to tell you the story of my grandma for 19209 pages.</p>
+        <!-- <h3>There are many other books about Vim. Why is this one different?</h3> -->
+        <!--     <p>To me, one of the best book about Vim is Practical Vim, by Drew Neil. I don't like its structure, however: there is no sense of progression, just a bunch of tips thrown together. It's a great book, but I think we can do better.</p> -->
+        <!--     <p>With Learning to Play Vim, I try to create a strong progression from chapter to chapter (called "ranks") to make the learning process easier for everybody: beginners and more advanced users alike.</p> -->
+        <!--     <p>My vision is to have a practical book, with many exercises underlying the important concepts as well as introducing useful subtleties. I also want to create a useful reference anybody could look at while using Vim, with complete annexes.</p> -->
+        <!--     <p>I believe that this approach will make the book better than every other ones. That said, what I think doesn't really matter; what's important is what **you** think. That's why I've [this newsletter](/vim/#newsletter) to show the progress of the book. It's not about marketing, it's about exchanging; it's a great opportunity for you to influence the book's development, and help me create something that you want.</p> -->
+        <!--     <p>That's my goal, and I'm ready to give as much as myself as I can to overcome the challenge.</p> -->
         <h3>Why should I learn Vim?</h3>
         <ul>
             <li>Vim is a free, mature, and stable editor. It has many useful functionalities you won't find anywhere else.</li>
@@ -104,23 +121,16 @@
             <li>You can configure IDE-like features (autocompletion, jump to definition, debugging...) for many programming languages.
                 <br />No need to have multiple editors or IDEs anymore!</li>
             <li>Vim allows you to write and edit using only the keyboard, improving your efficiency.</li>
-            <li>Switching between keyboard and mouse lower your cognitive energy and breaks your flow.</li>
+            <li>Switching between keyboard and mouse lower your cognitive energy and breaks your flow. No need of a mouse with Vim.</li>
             <li>There are countless Vim plugins out there, allowing a more modern experience, similar to an IDE.</li>
             <li>You can use any shell command directly in Vim, expanding drastically its functionalities.</li>
-            <li>Many command-line tools out there use the same keystrokes as Vim.</li>
-            <li>You can use Vim keystrokes for writing and editing command lines in popular shells, like Bash or Zsh.</li>
+            <li>Many command-line tools out there use the same keystrokes as Vim. It makes them easier to learn.</li>
+            <li>Popular shells (like Bash or Zsh) have a "Vi" mode, allowing you to use Vim keystrokes to edit your command lines.</li>
         </ul>
         <h3>Is it true that Vim has a steep learning curve?</h3>
-        <p>Despite its reputation, Vim is not hard to learn. It works differently than most editor or IDE out there, <br \>requiring some adaptation, but you can learn the basics in a couple of hours.</p>
-        <p>Vim is a good example of a tool easy to learn but hard to master: you'll add new functionalities to your workflow overtime, <br />improving your editing experience and your efficiency.</p>
-        <p>That's why the book Learning to Play Vim takes a step-by-step approach. It can also be useful as a reference.</p>
-        <h3>There are many resources about Vim out there: what's different with this one?</h3>
-        <p>Learning to Play Vim takes a step-by-step approach:
-            <ol>
-                <li>First, you'll see the most important principles to be able to use Vim as quickly as possible.</li>
-                <li>Each subsequent chapter build on the previous one, to show you more advanced techniques.</li>
-                <li>Some chapters will go deeper into one specific subject (like search or building your IDE).</li>
-            </ol>
-            <p>Additionally, the book is aimed to be as complete as possible without going into useless, boring details. <br />It's aimed to be practical, for you to get as much value as possible.</p>
-        <p>It's also designed to be fun to read with a minimum of fluff. I don't want to tell you the story of my grandmother for 19209 pages.</p>
+        <p>Despite its reputation, Vim is not hard to learn. It works differently than most editor or IDE out there, that's why many people find it difficult. If you accept that it requires some adaptation, you can learn the basics in a couple of hours.</p>
+        <p>Vim is a good example of a tool easy to learn but hard to master: you'll add new functionalities to your workflow overtime, improving your editing experience and your efficiency.</p>
+        <p>That's why this book takes a step-by-step approach.</p>
+        <h3>Is this book about Vim, Neovim, or GVim?</h3>
+        <p>This book is exclusively about Vim and Neovim running in a *nix shell (Unix-like shell like Zsh or Bash). This book is not about Vim running in a GUI, like GVim for example.</p>
     </section>
