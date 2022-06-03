@@ -67,7 +67,7 @@ When using multiple expressions without specifying any operator, the AND operato
 For you to understand my obscure rambling, here's a basic example:
 
 ```
-find /home/user -name "super-file" -perm 664 
+find /home/user -name "super-file" -perm 664
 ```
 
 Let's decompose this command:
@@ -86,7 +86,7 @@ Test expressions are used to filter the folders and files. I list here the most 
 
 ### Filtering Empty File
 
-The first expression is easy: `-empty` will search only empty files and directories. It doesn't need a value. 
+The first expression is easy: `-empty` will search only empty files and directories. It doesn't need a value.
 
 Next!
 
@@ -96,7 +96,7 @@ Filtering our files and folders by name is the most common use of find.
 
 #### Filtering by File Name
 
-The expression `-name <value>` filter files and directories by filename. You can't use regular expressions for the `<value>`, but shell patterns (also called *glob operators*) are authorized, like  `*`, `?`, or `[]`. 
+The expression `-name <value>` filter files and directories by filename. You can't use regular expressions for the `<value>`, but shell patterns (also called *glob operators*) are authorized, like  `*`, `?`, or `[]`.
 
 For example: the command `find . -name '*.log'` finds all the log files from your working directory. It's equivalent to `find -name '*.log'`, but I always try to specify the starting point to be as clear as possible.
 
@@ -106,7 +106,7 @@ The expression `-path <value>` filter files and directories by their file paths.
 
 #### Filtering Using a Regex
 
-If you want to use a regex, the expression `-regex <value>` is here for you. It will filter files paths. 
+If you want to use a regex, the expression `-regex <value>` is here for you. It will filter files paths.
 
 You can also use the *positional option* `-regextype` *before* `-regex`, to specify the regex engine you want to use. To output a list of regex engines supported, you can run `find . -regextype dummy`.
 
@@ -136,7 +136,7 @@ You can also filter files if they're whether `-writable`, `-executable`, or `-re
 
 ### Filtering by Owner or Group
 
-To filter files depending of their owners, you can use the expression `-user <value>` where `<value>` is a username. 
+To filter files depending of their owners, you can use the expression `-user <value>` where `<value>` is a username.
 
 You've guessed it, to filter by group, you can use `-group <value>`.
 
@@ -146,7 +146,7 @@ With find, you're not only searching, you can also perform some actions on the r
 
 ### Deleting Files
 
-You can easily delete files and directories found using the `-delete` option. For example, the command `find . -name "test*" -delete` will delete all files and directories when their names begin with `test`. 
+You can easily delete files and directories found using the `-delete` option. For example, the command `find . -name "test*" -delete` will delete all files and directories when their names begin with `test`.
 
 Be careful however: you can't get the deleted files back! I never use it personally, it's too frightening.
 
@@ -199,7 +199,7 @@ Find, additionally to expressions, allow you to use a bunch of operators. When y
 * `!` - Negate the expression following it.
 * `-or` or `-o` - Logical or.
 * `-and` or `-a` - Logical and.
-* `,` - adding a comma is useful to use different sets of expression while traversing the filesystem once. 
+* `,` - adding a comma is useful to use different sets of expression while traversing the filesystem once.
 
 Here are some examples:
 
