@@ -50,10 +50,10 @@ paginate     = 10
     # alt = "Your example logo alt text"
 
   # And you can even create generic menu
-  [[menu.main]]
-    identifier = "blog"
-    name       = "Blog"
-    url        = "/posts"
+  # [[menu.main]]
+  #   identifier = "blog"
+  #   name       = "Blog"
+  #   url        = "/posts"
 
 [homepage]
 description ="hello this is **a** try"

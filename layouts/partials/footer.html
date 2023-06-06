@@ -8,7 +8,6 @@
             {{ if .Site.Copyright }}
                 <span>{{ .Site.Copyright| safeHTML }}</span>
             {{ end }}
-            <span>{{- with (not (in (.Site.Language.Get "disableKinds") "RSS")) }} {{ end }}</span>
         </div>
     </div>
     <div class="footer__inner">
@@ -16,9 +15,4 @@
             <span>Powered by <a href="http://gohugo.io">Hugo</a>
         </div>
     </div>
-
-<!-- <script src="https://js.stripe.com/v3/"></script> -->
-<!-- <script src="https://flurly.com/flurly-checkout.js"></script> -->
-
 </footer>
-
