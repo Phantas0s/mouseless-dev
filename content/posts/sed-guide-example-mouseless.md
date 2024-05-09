@@ -151,7 +151,7 @@ It will replace every first occurrence of "on;" with "on;off;" on each line.
 
 ### Changing the Separators
 
-Using the slash `/` as a separator between your pattern, your replacement, and your flag can bring some problems, especially if you want to replace some URLs. You'll need to escape every single slashes in the URLs themselves for sed to understand what slashes are separators and what slashes aren't. 
+Using the slash `/` as a separator between your pattern, your replacement, and your flag can bring some problems, especially if you want to replace some URLs. You'll need to escape every single slashes in the URLs themselves for sed to understand what slashes are separators and what slashes aren't.
 
 For example, the following won't work. Our sed is not smart enough to know what slash is used as a separator:
 
@@ -211,7 +211,7 @@ With GNU grep, you can create automatically a backup adding to the option `-i` t
 sed -i.backup '1d' nginx.conf
 ```
 
-This command will 
+This command will
 
 1. Create a copy of "nginx.conf" called "nginx.conf.backup"
 2. Delete the first line of the file nginx.conf
@@ -260,9 +260,9 @@ I always use `-E` when I want to use regex metacharacters. It makes everything e
 
 ### Silent
 
-Don't worry, I don't ask you to remain silent. You can make all the noise you want! 
+Don't worry, I don't ask you to remain silent. You can make all the noise you want!
 
-With the sile`n`t option `-n`,  sed doesn't output anything anymore. Said like that, it doesn't look very useful. But you can use the command `p` (for `p`rint) to output exactly what you want. 
+With the sile`n`t option `-n`,  sed doesn't output anything anymore. Said like that, it doesn't look very useful. But you can use the command `p` (for `p`rint) to output exactly what you want.
 
 For example, to output only the first line of your input, you can run:
 
