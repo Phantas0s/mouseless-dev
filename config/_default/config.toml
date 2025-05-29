@@ -2,7 +2,7 @@ baseurl      = "https://themouseless.dev/"
 title        = "Building Your Mouseless Development Environment"
 languageCode = "en-us"
 theme        = "friend-ng"
-paginate     = 10
+# paginate     = 10
 
 [params]
   dateform        = "Jan 2, 2006"
