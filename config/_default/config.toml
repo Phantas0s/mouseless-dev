@@ -1,5 +1,6 @@
 baseurl      = "https://themouseless.dev/"
 title        = "Building Your Mouseless Development Environment"
+author       = "Matthieu Cneude"
 languageCode = "en-us"
 theme        = "friend-ng"
 # paginate     = 10
@@ -57,3 +58,6 @@ theme        = "friend-ng"
 
 [homepage]
 description ="hello this is **a** try"
+
+[security]
+  allowContent = ['^text/html$', '^text/markdown$']
