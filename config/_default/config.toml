@@ -56,17 +56,15 @@ theme        = "friend-ng"
   #   name       = "Blog"
   #   url        = "/posts"
 
-[[menu.main]]
-  identifier = "Learning to Play Vim"
-  name       = "Learning to Play Vim"
-  url        = "/vim"
-[[menu.vim]]
-
 [menu]
   [[menu.main]]
     identifier = "Learning to Play Vim"
     name       = "Learning to Play Vim"
     url        = "/vim"
+  [[menu.main]]
+    identifier = "The Valuable Dev"
+    name       = "The Valuable Dev"
+    url        = "https://thevaluable.dev"
 
 [homepage]
 description ="hello this is **a** try"
